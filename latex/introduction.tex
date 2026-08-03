@@ -1,0 +1,35 @@
+\chapter{Introduzione}
+\label{ch:introduzione}
+
+% BOZZA — testo di partenza dagli appunti, da rivedere con la relatrice.
+
+Il software testing è una componente critica del processo di sviluppo: una
+suite di test di alta qualità permette di individuare incongruenze tra le
+specifiche di un sistema e la sua implementazione, e di catturare regressioni
+introdotte durante l'evoluzione del codice. Scrivere buoni test è tuttavia
+un'attività costosa e ripetitiva, spesso trascurata in tutto o in parte.
+
+I modelli linguistici di grandi dimensioni (LLM) hanno mostrato capacità
+notevoli nella generazione di codice, ma i risultati nella generazione di
+test per progetti reali restano deludenti: nel benchmark TestGenEval il
+miglior modello raggiunge una copertura media del codice di appena il 35\%,
+principalmente per la difficoltà dei modelli nel ragionare sull'esecuzione
+del codice.
+
+\section{Obiettivo della tesi}
+% TODO: rifinire con la relatrice.
+Questa tesi indaga se e quanto la copertura dei test generati da un LLM
+migliori fornendo al modello: (i) contesto strutturale sul codice sotto test
+(ad esempio l'albero sintattico astratto), (ii) strumenti software di
+supporto, e (iii) un ciclo di feedback iterativo basato sui risultati
+dell'esecuzione dei test e sul report di coverage. L'idea centrale è
+sostituire la capacità --- carente --- del modello di \emph{prevedere} il
+comportamento del codice con l'\emph{osservazione} dei risultati reali
+dell'esecuzione.
+
+\section{Struttura del documento}
+% TODO: completare quando i capitoli saranno stabili.
+Il Capitolo~\ref{ch:stato_arte} inquadra lo stato dell'arte sulla
+generazione automatica di test. Il Capitolo~\ref{ch:core} descrive il
+sistema proposto. Il Capitolo~\ref{ch:risultati} presenta gli esperimenti e
+i risultati. Seguono conclusioni e sviluppi futuri.

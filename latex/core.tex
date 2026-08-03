@@ -1,0 +1,44 @@
+\chapter{Il sistema proposto}
+\label{ch:core}
+
+% BOZZA — architettura del sistema, da raffinare man mano che il prototipo
+% cresce. Titolo del capitolo provvisorio.
+
+\section{Architettura generale}
+% La pipeline in tre fasi:
+% 1. Contesto: al modello si fornisce il file sorgente, oppure una
+%    rappresentazione di più alto livello (riassunto AST), oppure il file
+%    più uno scheletro di test generato da Klara.
+% 2. Generazione iterativa: ogni test generato viene eseguito (pytest);
+%    gli errori vengono restituiti al modello, che itera fino a ottenere
+%    test funzionanti.
+% 3. Feedback di coverage: si calcola la coverage (coverage.py) e si
+%    passano al modello le righe non coperte, chiedendo test mirati.
+
+\section{Estrazione del contesto strutturale}
+% Dagli esperimenti con la libreria ast: per ogni funzione si estraggono
+% nome e argomenti, docstring, numero di return e di if (legato al numero
+% di cammini da coprire), eccezioni sollevate, righe di inizio/fine.
+% Il riassunto è molto più compatto del file: utile per file grandi
+% (limiti di contesto, costo per token). lineno/end_lineno permettono di
+% mappare le righe non coperte alla funzione corrispondente (collega la
+% fase 3 alla fase 1).
+
+\section{Scheletri di test con Klara}
+% Ruolo: fornire lo scheletro iniziale da cui l'LLM parte. Limiti:
+% supporta un sottoinsieme ristretto di Python (crash su list
+% comprehension, eccezioni, Python moderno; non installabile su
+% Python >= 3.12). Decisione sul suo ruolo da prendere con la relatrice.
+
+\section{Il ciclo di feedback}
+% Il cuore del sistema: genera -> esegui -> misura -> feedback -> migliora.
+% Stato del prototipo: script di orchestrazione (ciclo.py) semi-automatico,
+% con passaggio manuale verso l'LLM in attesa dell'accesso API.
+
+\section{Criterio di arresto}
+% Dall'esperimento 5: il loop non può fermarsi "al 100%" perché esistono
+% righe irraggiungibili (codice morto o difensivo). Criterio: plateau di
+% coverage o numero massimo di iterazioni. Le righe che restano scoperte
+% dopo il plateau hanno valore diagnostico (candidate a essere codice
+% morto); la dimostrazione formale di irraggiungibilità è il mestiere dei
+% solver SMT come Z3 (possibile punto di contatto con Klara).

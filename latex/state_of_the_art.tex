@@ -1,0 +1,33 @@
+\chapter{Stato dell'arte}
+\label{ch:stato_arte}
+
+% BOZZA — struttura proposta, da validare con la relatrice.
+
+\section{Generazione automatica di test: approcci classici}
+% TODO: esecuzione simbolica, search-based testing (EvoSuite), ecc.
+% Qui si colloca anche Klara: generazione di scheletri di test tramite il
+% solver SMT Z3, capace di trovare input che coprono ogni ramo (boundary
+% value trovati automaticamente), ma limitata a un sottoinsieme di Python.
+
+\section{Generazione di test con modelli linguistici}
+% TODO: panoramica LLM per il testing.
+
+\section{Il benchmark TestGenEval}
+% Punti chiave dal paper (ICLR 2025):
+% - costruito su SWE-bench: 68.647 test da 1.210 coppie file codice-test,
+%   11 repository Python reali e mantenuti;
+% - due task: generazione dell'intera test suite e test completion
+%   (primo/ultimo/test aggiuntivo);
+% - metriche: pass@1/pass@5, coverage, mutation score (bug sintetici
+%   iniettati nel codice: quanti ne scoprono i test?);
+% - risultato principale: i modelli faticano sui progetti reali; il
+%   migliore (GPT-4o) si ferma al 35,2% di coverage media e 18,8% di
+%   mutation score;
+% - causa principale: difficoltà a ragionare sull'esecuzione, errori nelle
+%   assert sui cammini complessi;
+% - il test completion è più facile, ma i modelli aggiungono meno dell'1%
+%   di coverage sull'ultimo test.
+
+\section{Limiti degli approcci esistenti}
+% TODO: i modelli generano "alla cieca", in un colpo solo, senza osservare
+% l'esecuzione: è il limite che la tesi affronta.
