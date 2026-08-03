@@ -39,6 +39,27 @@ Ruolo previsto nella pipeline: generare lo scheletro iniziale da cui l'LLM parte
 
 I test generati da Klara passano tutti (`pytest`: 3 passed) e raggiungono il 100% di statement coverage (`coverage report -m` con la colonna `Missing` vuota). La colonna `Missing` del report è esattamente l'informazione da restituire all'LLM nella fase 3: elenca le righe non coperte.
 
+## Esperimento 4 — simulazione manuale del loop con LLM (via chat)
+
+Prima esecuzione dell'intera pipeline con un LLM vero, in versione manuale: l'LLM è stato usato tramite chat, e il copia-incolla umano ha fatto le veci dello script di orchestrazione.
+
+Procedura: chiesti test pytest per la sola `media_positivi` (file `esperimenti/test_llm1.py`) → 11 test, tutti passati al primo colpo → coverage di `funzioni_esempio.py` al **47%** (Missing: riga 12 e righe 17-24, cioè `somma` e `classifica_voto`, mai richieste) → riportate all'LLM le righe mancanti → nuovi test mirati → coverage al **100%** in una sola iterazione di feedback.
+
+Osservazione critica: su funzioni così semplici il 100% è quasi garantito e non dimostra l'ipotesi. L'esperimento valida la *meccanica* del ciclo (genera → esegui → misura → feedback → migliora), non la sua *utilità*, che va misurata su codice dove il primo tentativo fallisce. Da qui la domanda sul benchmark (punto 2).
+
+## Esperimento 5 — loop su funzioni più complesse e scoperta di codice morto
+
+File: `esperimenti/03_ciclo/`. Bersaglio `funzioni_brutte.py`: tre funzioni con rami annidati, eccezioni e casi limite (`calcola_sconto`, `valida_password`, `interpreta_orario`), 49 statement.
+
+Primo giro: l'LLM (via chat, stesso protocollo manuale) genera 46 test, tutti passati, coverage **98%**. Unica riga scoperta: la 33 (`prezzo = 0`, ramo `if prezzo < 0` di `calcola_sconto`).
+
+Analisi della riga 33: è **irraggiungibile**. Il totale è ≥ 0 (il negativo solleva `ValueError` prima), gli sconti moltiplicano per 0.8/0.9 (mai sotto zero) e il coupon sottrae 5 solo quando il prezzo supera 30 (residuo ≥ 25). La condizione `prezzo < 0` è sempre falsa: è codice difensivo morto, e nessun test potrà mai coprirlo.
+
+Due implicazioni per il sistema:
+
+1. **Criterio di stop**: il loop non può fermarsi "al 100%", deve fermarsi quando la coverage smette di migliorare (plateau) o dopo N iterazioni, altrimenti su codice con righe irraggiungibili itererebbe all'infinito.
+2. **Valore diagnostico delle righe residue**: le righe che restano scoperte dopo il plateau sono candidate a essere codice morto o difensivo — informazione utile di per sé per il programmatore. Nota: dimostrare formalmente l'irraggiungibilità (insoddisfacibilità del vincolo) è il mestiere dei solver SMT come Z3, lo stesso usato da Klara: possibile punto di contatto tra i due approcci.
+
 ## Punti aperti (da discutere il 4 agosto)
 
 1. **Accesso API a un LLM**: per la pipeline serve chiamare un modello da Python. L'università fornisce crediti/chiavi API? Quale modello usare?
@@ -46,3 +67,4 @@ I test generati da Klara passano tutti (`pytest`: 3 passed) e raggiungono il 100
 3. **Metriche**: statement coverage, branch coverage (`coverage run --branch`), o anche mutation score?
 4. **Klara**: vale la pena tenerla vista l'incompatibilità con Python moderno, o meglio usare solo AST + feedback? (Alternativa: usarla solo sul sottoinsieme di funzioni che supporta.)
 5. **Baseline**: la baseline sarà "LLM senza contesto" come nel paper, per misurare il contributo di ogni componente (ablation)?
+6. **Criterio di stop del loop** (dall'esperimento 5): fermarsi al plateau di coverage o a N iterazioni? E come trattare le righe che restano scoperte — segnalarle come possibile codice morto?
