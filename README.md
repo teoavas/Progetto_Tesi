@@ -1,39 +1,50 @@
-# Progetto tesi — Generazione di unit test con LLM e feedback di coverage
+# Progetto tesi — Valutazione della generazione di unit test con LLM
 
-Tesi triennale di Matteo Savastano.
+Tesi triennale di Matteo Savastano — Università degli Studi di Cagliari.
 
-## Idea
+## Obiettivo
 
-Partendo dal paper [TestGenEval](https://openreview.net/pdf?id=7o6SG5gVev), in cui gli LLM generano unit test senza contesto aggiuntivo, la tesi studia se la coverage migliora dando al modello:
+Misurare la qualità degli unit test generati da modelli linguistici di piccola taglia (Llama 1B, 3B, 8B) su funzioni Python reali, a parità di prompt e con temperatura 0.
 
-1. **Contesto strutturale** sul codice (AST, scheletri di test generati con Klara)
-2. **Feedback di esecuzione** (errori dei test, iterando fino a test funzionanti)
-3. **Feedback di coverage** (le righe non coperte, per generare test mirati)
+Metriche misurate:
 
-## Struttura del repository
+- **coverage** del codice sotto test
+- **ripetizione delle righe**: quante volte ogni riga viene rieseguita
+- **duplicazione** tra i file di test generati
+- **esito**: test passato / eseguibile ma fallito / non eseguibile
+
+Dataset: [UnLeakedTestBench](https://github.com/huangd1999/UnLeakedTestBench) (`ULT_Lite.jsonl`), 20 campioni, obiettivo 100.
+
+## Struttura
 
 ```
-├── PIANO_DI_LAVORO.md          roadmap e domande aperte
-├── appunti/                    note di lavoro (bozza per la tesi su Overleaf)
-└── esperimenti/
-    ├── funzioni_esempio.py     funzioni di prova a difficoltà crescente
-    ├── 01_ast/                 estrazione di contesto strutturale con ast
-    └── 02_klara/               scheletri di test con Klara + pytest + coverage
+benchmark/              lavoro principale
+├── dataset/            ULT_Lite.jsonl + campioni selezionati
+├── prompts/            prompt inviati, uno per campione e modello
+├── generated/          output dei modelli (grezzo + codice ripulito)
+├── results/            registro delle generazioni, metriche, grafici
+├── carica_dataset.py   selezione dei campioni
+├── prompt.py           costruzione del prompt e pulizia dell'output
+├── prompt_template.txt il template dichiarato ([instruction]/[data]/[format])
+└── genera.py           chiamate ai modelli, salvataggio, tempi
+
+latex/                  scheletro della tesi (capitoli in .tex)
+appunti/                note di lavoro
+preliminare/            lavoro esplorativo iniziale (ast, Klara, loop manuale)
 ```
 
 ## Come eseguire
 
 ```bash
-pip install klara coverage pytest
+pip install -r requirements.txt
 
-# analisi AST
-python esperimenti/01_ast/prova_ast.py
+# 1. scaricare ULT_Lite.jsonl in benchmark/dataset/
+# 2. selezionare i campioni
+python benchmark/carica_dataset.py
 
-# generazione scheletri di test + coverage
-cd esperimenti/02_klara
-klara funzioni_per_klara.py
-coverage run -m pytest
-coverage report -m
+# 3. impostare la chiave API (mai scriverla nei file!)
+#    PowerShell:  $env:NVIDIA_API_KEY = "nvapi-..."
+
+# 4. generare (prova rapida su 3 campioni con un modello)
+python benchmark/genera.py --modello 1b --limite 3
 ```
-
-A ogni push, GitHub Actions esegue automaticamente i test con coverage (vedi tab Actions).

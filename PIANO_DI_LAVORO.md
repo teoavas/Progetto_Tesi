@@ -1,48 +1,97 @@
-# Piano di lavoro — 2→20 agosto 2026
+# Piano di lavoro — dopo l'incontro con la relatrice (4 agosto 2026)
 
-## Da portare all'appuntamento del 4 agosto
-
-Cose fatte: setup progetto, esperimenti con `ast` e Klara, ciclo pytest+coverage funzionante, repo su GitHub con CI (test automatici a ogni push), simulazione manuale del loop con LLM via chat in due round — funzioni semplici (47% → 100% con una iterazione di feedback) e funzioni complesse (98% al primo giro, con scoperta di una riga irraggiungibile: vedi esperimento 5 negli appunti). Avviata la cartella `esperimenti/03_ciclo/` per il prototipo dello script di orchestrazione (`ciclo.py`, da completare).
-
-Domande per la professoressa:
-
-1. Accesso API a un LLM (crediti universitari? quale modello?)
-2. Benchmark di valutazione: riusare quelli del paper (es. TestGenEval-Lite, 160 coppie)? Su funzioni semplici la coverage è perfetta comunque: serve codice dove il primo tentativo fallisce
-3. Metriche: statement o branch coverage? mutation testing?
-4. Klara ha limiti forti con Python moderno (non si installa su Python 3.12): tenerla o puntare solo su AST+feedback?
-5. Bozza struttura tesi su Overleaf (l'aveva promessa lei) e accesso al progetto Overleaf condiviso
-6. Criterio di stop del loop: plateau di coverage o N iterazioni? Le righe che restano scoperte vanno segnalate come possibile codice morto?
-
-## Roadmap 5→20 agosto (lavoro autonomo)
-
-**5–7 ago — Completare `ciclo.py` (semi-automatico).** Lo script che orchestra il loop: genera il prompt (con feedback di errori o righe scoperte a seconda dello stato), esegue pytest+coverage, estrae le righe mancanti dal report. Il passaggio verso l'LLM resta manuale (copia-incolla in chat) finché non c'è la API. In parte già impostato in `esperimenti/03_ciclo/`.
-
-**8–10 ago — Prototipo fase 1 (varianti di contesto).** Estendere la generazione del prompt in tre varianti da confrontare: file intero, riassunto AST, file + scheletro Klara. Provarle manualmente sullo stesso bersaglio e annotare le differenze.
-
-**11–13 ago — Integrazione API (se disponibile dopo l'incontro).** Sostituire il copia-incolla manuale con la chiamata al modello; aggiungere il criterio di stop (plateau di coverage / N iterazioni max).
-
-**14–16 ago — Integrazione.** Collegare le tre fasi in un'unica pipeline; appena disponibile la API key, sostituire il passaggio manuale con chiamate reali.
-
-**17–19 ago — Prime misure + scrittura.** Eseguire la pipeline su un piccolo benchmark, raccogliere numeri di coverage per configurazione, aggiornare Overleaf con metodo e risultati preliminari.
-
-**20 ago — Riepilogo per la professoressa.** Documento breve: cosa funziona, numeri ottenuti, decisioni da prendere.
-
-Regola pratica: ogni giorno che si prova qualcosa, due righe negli appunti — è testo già pronto per la tesi.
-
-## Struttura del progetto
+## Specifica della relatrice (testo originale, da Overleaf)
 
 ```
-tesi/
-├── README.md                   ← presentazione del repo (visibile su GitHub)
-├── PIANO_DI_LAVORO.md          ← questo file
-├── appunti/
-│   └── appunti_esperimenti.md  ← note pronte per Overleaf (5 esperimenti)
-└── esperimenti/
-    ├── funzioni_esempio.py     ← funzioni di test (3 livelli di difficoltà)
-    ├── test_llm1.py            ← test generati da LLM via chat (esperimento 4)
-    ├── 01_ast/prova_ast.py     ← analisi AST → riassunto strutturale
-    ├── 02_klara/               ← scheletri di test via Z3 + coverage 100%
-    └── 03_ciclo/               ← prototipo del loop: bersaglio, test LLM, ciclo.py
+% dataset (prendere 20 campioni, arrivare a 100 sarebbe l'ideale)
+%   https://github.com/huangd1999/UnLeakedTestBench/blob/main/datasets/ULT_Lite.jsonl
+% modelli da https://build.nvidia.com/models?filters=usecase%3Ausecase_code_gen
+%   (prendere llama 1, 3, 8 billion)
+% settare la temperatura a zero
+% dichiarato il template per il prompt
+% formattare il prompt
+% [instruction] write the unit test for this function. Output only the code, formatted as ....
+% [data] <sample del dataset>
+%
+% output viene salvato in file separati
+% metriche da misurare
+% - quanto sono in grado di coprire il codice effettivamente (coverage)
+% - possibile misura di quanto sono rieseguite le linee (contare quante volte viene eseguita la stessa linea)
+% - quante linee sono replicate (limitato ai file di test, per esempio con questo tool
+%   https://github.com/platisd/duplicate-code-detection-tool)
+% codice non eseguibile -> errori di python o simili OPPURE test falliti (sarebbe l'ideale distinguerli)
+% - eseguibile ma fallito
+% - non eseguibile
+% aggiunge ulteriore valore fare la valutazione "senza LLM", ovvero con AST + KLARA
+% si può mettere anche un esempio di generazione di test end-to-end e la spiegazione
+%   delle metriche fatta per via visiva.
 ```
 
-Dipendenze: `pip install klara coverage pytest`
+Priorità dichiarata: AST + Klara è **secondaria**, da affrontare solo dopo "il grosso".
+
+## Cosa è il progetto ora
+
+Uno **studio di misura**: si generano unit test con tre modelli Llama di taglie diverse, a temperatura 0 e con un prompt fisso, su un campione del dataset ULT; poi si misura la qualità dei test prodotti con un insieme di metriche. Non è (ancora) un sistema con ciclo di feedback: quello resta un possibile passo successivo.
+
+## Il dataset ULT_Lite
+
+Formato JSONL, un oggetto per riga. Campi verificati:
+
+| campo | contenuto |
+|---|---|
+| `func_name` | nome della funzione, es. `is_degree_in_degree_range` |
+| `code` | il codice sorgente della funzione (stringa, funzione autonoma) |
+| `prompt` | descrizione in linguaggio naturale di cosa fa la funzione |
+| `task_id` | identificativo del campione |
+| `test_list` | assert di riferimento scritti da umani (gold tests) |
+
+Note: le funzioni sono autonome (nessun import di progetto), quindi eseguibili in isolamento. Il campo `test_list` è utile come riferimento (baseline umana) per confrontare la coverage.
+
+## Struttura prevista del codice
+
+```
+benchmark/
+├── dataset/            ULT_Lite.jsonl + il sottoinsieme selezionato (20 campioni)
+├── prompts/            prompt effettivamente inviati, uno per campione
+├── generated/          output dei modelli, un file per (modello, campione)
+├── results/            metriche in CSV/JSON + tabelle e grafici
+├── carica_dataset.py   selezione dei campioni
+├── genera.py           chiamate API a temperatura 0, salvataggio output
+├── esegui.py           esecuzione dei test, classificazione degli esiti
+└── metriche.py         coverage, conteggio esecuzioni per riga, duplicazione
+```
+
+La cartella `esperimenti/` resta come lavoro preliminare (pilota manuale, prove con ast e Klara).
+
+## Roadmap 5 → 20 agosto
+
+**5–6 ago — Dataset e impalcatura.** Scaricare `ULT_Lite.jsonl`, selezionare 20 campioni con criterio esplicito e riproducibile (es. i primi 20 per `task_id`, oppure campionamento casuale con seed fisso: da annotare, serve in tesi). Script di caricamento.
+
+**6–7 ago — Accesso ai modelli e generazione.** Account su build.nvidia.com, chiave API, prima chiamata di prova. Definire il template del prompt (istruzione + dati + formato di output richiesto) e congelarlo: se cambia a metà, i risultati non sono confrontabili. Temperatura 0. Salvataggio degli output in file separati.
+
+**8–10 ago — Esecuzione e classificazione degli esiti.** Eseguire ogni file di test generato in un processo isolato con timeout, e classificare in tre categorie: passato / eseguibile ma fallito / non eseguibile.
+
+**11–13 ago — Metriche.** Coverage sulla funzione bersaglio; conteggio di quante volte ogni riga viene eseguita; duplicazione tra i file di test.
+
+**14–16 ago — Aggregazione ed estensione.** Tabelle e grafici per modello e per metrica; se tutto regge, estendere da 20 a 100 campioni (a temperatura 0 basta una sola esecuzione per campione).
+
+**17–19 ago — Scrittura.** Metodo, metriche e risultati su Overleaf. Esempio end-to-end di una generazione e spiegazione visiva delle metriche.
+
+**20 ago — Riepilogo per la relatrice.**
+
+**Dopo, se resta tempo:** valutazione "senza LLM" con AST + Klara come termine di paragone.
+
+## Punti da chiarire con la relatrice
+
+1. **Quali modelli esattamente**: "llama 1, 3, 8 billion" dovrebbe corrispondere a Llama 3.2 1B, Llama 3.2 3B e Llama 3.1 8B sul catalogo NVIDIA. Da confermare i nomi esatti prima di lanciare tutto.
+2. **Cosa mettere nel prompt**: solo il `code` del campione, oppure anche il `prompt` in linguaggio naturale (la descrizione della funzione)? Sono due condizioni sperimentali diverse; forse vale la pena misurarle entrambe.
+3. **Formato dell'output richiesto** ("formatted as ....", lasciato in sospeso nella specifica): blocco markdown ```python, oppure codice grezzo? Va deciso perché condiziona il parsing delle risposte.
+4. **Criterio di selezione dei 20 campioni**: casuale con seed, oppure i primi N?
+5. **Ruolo di `test_list`**: usarlo come baseline umana di riferimento per la coverage?
+
+## Note tecniche già emerse
+
+- **Conteggio delle esecuzioni per riga**: `coverage.py` registra solo se una riga è stata eseguita o no, non quante volte. Per contare le ripetizioni serve un tracciatore proprio (`sys.settrace`, o `sys.monitoring` su Python 3.12) che incrementi un contatore per riga.
+- **Distinguere "non eseguibile" da "eseguibile ma fallito"**: controllo sintattico con `ast.parse` prima dell'esecuzione (se solleva `SyntaxError` → non eseguibile), poi codici di uscita di pytest (2 = errore di raccolta/import → non eseguibile; 1 = test eseguiti ma falliti; 0 = tutti passati).
+- **Sicurezza**: il codice generato da un modello va eseguito in un processo separato con timeout, per evitare cicli infiniti o effetti indesiderati.
+- **Riproducibilità**: a temperatura 0 l'output è deterministico, quindi una sola generazione per campione; annotare comunque data, nome esatto del modello e versione, perché i modelli sul catalogo possono cambiare.

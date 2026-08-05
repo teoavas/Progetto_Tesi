@@ -6,9 +6,21 @@
 % va concordato con la relatrice.
 
 \section{Setup sperimentale}
-% TODO: benchmark (TestGenEval-Lite? repository scelti ad hoc?),
-% modello/i usati, metriche (statement/branch coverage, mutation score?),
-% baseline (LLM senza contesto, come nel paper) e ablation.
+% Definito con la relatrice (4 agosto 2026):
+% - dataset: UnLeakedTestBench, ULT_Lite.jsonl (20 campioni, obiettivo 100).
+%   Ogni campione: func_name, code (funzione autonoma), prompt (descrizione
+%   in linguaggio naturale), task_id, test_list (assert di riferimento umani).
+% - modelli: tre Llama di taglia crescente (1B, 3B, 8B) dal catalogo NVIDIA.
+% - condizioni: temperatura 0, template di prompt fissato e dichiarato,
+%   output salvati in file separati.
+% - baseline secondaria: generazione senza LLM (AST + Klara).
+
+\section{Metriche}
+% - coverage del codice sotto test;
+% - numero di esecuzioni per riga (quante volte la stessa riga viene rieseguita);
+% - righe duplicate tra i file di test (duplicate-code-detection-tool);
+% - classificazione degli esiti: passato / eseguibile ma fallito / non eseguibile.
+% TODO: spiegazione visiva delle metriche + esempio end-to-end di una generazione.
 
 \section{Esperimenti preliminari}
 

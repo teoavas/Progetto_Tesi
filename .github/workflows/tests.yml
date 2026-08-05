@@ -9,11 +9,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Installa dipendenze
-        run: pip install pytest coverage
-      - name: Esegui test con coverage
-        run: |
-          cd esperimenti/02_klara
-          coverage run -m pytest -v
-          coverage report -m
+        run: pip install -r requirements.txt
+      - name: Controllo sintassi degli script
+        run: python -m compileall -q benchmark
+      - name: Prova del costruttore di prompt
+        run: python benchmark/prompt.py

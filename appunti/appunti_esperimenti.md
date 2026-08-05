@@ -60,7 +60,21 @@ Due implicazioni per il sistema:
 1. **Criterio di stop**: il loop non può fermarsi "al 100%", deve fermarsi quando la coverage smette di migliorare (plateau) o dopo N iterazioni, altrimenti su codice con righe irraggiungibili itererebbe all'infinito.
 2. **Valore diagnostico delle righe residue**: le righe che restano scoperte dopo il plateau sono candidate a essere codice morto o difensivo — informazione utile di per sé per il programmatore. Nota: dimostrare formalmente l'irraggiungibilità (insoddisfacibilità del vincolo) è il mestiere dei solver SMT come Z3, lo stesso usato da Klara: possibile punto di contatto tra i due approcci.
 
-## Punti aperti (da discutere il 4 agosto)
+## Nuova direzione dopo l'incontro del 4 agosto
+
+Il progetto assume la forma di uno **studio di misura** sulla generazione di unit test con LLM di piccola taglia. Impianto sperimentale definito con la relatrice:
+
+- **Dataset**: [UnLeakedTestBench](https://github.com/huangd1999/UnLeakedTestBench), file `ULT_Lite.jsonl`. Campi: `func_name`, `code` (funzione autonoma), `prompt` (descrizione in linguaggio naturale), `task_id`, `test_list` (assert di riferimento umani). Si parte da 20 campioni, obiettivo 100.
+- **Modelli**: tre Llama di taglia crescente (1B, 3B, 8B) dal catalogo NVIDIA build, in modo da osservare l'effetto della dimensione del modello.
+- **Condizioni**: temperatura 0 (output deterministico, una generazione per campione), template di prompt fissato e dichiarato, output salvati in file separati.
+- **Metriche**: (i) coverage effettiva del codice sotto test; (ii) quante volte ogni riga viene rieseguita; (iii) quante righe sono duplicate tra i file di test; (iv) classificazione degli esiti in *passato*, *eseguibile ma fallito*, *non eseguibile*.
+- **Confronto senza LLM** (secondario): la stessa valutazione applicata ai test prodotti da AST + Klara.
+
+Rispetto all'ipotesi iniziale, il ciclo di feedback iterativo non fa parte di questa fase: qui si misura il comportamento dei modelli "a colpo singolo", che costituisce la base di riferimento rispetto a cui un eventuale sistema iterativo andrebbe confrontato. Gli esperimenti 1-5 di questo documento restano come lavoro pilota.
+
+Note tecniche rilevate in fase di progettazione: `coverage.py` registra solo se una riga è stata eseguita, non quante volte (per il conteggio serve un tracciatore basato su `sys.settrace`/`sys.monitoring`); la distinzione tra codice non eseguibile e test falliti si ottiene combinando un controllo sintattico con `ast.parse` e i codici di uscita di pytest (2 = errore di raccolta, 1 = test falliti, 0 = tutti passati).
+
+## Punti aperti (dal lavoro preliminare, prima del 4 agosto)
 
 1. **Accesso API a un LLM**: per la pipeline serve chiamare un modello da Python. L'università fornisce crediti/chiavi API? Quale modello usare?
 2. **Benchmark**: su quali progetti/funzioni valutare? Riusare i benchmark del paper per confrontarsi direttamente?
