@@ -39,8 +39,8 @@ preliminare/            lavoro esplorativo iniziale (ast, Klara, loop manuale)
 pip install -r requirements.txt
 
 # 1. scaricare ULT_Lite.jsonl in benchmark/dataset/
-# 2. selezionare i campioni
-python benchmark/carica_dataset.py
+
+# (il dataset viene letto direttamente da genera.py)
 
 # 3. impostare la chiave API (mai scriverla nei file!)
 #    PowerShell:  $env:NVIDIA_API_KEY = "nvapi-..."
