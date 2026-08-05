@@ -41,16 +41,25 @@ righe = (QUI / "dataset" / "ULT_Lite.jsonl").read_text(encoding="utf-8").splitli
 campione = json.loads(righe[indice])
 prompt = TEMPLATE.format(func_name=campione["func_name"], code=campione["code"].strip())
 
-client = OpenAI(base_url="https://integrate.api.nvidia.com/v1", api_key=API_KEY)
-risposta = client.chat.completions.create(
+print(f"chiamo {MODELLI[sigla]} su {campione['func_name']}...\n")
+
+client = OpenAI(base_url="https://integrate.api.nvidia.com/v1", api_key=API_KEY,
+                timeout=180, max_retries=0)
+flusso = client.chat.completions.create(
     model=MODELLI[sigla],
     messages=[{"role": "user", "content": prompt}],
     temperature=0,
     max_tokens=1024,
+    stream=True,
 )
-testo = risposta.choices[0].message.content
+
+pezzi = []
+for blocco in flusso:
+    pezzo = blocco.choices[0].delta.content or ""
+    print(pezzo, end="", flush=True)
+    pezzi.append(pezzo)
+testo = "".join(pezzi)
 
 nome = f"test_{sigla}_{campione['task_id']}.py"
 (QUI / nome).write_text(testo, encoding="utf-8")
-print(testo)
-print("\n-> salvato in", nome)
+print("\n\n-> salvato in", nome)
