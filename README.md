@@ -18,15 +18,9 @@ Dataset: [UnLeakedTestBench](https://github.com/huangd1999/UnLeakedTestBench) (`
 ## Struttura
 
 ```
-benchmark/              lavoro principale
-├── dataset/            ULT_Lite.jsonl + campioni selezionati
-├── prompts/            prompt inviati, uno per campione e modello
-├── generated/          output dei modelli (grezzo + codice ripulito)
-├── results/            registro delle generazioni, metriche, grafici
-├── carica_dataset.py   selezione dei campioni
-├── prompt.py           costruzione del prompt e pulizia dell'output
-├── prompt_template.txt il template dichiarato ([instruction]/[data]/[format])
-└── genera.py           chiamate ai modelli, salvataggio, tempi
+benchmark/
+├── dataset/            ULT_Lite.jsonl
+└── genera.py           legge un campione, chiama il modello, salva i test
 
 latex/                  scheletro della tesi (capitoli in .tex)
 appunti/                note di lavoro
@@ -39,12 +33,9 @@ preliminare/            lavoro esplorativo iniziale (ast, Klara, loop manuale)
 pip install -r requirements.txt
 
 # 1. scaricare ULT_Lite.jsonl in benchmark/dataset/
-
-# (il dataset viene letto direttamente da genera.py)
-
-# 3. impostare la chiave API (mai scriverla nei file!)
+# 2. impostare la chiave API (mai scriverla nei file!)
 #    PowerShell:  $env:NVIDIA_API_KEY = "nvapi-..."
 
-# 4. generare i test per una funzione alla volta: modello + indice del campione
+# 3. generare i test: modello + indice del campione
 python benchmark/genera.py 1b 0
 ```
