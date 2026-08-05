@@ -45,6 +45,6 @@ python benchmark/carica_dataset.py
 # 3. impostare la chiave API (mai scriverla nei file!)
 #    PowerShell:  $env:NVIDIA_API_KEY = "nvapi-..."
 
-# 4. generare (prova rapida su 3 campioni con un modello)
-python benchmark/genera.py --modello 1b --limite 3
+# 4. generare i test per una funzione alla volta: modello + indice del campione
+python benchmark/genera.py 1b 0
 ```
