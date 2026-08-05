@@ -8,3 +8,6 @@ venv/
 # chiavi API: mai versionarle
 .env
 *.key
+
+# la chiave API resta solo sul tuo computer
+chiave.py
