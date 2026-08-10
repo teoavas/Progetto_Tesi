@@ -63,6 +63,14 @@ benchmark/
 
 La cartella `esperimenti/` resta come lavoro preliminare (pilota manuale, prove con ast e Klara).
 
+## Stato al 10 agosto
+
+Fatto: dataset scaricato (200 campioni), prompt congelato, script di generazione con tentativi ripetuti e registro (`generazioni.csv` con `finish_reason`, tentativi, secondi), **100 campioni generati con il modello 8B**. Primo risultato: 90 risposte complete (tutte sintatticamente valide) e 10 troncate (8 delle quali non valide), con il modello che scrive fino a 23 test invece dei 3-8 richiesti.
+
+Da fare subito: generazione con 3B e 1B sugli stessi 100 campioni. Poi la parte di misura (esecuzione, coverage, ripetizione righe, duplicazione).
+
+Nota metodologica da riportare in tesi: gli endpoint NVIDIA hanno mostrato disponibilità intermittente (vedi esperimento 6 negli appunti); lo script effettua fino a sei tentativi per campione.
+
 ## Roadmap 5 → 20 agosto
 
 **5–6 ago — Dataset e impalcatura.** Scaricare `ULT_Lite.jsonl`, selezionare 20 campioni con criterio esplicito e riproducibile (es. i primi 20 per `task_id`, oppure campionamento casuale con seed fisso: da annotare, serve in tesi). Script di caricamento.

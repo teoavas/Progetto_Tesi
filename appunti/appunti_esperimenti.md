@@ -74,6 +74,28 @@ Rispetto all'ipotesi iniziale, il ciclo di feedback iterativo non fa parte di qu
 
 Note tecniche rilevate in fase di progettazione: `coverage.py` registra solo se una riga è stata eseguita, non quante volte (per il conteggio serve un tracciatore basato su `sys.settrace`/`sys.monitoring`); la distinzione tra codice non eseguibile e test falliti si ottiene combinando un controllo sintattico con `ast.parse` e i codici di uscita di pytest (2 = errore di raccolta, 1 = test falliti, 0 = tutti passati).
 
+## Esperimento 6 — messa a punto della generazione su NVIDIA build
+
+**Setup finale.** Modelli `meta/llama-3.2-1b-instruct`, `meta/llama-3.2-3b-instruct`, `meta/llama-3.1-8b-instruct` serviti da NVIDIA build tramite libreria `openai` (`base_url = https://integrate.api.nvidia.com/v1`). Temperatura 0, `max_tokens` 1024, una funzione per richiesta, prompt fisso a tre sezioni `[instruction]` / `[data]` / `[format]`. Dataset ULT_Lite (200 campioni, se ne usano i primi 100 nell'ordine del file). Ogni generazione viene salvata in un file separato `generati/<modello>/test_<indice>_<funzione>.py`.
+
+**Instabilità del servizio (da riportare come nota metodologica).** Nella prima sessione le richieste di inferenza andavano sistematicamente in timeout, mentre l'elenco dei modelli rispondeva regolarmente. Le prove condotte per isolare la causa hanno escluso: chiave e connessione (l'endpoint dei modelli rispondeva), il codice (lo script della relatrice dava lo stesso esito), la rete (stesso comportamento da rete fissa e da hotspot), la temperatura, `max_tokens`, la lunghezza del prompt e lo streaming. Anche una richiesta banale, identica a una che era riuscita pochi minuti prima, falliva. Il modello da 70B rispondeva invece regolarmente. In una sessione successiva, senza alcuna modifica al codice, tutte le richieste sono passate al primo tentativo con un tempo medio di 5,5 secondi. Conclusione: disponibilità intermittente degli endpoint, non riproducibile e indipendente dal client. Per questo lo script include un meccanismo di tentativi ripetuti.
+
+**Primi risultati sul modello 8B (100 campioni).**
+
+| esito | sintassi valida | sintassi non valida |
+|---|---|---|
+| risposta completa (`finish_reason = stop`), 90 casi | 90 | 0 |
+| risposta troncata (`finish_reason = length`), 10 casi | 2 | 8 |
+
+Osservazioni:
+
+- Quando il modello conclude da sé, il codice prodotto è **sempre** sintatticamente valido (90/90). Tutti i casi di codice non valido derivano dal troncamento.
+- Il troncamento è causato dalla violazione del vincolo sul numero di test: il prompt ne chiede da 3 a 8, ma nei casi troncati il modello arriva a scriverne 13, 17, 23, esaurendo il budget di token.
+- Due campioni troncati (37 e 77) superano comunque il controllo sintattico, perché il taglio è caduto a fine funzione: sono file incompleti che sembrano sani. Per questo `finish_reason` va trattato come categoria a sé e non ci si può basare solo sull'analisi sintattica.
+- Il controllo di validità è fatto con `ast.parse`, che analizza il codice senza eseguirlo: è il primo filtro della classificazione richiesta (non eseguibile → eseguibile ma fallito → passato).
+
+**Aderenza al formato.** In quattro casi il modello ha incapsulato l'output in un blocco markdown nonostante il divieto esplicito nel prompt; la percentuale di rispetto del formato è essa stessa una misura da riportare. Il modello 70B (usato solo come controllo) ha invece rispettato import e formato al primo tentativo, mentre il modello 1B in una prova preliminare in locale aveva sbagliato l'import, ricadendo su `import pytest`.
+
 ## Punti aperti (dal lavoro preliminare, prima del 4 agosto)
 
 1. **Accesso API a un LLM**: per la pipeline serve chiamare un modello da Python. L'università fornisce crediti/chiavi API? Quale modello usare?
