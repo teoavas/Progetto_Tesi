@@ -40,11 +40,36 @@ Osservazioni:
 
 Confronto qualitativo preliminare: sullo stesso campione, il modello 70B ha prodotto l'import corretto e nessun markdown; il modello 1B, in una prova preliminare eseguita in locale, ha ignorato l'istruzione sull'import ricadendo su `import pytest` — file che non sarebbe eseguibile. È il gradiente che lo studio intende quantificare.
 
-## 5. Nota metodologica: disponibilità del servizio
+## 5. Esecuzione dei test e prime misure (8B, 100 campioni)
+
+Procedura: per ogni file generato, controllo sintattico con `ast.parse`; se supera, esecuzione con pytest in una cartella temporanea isolata, con timeout, accanto a un file `funzione.py` contenente la funzione sotto test; infine calcolo della coverage con `coverage.py` sulla sola funzione.
+
+| esito | campioni |
+|---|---|
+| tutti i test passano | 3 |
+| eseguibile, ma almeno un test fallisce | 88 |
+| non eseguibile | 9 |
+| timeout | 0 |
+
+- Coverage media **77,4%** sui 91 campioni eseguibili (mediana 87,5%).
+- Coverage media **70,4%** considerando tutti i 100 campioni e attribuendo 0% ai non eseguibili.
+- Degli 800 test generati complessivamente, ne passano **187 (23,4%)**.
+
+**Denominatore della coverage.** Le due medie rispondono a domande diverse e vanno riportate entrambe: quella sui soli eseguibili risponde a "quando il file funziona, quanta parte della funzione viene esercitata?", quella su tutti i campioni risponde a "quanto copre il modello complessivamente?". Indicare sempre quale denominatore si sta usando.
+
+**Coverage alta e correttezza bassa.** Il divario tra 77,4% di copertura e 23,4% di test corretti è il risultato più significativo: il modello sceglie input plausibili e li fa arrivare al codice — perciò le righe risultano eseguite — ma sbaglia quasi sempre il valore atteso nell'assert. Va sottolineato che la coverage è alta *anche grazie ai test che falliscono*: un assert sbagliato esegue comunque la funzione prima di fallire. Le due metriche vanno quindi lette insieme. È lo stesso fenomeno che TestGenEval attribuisce alla difficoltà dei modelli nel ragionare sull'esecuzione.
+
+**Artefatto corretto: import mancanti.** Il campo `code` del dataset non include gli import necessari alla funzione (per esempio `re` in `fix_labels`), che quindi solleva `NameError` a tempo di esecuzione. Senza correzione, test perfettamente sensati risultavano falliti per un motivo estraneo al modello. Si antepone perciò alla funzione un preambolo con gli import di libreria standard, escluso dal calcolo della coverage tramite `# pragma: no cover`. L'effetto è misurabile: i test corretti passano dal 20,2% al 23,4% e la coverage media dal 72,4% al 77,4%.
+
+**Il campo `test_list` non è ground truth.** Gli assert umani contenuti nel dataset passano solo nel 12% dei casi sul codice fornito. La documentazione di UnLeakedTestBench chiarisce il motivo: gli autori dichiarano esplicitamente di **non** rilasciare i test di riferimento, per non farli entrare nei dati di addestramento dei modelli futuri. Il campo `test_list` è un residuo dello schema del dataset di origine e non può essere usato come riferimento; per esempio, per `is_degree_in_degree_range(30, 150, 100)` l'assert si attende `True` mentre il codice fornito restituisce `False`.
+
+**Confronto con i risultati pubblicati.** Il paper di UnLeakedTestBench (arXiv:2508.00408) riporta, come media su 12 modelli di dimensioni maggiori e in gran parte specializzati sul codice, Pass@1 del 41,32% e copertura di riga del 45,10%. Il 23,4% di test corretti ottenuto qui con un modello generalista da 8B è coerente con quel quadro. La coverage misurata risulta invece più alta, ma non è direttamente confrontabile: qui viene conteggiata anche l'esecuzione prodotta dai test che falliscono, e le funzioni sono i primi 100 campioni di ULT_Lite anziché l'intero benchmark.
+
+## 6. Nota metodologica: disponibilità del servizio
 
 Durante la prima sessione di lavoro tutte le richieste di inferenza verso i tre modelli andavano in timeout, mentre l'endpoint di elenco dei modelli rispondeva regolarmente e il modello da 70B era raggiungibile. Le prove condotte hanno escluso come cause: chiave e connessione, il codice client (stesso esito con lo script fornito dalla relatrice), la rete (stesso comportamento da rete fissa e da hotspot), la temperatura, il numero massimo di token, la lunghezza del prompt e l'uso dello streaming. Una richiesta identica a una riuscita pochi minuti prima falliva. In una sessione successiva, senza alcuna modifica, tutte le richieste sono passate al primo tentativo. Si tratta quindi di disponibilità intermittente degli endpoint: lo script prevede fino a sei tentativi per campione.
 
-## 6. Lavoro preliminare (prima della definizione dell'impianto)
+## 7. Lavoro preliminare (prima della definizione dell'impianto)
 
 Questa fase non fa parte dell'esperimento finale ma ne ha informato la costruzione; il codice si trova in `preliminare/`.
 
