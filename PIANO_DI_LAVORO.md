@@ -1,6 +1,10 @@
-# Piano di lavoro — dopo l'incontro con la relatrice (4 agosto 2026)
+# Piano di lavoro
 
-## Specifica della relatrice (testo originale, da Overleaf)
+## Cos'è il progetto
+
+Uno studio di misura sulla generazione di unit test con LLM di piccola taglia. Si generano test con tre modelli Llama (1B, 3B, 8B) su 100 funzioni Python reali, a parità di prompt e con temperatura 0, e si misura la qualità dei test prodotti.
+
+Specifica concordata con la relatrice (4 agosto 2026):
 
 ```
 % dataset (prendere 20 campioni, arrivare a 100 sarebbe l'ideale)
@@ -27,79 +31,46 @@
 %   delle metriche fatta per via visiva.
 ```
 
-Priorità dichiarata: AST + Klara è **secondaria**, da affrontare solo dopo "il grosso".
+La parte AST + Klara è dichiarata secondaria: si affronta solo dopo il resto.
 
-## Cosa è il progetto ora
+## Impianto sperimentale (parametri congelati)
 
-Uno **studio di misura**: si generano unit test con tre modelli Llama di taglie diverse, a temperatura 0 e con un prompt fisso, su un campione del dataset ULT; poi si misura la qualità dei test prodotti con un insieme di metriche. Non è (ancora) un sistema con ciclo di feedback: quello resta un possibile passo successivo.
+- **Dataset**: ULT_Lite, 200 campioni; se ne usano i **primi 100 nell'ordine del file** (criterio deterministico, da dichiarare in tesi). Campi: `func_name`, `code`, `prompt` (descrizione naturale, **non** passata al modello), `task_id`, `test_list` (assert umani di riferimento).
+- **Modelli**: `meta/llama-3.2-1b-instruct`, `meta/llama-3.2-3b-instruct`, `meta/llama-3.1-8b-instruct` su NVIDIA build. Il 70B è usato solo come controllo, fuori dallo studio.
+- **Parametri**: temperatura 0, `max_tokens` 1024, una funzione per richiesta, prompt fisso a tre sezioni `[instruction]` / `[data]` / `[format]`.
+- **Output**: un file per campione in `benchmark/generati/<modello>/`, più un registro `generazioni.csv` con `finish_reason`, numero di tentativi e secondi.
 
-## Il dataset ULT_Lite
+Cambiare uno di questi parametri obbliga a rigenerare tutti i campioni.
 
-Formato JSONL, un oggetto per riga. Campi verificati:
+## Stato
 
-| campo | contenuto |
+| passo | stato |
 |---|---|
-| `func_name` | nome della funzione, es. `is_degree_in_degree_range` |
-| `code` | il codice sorgente della funzione (stringa, funzione autonoma) |
-| `prompt` | descrizione in linguaggio naturale di cosa fa la funzione |
-| `task_id` | identificativo del campione |
-| `test_list` | assert di riferimento scritti da umani (gold tests) |
+| dataset e prompt | fatto |
+| generazione 8B (100 campioni) | fatto |
+| generazione 3B (100 campioni) | da fare |
+| generazione 1B (100 campioni) | da fare |
+| classificazione esiti (non eseguibile / fallito / passato) | da fare |
+| coverage | da fare |
+| ripetizione righe e duplicazione | da fare |
+| tabelle, grafici e scrittura su Overleaf | da fare |
+| valutazione senza LLM (AST + Klara) | opzionale, in coda |
 
-Note: le funzioni sono autonome (nessun import di progetto), quindi eseguibili in isolamento. Il campo `test_list` è utile come riferimento (baseline umana) per confrontare la coverage.
+## Prossimi passi
 
-## Struttura prevista del codice
+1. `python genera_tutti.py 3b 0 99` e poi `1b`.
+2. Script di misura: per ogni file generato, controllo sintattico con `ast.parse`, esecuzione con pytest in processo isolato e con timeout, classificazione in *non eseguibile* / *eseguibile ma fallito* / *passato*.
+3. Coverage della funzione sotto test; conteggio delle esecuzioni per riga (serve un tracciatore con `sys.settrace`/`sys.monitoring`: `coverage.py` registra solo se una riga è stata eseguita, non quante volte); duplicazione fra i file di test.
+4. Aggregazione per modello, tabelle e grafici; esempio end-to-end e spiegazione visiva delle metriche.
 
-```
-benchmark/
-├── dataset/            ULT_Lite.jsonl + il sottoinsieme selezionato (20 campioni)
-├── prompts/            prompt effettivamente inviati, uno per campione
-├── generated/          output dei modelli, un file per (modello, campione)
-├── results/            metriche in CSV/JSON + tabelle e grafici
-├── carica_dataset.py   selezione dei campioni
-├── genera.py           chiamate API a temperatura 0, salvataggio output
-├── esegui.py           esecuzione dei test, classificazione degli esiti
-└── metriche.py         coverage, conteggio esecuzioni per riga, duplicazione
-```
+## Note metodologiche da riportare in tesi
 
-La cartella `esperimenti/` resta come lavoro preliminare (pilota manuale, prove con ast e Klara).
+- **Disponibilità intermittente degli endpoint NVIDIA**: in una prima sessione tutte le richieste di inferenza andavano in timeout (con l'endpoint dei modelli funzionante e il 70B raggiungibile); in una sessione successiva, senza modifiche, tutte le richieste sono passate al primo tentativo. Lo script effettua fino a sei tentativi per campione.
+- **Troncamento**: `finish_reason = length` va trattato come categoria a sé. Un file troncato può superare il controllo sintattico se il taglio cade a fine funzione, risultando sano ma incompleto.
+- **Pulizia dell'output**: i modelli incapsulano il codice in blocchi markdown anche quando il prompt lo vieta; lo script li rimuove. La frequenza con cui accade è essa stessa una misura di aderenza al formato.
 
-## Stato al 10 agosto
+## Punti aperti per la relatrice
 
-Fatto: dataset scaricato (200 campioni), prompt congelato, script di generazione con tentativi ripetuti e registro (`generazioni.csv` con `finish_reason`, tentativi, secondi), **100 campioni generati con il modello 8B**. Primo risultato: 90 risposte complete (tutte sintatticamente valide) e 10 troncate (8 delle quali non valide), con il modello che scrive fino a 23 test invece dei 3-8 richiesti.
-
-Da fare subito: generazione con 3B e 1B sugli stessi 100 campioni. Poi la parte di misura (esecuzione, coverage, ripetizione righe, duplicazione).
-
-Nota metodologica da riportare in tesi: gli endpoint NVIDIA hanno mostrato disponibilità intermittente (vedi esperimento 6 negli appunti); lo script effettua fino a sei tentativi per campione.
-
-## Roadmap 5 → 20 agosto
-
-**5–6 ago — Dataset e impalcatura.** Scaricare `ULT_Lite.jsonl`, selezionare 20 campioni con criterio esplicito e riproducibile (es. i primi 20 per `task_id`, oppure campionamento casuale con seed fisso: da annotare, serve in tesi). Script di caricamento.
-
-**6–7 ago — Accesso ai modelli e generazione.** Account su build.nvidia.com, chiave API, prima chiamata di prova. Definire il template del prompt (istruzione + dati + formato di output richiesto) e congelarlo: se cambia a metà, i risultati non sono confrontabili. Temperatura 0. Salvataggio degli output in file separati.
-
-**8–10 ago — Esecuzione e classificazione degli esiti.** Eseguire ogni file di test generato in un processo isolato con timeout, e classificare in tre categorie: passato / eseguibile ma fallito / non eseguibile.
-
-**11–13 ago — Metriche.** Coverage sulla funzione bersaglio; conteggio di quante volte ogni riga viene eseguita; duplicazione tra i file di test.
-
-**14–16 ago — Aggregazione ed estensione.** Tabelle e grafici per modello e per metrica; se tutto regge, estendere da 20 a 100 campioni (a temperatura 0 basta una sola esecuzione per campione).
-
-**17–19 ago — Scrittura.** Metodo, metriche e risultati su Overleaf. Esempio end-to-end di una generazione e spiegazione visiva delle metriche.
-
-**20 ago — Riepilogo per la relatrice.**
-
-**Dopo, se resta tempo:** valutazione "senza LLM" con AST + Klara come termine di paragone.
-
-## Punti da chiarire con la relatrice
-
-1. **Quali modelli esattamente**: "llama 1, 3, 8 billion" dovrebbe corrispondere a Llama 3.2 1B, Llama 3.2 3B e Llama 3.1 8B sul catalogo NVIDIA. Da confermare i nomi esatti prima di lanciare tutto.
-2. **Cosa mettere nel prompt**: solo il `code` del campione, oppure anche il `prompt` in linguaggio naturale (la descrizione della funzione)? Sono due condizioni sperimentali diverse; forse vale la pena misurarle entrambe.
-3. **Formato dell'output richiesto** ("formatted as ....", lasciato in sospeso nella specifica): blocco markdown ```python, oppure codice grezzo? Va deciso perché condiziona il parsing delle risposte.
-4. **Criterio di selezione dei 20 campioni**: casuale con seed, oppure i primi N?
-5. **Ruolo di `test_list`**: usarlo come baseline umana di riferimento per la coverage?
-
-## Note tecniche già emerse
-
-- **Conteggio delle esecuzioni per riga**: `coverage.py` registra solo se una riga è stata eseguita o no, non quante volte. Per contare le ripetizioni serve un tracciatore proprio (`sys.settrace`, o `sys.monitoring` su Python 3.12) che incrementi un contatore per riga.
-- **Distinguere "non eseguibile" da "eseguibile ma fallito"**: controllo sintattico con `ast.parse` prima dell'esecuzione (se solleva `SyntaxError` → non eseguibile), poi codici di uscita di pytest (2 = errore di raccolta/import → non eseguibile; 1 = test eseguiti ma falliti; 0 = tutti passati).
-- **Sicurezza**: il codice generato da un modello va eseguito in un processo separato con timeout, per evitare cicli infiniti o effetti indesiderati.
-- **Riproducibilità**: a temperatura 0 l'output è deterministico, quindi una sola generazione per campione; annotare comunque data, nome esatto del modello e versione, perché i modelli sul catalogo possono cambiare.
+1. Le metriche di coverage: solo statement coverage o anche branch coverage?
+2. Il campo `test_list` (assert umani) va usato come riferimento di confronto?
+3. Il troncamento va contato tra i "non eseguibili" o riportato separatamente?

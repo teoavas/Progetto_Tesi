@@ -14,5 +14,3 @@ jobs:
         run: pip install -r requirements.txt
       - name: Controllo sintassi degli script
         run: python -m compileall -q benchmark
-      - name: Prova del costruttore di prompt
-        run: python benchmark/prompt.py

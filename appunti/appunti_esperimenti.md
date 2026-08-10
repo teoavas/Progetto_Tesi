@@ -1,106 +1,54 @@
-# Appunti esperimenti preliminari — generazione di unit test con LLM
+# Appunti di lavoro — generazione di unit test con LLM
 
-*Note di lavoro, agosto 2026. Testo da riadattare per le sezioni della tesi su Overleaf.*
+*Note tenute durante il lavoro, da riadattare per le sezioni della tesi su Overleaf.*
 
-## Contesto e obiettivo
+## 1. Contesto e riferimento
 
-Il punto di partenza è il paper "TestGenEval" (https://openreview.net/pdf?id=7o6SG5gVev), in cui gli LLM generano unit test senza particolari informazioni di contesto. L'ipotesi della tesi è che la coverage migliori dando al modello: (1) contesto strutturale sul codice, (2) strumenti software di supporto, (3) feedback iterativo dall'esecuzione dei test e dal report di coverage.
+Il riferimento è TestGenEval (ICLR 2025, https://openreview.net/pdf?id=7o6SG5gVev): un benchmark costruito su SWE-bench con 68.647 test da 1.210 coppie file codice-test, tratte da 11 repository Python reali. Valuta due compiti — generazione dell'intera test suite e completamento di una suite esistente — con metriche di esecuzione (pass@1, pass@5), coverage e mutation score, quest'ultimo ottenuto iniettando bug sintetici nel codice e misurando quanti vengono scoperti dai test.
 
-La pipeline prevista ha tre fasi:
+Il risultato principale è che i modelli faticano sui progetti reali: il migliore (GPT-4o) si ferma a una coverage media del 35,2% e a un mutation score del 18,8%. La causa individuata dagli autori è la difficoltà dei modelli a ragionare sull'esecuzione del codice, con frequenti errori nelle assert sui cammini complessi.
 
-1. **Contesto**: passare al modello il file sorgente oppure una rappresentazione di più alto livello (AST), ed eventualmente uno scheletro di test generato automaticamente (Klara).
-2. **Generazione iterativa**: per ogni test generato, eseguirlo e restituire al modello eventuali errori, iterando fino a test funzionanti.
-3. **Feedback di coverage**: calcolare la coverage e passare al modello le righe non coperte, chiedendo test mirati per quelle righe.
+## 2. Oggetto di questa tesi
 
-## Esperimento 1 — libreria `ast` (standard library)
+Misurare la qualità degli unit test generati da modelli di piccola taglia (Llama 1B, 3B, 8B) su funzioni Python reali, a parità di prompt e con temperatura 0, secondo quattro dimensioni: copertura del codice, ripetizione delle righe eseguite, duplicazione fra i test prodotti, ed esito dell'esecuzione (passato / eseguibile ma fallito / non eseguibile).
 
-File: `esperimenti/01_ast/prova_ast.py`, applicato a `esperimenti/funzioni_esempio.py` (tre funzioni di difficoltà crescente: senza rami, con if/elif, con ciclo ed eccezione).
+## 3. Impianto sperimentale
 
-Con `ast.parse` si ottiene l'albero sintattico; visitandolo con `ast.walk` si estraggono per ogni funzione: nome e argomenti, docstring, numero di `return` e di `if`, eccezioni sollevate, righe di inizio/fine.
+**Dataset.** UnLeakedTestBench, file `ULT_Lite.jsonl`: 200 campioni, uno per riga in formato JSON Lines. Ogni campione contiene il nome della funzione, il suo codice sorgente (funzione autonoma, eseguibile in isolamento), una descrizione in linguaggio naturale, un identificativo e una lista di assert scritti da umani. Si usano i primi 100 campioni nell'ordine del file. Le funzioni vanno da 8 a 171 righe, con mediana 34.
 
-Osservazioni utili per la tesi:
+**Modelli.** `meta/llama-3.2-1b-instruct`, `meta/llama-3.2-3b-instruct` e `meta/llama-3.1-8b-instruct`, serviti da NVIDIA build attraverso un'interfaccia compatibile con la libreria `openai`. Il modello da 70B è stato usato unicamente come controllo di funzionamento e non fa parte dello studio.
 
-- Il riassunto strutturale è molto più compatto del file sorgente: utile come contesto per l'LLM quando il file è grande (limiti di finestra di contesto, costo per token).
-- Il numero di `if` è correlato al numero di cammini di esecuzione, quindi suggerisce *quanti* test servono per la branch coverage.
-- Le eccezioni estratte (`ValueError` in `media_positivi`) indicano che serve un test con `pytest.raises`.
-- `lineno`/`end_lineno` permettono di mappare le righe non coperte (dal report di coverage) alla funzione corrispondente: sarà il collegamento tra fase 3 e fase 1 della pipeline.
+**Prompt.** Template fisso in tre sezioni. `[instruction]` elenca i vincoli: stile pytest senza classi, import esplicito della funzione sotto test, da 3 a 8 funzioni di test con nomi numerati, almeno un assert per test, divieto di riscrivere la funzione, divieto di spiegazioni e markdown. `[data]` contiene il solo codice della funzione (la descrizione in linguaggio naturale non viene passata). `[format]` mostra lo scheletro atteso dell'output: per i modelli piccoli, vedere la forma è più efficace che leggerne la descrizione.
 
-## Esperimento 2 — Klara
+**Parametri.** Temperatura 0, `max_tokens` 1024, una funzione per richiesta, output salvato in un file separato per ogni coppia (modello, campione).
 
-File: `esperimenti/02_klara/`. Installazione: `pip install klara` (versione 0.6.3, 2021).
+## 4. Risultati preliminari — modello 8B su 100 campioni
 
-**Limite riscontrato**: Klara va in crash sul file di esempio completo (non supporta list comprehension, eccezioni, e in generale Python moderno). Sul sottoinsieme supportato (aritmetica su interi, if/elif) funziona bene: comando `klara funzioni_per_klara.py` → genera `test_funzioni_per_klara.py`.
-
-Risultato notevole: Klara usa il solver SMT Z3 per trovare input che coprono ogni ramo. Per `classifica_voto` ha trovato da sola i valori di confine 0, 18, 24, 28 — esattamente i boundary value che un tester umano sceglierebbe. I test generati sono però "scheletri": gli assert contengono i valori attesi dedotti simbolicamente, corretti ma senza semantica (nomi generici `test_funzione_0`).
-
-Ruolo previsto nella pipeline: generare lo scheletro iniziale da cui l'LLM parte (fase 1), lasciando all'LLM i casi che Klara non copre (eccezioni, strutture dati, codice moderno).
-
-## Esperimento 3 — ciclo test + coverage
-
-I test generati da Klara passano tutti (`pytest`: 3 passed) e raggiungono il 100% di statement coverage (`coverage report -m` con la colonna `Missing` vuota). La colonna `Missing` del report è esattamente l'informazione da restituire all'LLM nella fase 3: elenca le righe non coperte.
-
-## Esperimento 4 — simulazione manuale del loop con LLM (via chat)
-
-Prima esecuzione dell'intera pipeline con un LLM vero, in versione manuale: l'LLM è stato usato tramite chat, e il copia-incolla umano ha fatto le veci dello script di orchestrazione.
-
-Procedura: chiesti test pytest per la sola `media_positivi` (file `esperimenti/test_llm1.py`) → 11 test, tutti passati al primo colpo → coverage di `funzioni_esempio.py` al **47%** (Missing: riga 12 e righe 17-24, cioè `somma` e `classifica_voto`, mai richieste) → riportate all'LLM le righe mancanti → nuovi test mirati → coverage al **100%** in una sola iterazione di feedback.
-
-Osservazione critica: su funzioni così semplici il 100% è quasi garantito e non dimostra l'ipotesi. L'esperimento valida la *meccanica* del ciclo (genera → esegui → misura → feedback → migliora), non la sua *utilità*, che va misurata su codice dove il primo tentativo fallisce. Da qui la domanda sul benchmark (punto 2).
-
-## Esperimento 5 — loop su funzioni più complesse e scoperta di codice morto
-
-File: `esperimenti/03_ciclo/`. Bersaglio `funzioni_brutte.py`: tre funzioni con rami annidati, eccezioni e casi limite (`calcola_sconto`, `valida_password`, `interpreta_orario`), 49 statement.
-
-Primo giro: l'LLM (via chat, stesso protocollo manuale) genera 46 test, tutti passati, coverage **98%**. Unica riga scoperta: la 33 (`prezzo = 0`, ramo `if prezzo < 0` di `calcola_sconto`).
-
-Analisi della riga 33: è **irraggiungibile**. Il totale è ≥ 0 (il negativo solleva `ValueError` prima), gli sconti moltiplicano per 0.8/0.9 (mai sotto zero) e il coupon sottrae 5 solo quando il prezzo supera 30 (residuo ≥ 25). La condizione `prezzo < 0` è sempre falsa: è codice difensivo morto, e nessun test potrà mai coprirlo.
-
-Due implicazioni per il sistema:
-
-1. **Criterio di stop**: il loop non può fermarsi "al 100%", deve fermarsi quando la coverage smette di migliorare (plateau) o dopo N iterazioni, altrimenti su codice con righe irraggiungibili itererebbe all'infinito.
-2. **Valore diagnostico delle righe residue**: le righe che restano scoperte dopo il plateau sono candidate a essere codice morto o difensivo — informazione utile di per sé per il programmatore. Nota: dimostrare formalmente l'irraggiungibilità (insoddisfacibilità del vincolo) è il mestiere dei solver SMT come Z3, lo stesso usato da Klara: possibile punto di contatto tra i due approcci.
-
-## Nuova direzione dopo l'incontro del 4 agosto
-
-Il progetto assume la forma di uno **studio di misura** sulla generazione di unit test con LLM di piccola taglia. Impianto sperimentale definito con la relatrice:
-
-- **Dataset**: [UnLeakedTestBench](https://github.com/huangd1999/UnLeakedTestBench), file `ULT_Lite.jsonl`. Campi: `func_name`, `code` (funzione autonoma), `prompt` (descrizione in linguaggio naturale), `task_id`, `test_list` (assert di riferimento umani). Si parte da 20 campioni, obiettivo 100.
-- **Modelli**: tre Llama di taglia crescente (1B, 3B, 8B) dal catalogo NVIDIA build, in modo da osservare l'effetto della dimensione del modello.
-- **Condizioni**: temperatura 0 (output deterministico, una generazione per campione), template di prompt fissato e dichiarato, output salvati in file separati.
-- **Metriche**: (i) coverage effettiva del codice sotto test; (ii) quante volte ogni riga viene rieseguita; (iii) quante righe sono duplicate tra i file di test; (iv) classificazione degli esiti in *passato*, *eseguibile ma fallito*, *non eseguibile*.
-- **Confronto senza LLM** (secondario): la stessa valutazione applicata ai test prodotti da AST + Klara.
-
-Rispetto all'ipotesi iniziale, il ciclo di feedback iterativo non fa parte di questa fase: qui si misura il comportamento dei modelli "a colpo singolo", che costituisce la base di riferimento rispetto a cui un eventuale sistema iterativo andrebbe confrontato. Gli esperimenti 1-5 di questo documento restano come lavoro pilota.
-
-Note tecniche rilevate in fase di progettazione: `coverage.py` registra solo se una riga è stata eseguita, non quante volte (per il conteggio serve un tracciatore basato su `sys.settrace`/`sys.monitoring`); la distinzione tra codice non eseguibile e test falliti si ottiene combinando un controllo sintattico con `ast.parse` e i codici di uscita di pytest (2 = errore di raccolta, 1 = test falliti, 0 = tutti passati).
-
-## Esperimento 6 — messa a punto della generazione su NVIDIA build
-
-**Setup finale.** Modelli `meta/llama-3.2-1b-instruct`, `meta/llama-3.2-3b-instruct`, `meta/llama-3.1-8b-instruct` serviti da NVIDIA build tramite libreria `openai` (`base_url = https://integrate.api.nvidia.com/v1`). Temperatura 0, `max_tokens` 1024, una funzione per richiesta, prompt fisso a tre sezioni `[instruction]` / `[data]` / `[format]`. Dataset ULT_Lite (200 campioni, se ne usano i primi 100 nell'ordine del file). Ogni generazione viene salvata in un file separato `generati/<modello>/test_<indice>_<funzione>.py`.
-
-**Instabilità del servizio (da riportare come nota metodologica).** Nella prima sessione le richieste di inferenza andavano sistematicamente in timeout, mentre l'elenco dei modelli rispondeva regolarmente. Le prove condotte per isolare la causa hanno escluso: chiave e connessione (l'endpoint dei modelli rispondeva), il codice (lo script della relatrice dava lo stesso esito), la rete (stesso comportamento da rete fissa e da hotspot), la temperatura, `max_tokens`, la lunghezza del prompt e lo streaming. Anche una richiesta banale, identica a una che era riuscita pochi minuti prima, falliva. Il modello da 70B rispondeva invece regolarmente. In una sessione successiva, senza alcuna modifica al codice, tutte le richieste sono passate al primo tentativo con un tempo medio di 5,5 secondi. Conclusione: disponibilità intermittente degli endpoint, non riproducibile e indipendente dal client. Per questo lo script include un meccanismo di tentativi ripetuti.
-
-**Primi risultati sul modello 8B (100 campioni).**
-
-| esito | sintassi valida | sintassi non valida |
+| esito della richiesta | sintassi valida | sintassi non valida |
 |---|---|---|
-| risposta completa (`finish_reason = stop`), 90 casi | 90 | 0 |
-| risposta troncata (`finish_reason = length`), 10 casi | 2 | 8 |
+| risposta completa (`finish_reason = stop`) — 90 casi | 90 | 0 |
+| risposta troncata (`finish_reason = length`) — 10 casi | 2 | 8 |
 
 Osservazioni:
 
-- Quando il modello conclude da sé, il codice prodotto è **sempre** sintatticamente valido (90/90). Tutti i casi di codice non valido derivano dal troncamento.
-- Il troncamento è causato dalla violazione del vincolo sul numero di test: il prompt ne chiede da 3 a 8, ma nei casi troncati il modello arriva a scriverne 13, 17, 23, esaurendo il budget di token.
-- Due campioni troncati (37 e 77) superano comunque il controllo sintattico, perché il taglio è caduto a fine funzione: sono file incompleti che sembrano sani. Per questo `finish_reason` va trattato come categoria a sé e non ci si può basare solo sull'analisi sintattica.
-- Il controllo di validità è fatto con `ast.parse`, che analizza il codice senza eseguirlo: è il primo filtro della classificazione richiesta (non eseguibile → eseguibile ma fallito → passato).
+- Quando il modello conclude da sé, il codice prodotto è sempre sintatticamente valido (90 casi su 90). Tutti i casi di codice non valido derivano dal troncamento, non da un errore di sintassi del modello.
+- Il troncamento nasce dalla violazione di un vincolo del prompt: si chiedono da 3 a 8 test, ma nei casi troncati il modello arriva a scriverne 13, 17 o 23, esaurendo il budget di token.
+- Due campioni troncati superano comunque il controllo sintattico, perché il taglio è caduto a fine funzione: sono file incompleti che appaiono sani. `finish_reason` va quindi trattato come categoria a sé, senza affidarsi al solo controllo sintattico.
+- Il controllo di validità usa `ast.parse`, che analizza il codice senza eseguirlo: è il primo filtro della classificazione richiesta.
+- In quattro casi il modello ha incapsulato l'output in un blocco markdown nonostante il divieto esplicito. La frequenza di questi scostamenti è una misura di aderenza al formato.
+- Tempo medio per generazione: 5,5 secondi, tutte riuscite al primo tentativo.
 
-**Aderenza al formato.** In quattro casi il modello ha incapsulato l'output in un blocco markdown nonostante il divieto esplicito nel prompt; la percentuale di rispetto del formato è essa stessa una misura da riportare. Il modello 70B (usato solo come controllo) ha invece rispettato import e formato al primo tentativo, mentre il modello 1B in una prova preliminare in locale aveva sbagliato l'import, ricadendo su `import pytest`.
+Confronto qualitativo preliminare: sullo stesso campione, il modello 70B ha prodotto l'import corretto e nessun markdown; il modello 1B, in una prova preliminare eseguita in locale, ha ignorato l'istruzione sull'import ricadendo su `import pytest` — file che non sarebbe eseguibile. È il gradiente che lo studio intende quantificare.
 
-## Punti aperti (dal lavoro preliminare, prima del 4 agosto)
+## 5. Nota metodologica: disponibilità del servizio
 
-1. **Accesso API a un LLM**: per la pipeline serve chiamare un modello da Python. L'università fornisce crediti/chiavi API? Quale modello usare?
-2. **Benchmark**: su quali progetti/funzioni valutare? Riusare i benchmark del paper per confrontarsi direttamente?
-3. **Metriche**: statement coverage, branch coverage (`coverage run --branch`), o anche mutation score?
-4. **Klara**: vale la pena tenerla vista l'incompatibilità con Python moderno, o meglio usare solo AST + feedback? (Alternativa: usarla solo sul sottoinsieme di funzioni che supporta.)
-5. **Baseline**: la baseline sarà "LLM senza contesto" come nel paper, per misurare il contributo di ogni componente (ablation)?
-6. **Criterio di stop del loop** (dall'esperimento 5): fermarsi al plateau di coverage o a N iterazioni? E come trattare le righe che restano scoperte — segnalarle come possibile codice morto?
+Durante la prima sessione di lavoro tutte le richieste di inferenza verso i tre modelli andavano in timeout, mentre l'endpoint di elenco dei modelli rispondeva regolarmente e il modello da 70B era raggiungibile. Le prove condotte hanno escluso come cause: chiave e connessione, il codice client (stesso esito con lo script fornito dalla relatrice), la rete (stesso comportamento da rete fissa e da hotspot), la temperatura, il numero massimo di token, la lunghezza del prompt e l'uso dello streaming. Una richiesta identica a una riuscita pochi minuti prima falliva. In una sessione successiva, senza alcuna modifica, tutte le richieste sono passate al primo tentativo. Si tratta quindi di disponibilità intermittente degli endpoint: lo script prevede fino a sei tentativi per campione.
+
+## 6. Lavoro preliminare (prima della definizione dell'impianto)
+
+Questa fase non fa parte dell'esperimento finale ma ne ha informato la costruzione; il codice si trova in `preliminare/`.
+
+- **Libreria `ast`**: estrazione di un riassunto strutturale di un file Python (nome e argomenti delle funzioni, docstring, numero di `return` e di `if`, eccezioni sollevate, righe di inizio e fine). Il numero di rami è legato al numero di cammini da coprire; `lineno`/`end_lineno` permettono di mappare le righe non coperte alla funzione corrispondente.
+- **Klara**: generazione automatica di scheletri di test tramite il solver SMT Z3. Su funzioni semplici individua da sé i valori di confine (per una classificazione di voti: 0, 18, 24, 28). Limite rilevante: supporta un sottoinsieme ristretto di Python e non è installabile su Python 3.12.
+- **Ciclo manuale con LLM**: generando test via chat e restituendo al modello le righe non coperte, la coverage di un file di esempio è passata dal 47% al 100% in una sola iterazione. Su funzioni semplici però il risultato è quasi garantito e non dimostra nulla: serve codice dove il primo tentativo fallisce.
+- **Codice irraggiungibile**: su un file di prova più complesso, l'unica riga non coperta dopo 46 test si è rivelata irraggiungibile per costruzione (codice difensivo mai attivabile). Ne segue che un criterio di arresto basato sul raggiungimento del 100% non è praticabile, e che le righe non coperte hanno anche un valore diagnostico.
