@@ -1,13 +1,17 @@
-"""Versione locale con Ollama, separata dal lavoro su NVIDIA.
+"""Generazione in locale con Ollama (stessi modelli, eseguiti sul proprio pc).
 
-Stessi tre modelli (stessi pesi di Meta), eseguiti sul proprio computer.
-Differenza da dichiarare in tesi: in locale sono quantizzati a 4 bit.
+I pesi sono gli stessi rilasciati da Meta e serviti da NVIDIA; in locale sono
+quantizzati a 4 bit, differenza da dichiarare in tesi.
 
-Prima volta, una tantum:
+Una tantum:
     ollama pull llama3.2:1b
+    ollama pull llama3.2:3b
+    ollama pull llama3.1:8b
 
-Uso:  python genera.py 1b 0     (modello, numero del campione)
+Uso:  python genera.py 1b 0        un campione
+      python genera_tutti.py 1b 0 99   i primi 100 campioni
 """
+
 
 import json
 import re

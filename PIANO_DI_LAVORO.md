@@ -42,14 +42,27 @@ La parte AST + Klara è dichiarata secondaria: si affronta solo dopo il resto.
 
 Cambiare uno di questi parametri obbliga a rigenerare tutti i campioni.
 
+## Dove viene eseguita la generazione
+
+Il lavoro è iniziato sui modelli serviti da **NVIDIA build** e prosegue **in locale con Ollama**, dopo che gli endpoint di NVIDIA hanno smesso di rispondere anche a una richiesta minima. I modelli sono gli stessi pesi di Meta; in locale sono quantizzati a 4 bit, differenza da dichiarare in tesi.
+
+| | cartella | stato |
+|---|---|---|
+| NVIDIA build | `benchmark/` | materiale conservato: 100 campioni con l'8B, misure e registro |
+| Ollama (locale) | `locale/` | lavoro corrente: da generare 1B, 3B e 8B |
+
+Per confrontare fra loro le tre taglie servono condizioni identiche, quindi anche l'8B va rigenerato in locale. I risultati NVIDIA restano come confronto secondario fra piena precisione e quantizzazione.
+
 ## Stato
 
 | passo | stato |
 |---|---|
 | dataset e prompt | fatto |
-| generazione 8B (100 campioni) | fatto |
-| generazione 3B (100 campioni) | da fare |
-| generazione 1B (100 campioni) | da fare |
+| generazione 8B su NVIDIA (100 campioni) | fatto, conservato |
+| misura degli esiti e della coverage (8B NVIDIA) | fatto |
+| generazione 1B in locale (100 campioni) | da fare |
+| generazione 3B in locale (100 campioni) | da fare |
+| generazione 8B in locale (100 campioni) | da fare |
 | classificazione esiti (non eseguibile / fallito / passato) | da fare |
 | coverage | da fare |
 | ripetizione righe e duplicazione | da fare |
@@ -58,7 +71,7 @@ Cambiare uno di questi parametri obbliga a rigenerare tutti i campioni.
 
 ## Prossimi passi
 
-1. `python genera_tutti.py 3b 0 99` e poi `1b`.
+1. In `locale/`: `python genera_tutti.py 1b 0 99`, poi `3b` e `8b` (serve Ollama installato e i modelli scaricati con `ollama pull`).
 2. Script di misura: per ogni file generato, controllo sintattico con `ast.parse`, esecuzione con pytest in processo isolato e con timeout, classificazione in *non eseguibile* / *eseguibile ma fallito* / *passato*.
 3. Coverage della funzione sotto test; conteggio delle esecuzioni per riga (serve un tracciatore con `sys.settrace`/`sys.monitoring`: `coverage.py` registra solo se una riga è stata eseguita, non quante volte); duplicazione fra i file di test.
 4. Aggregazione per modello, tabelle e grafici; esempio end-to-end e spiegazione visiva delle metriche.

@@ -65,11 +65,21 @@ Procedura: per ogni file generato, controllo sintattico con `ast.parse`; se supe
 
 **Confronto con i risultati pubblicati.** Il paper di UnLeakedTestBench (arXiv:2508.00408) riporta, come media su 12 modelli di dimensioni maggiori e in gran parte specializzati sul codice, Pass@1 del 41,32% e copertura di riga del 45,10%. Il 23,4% di test corretti ottenuto qui con un modello generalista da 8B è coerente con quel quadro. La coverage misurata risulta invece più alta, ma non è direttamente confrontabile: qui viene conteggiata anche l'esecuzione prodotta dai test che falliscono, e le funzioni sono i primi 100 campioni di ULT_Lite anziché l'intero benchmark.
 
-## 6. Nota metodologica: disponibilità del servizio
+## 6. Passaggio all'esecuzione in locale
+
+Dopo il completamento dei 100 campioni con il modello 8B, gli endpoint di NVIDIA build hanno smesso di rispondere: prima sui tre modelli dello studio, poi anche sul 70B usato come controllo. La verifica è stata fatta con uno script ridotto all'osso (una richiesta di cinque token con contenuto "hi", senza tentativi né parametri personalizzati), che non ha ottenuto risposta. La generazione prosegue quindi in locale con Ollama, opzione già indicata come accettabile dalla relatrice.
+
+**Corrispondenza dei modelli.** `llama3.2:1b`, `llama3.2:3b` e `llama3.1:8b` in Ollama sono gli stessi pesi rilasciati da Meta e serviti da NVIDIA. Cambia l'infrastruttura di esecuzione, non il modello. In locale i pesi sono quantizzati a 4 bit: la quantizzazione riduce la precisione numerica dei parametri per contenere l'occupazione di memoria, e tende semmai a peggiorare leggermente le prestazioni del modello — non a gonfiarle.
+
+**Uniformità del confronto.** Per confrontare fra loro le tre taglie occorre che siano trattate allo stesso modo: i 100 campioni dell'8B verranno perciò rigenerati anche in locale. I risultati ottenuti su NVIDIA restano conservati e diventano un confronto secondario ma interessante — lo stesso modello, sullo stesso campione e con lo stesso prompt, a piena precisione e quantizzato.
+
+**Parametri invariati.** Temperatura 0, `max_tokens` 1024, una funzione per richiesta, stesso template di prompt, stessa struttura dei file prodotti. Lo script di misura è il medesimo per entrambe le vie.
+
+## 7. Nota metodologica: disponibilità del servizio
 
 Durante la prima sessione di lavoro tutte le richieste di inferenza verso i tre modelli andavano in timeout, mentre l'endpoint di elenco dei modelli rispondeva regolarmente e il modello da 70B era raggiungibile. Le prove condotte hanno escluso come cause: chiave e connessione, il codice client (stesso esito con lo script fornito dalla relatrice), la rete (stesso comportamento da rete fissa e da hotspot), la temperatura, il numero massimo di token, la lunghezza del prompt e l'uso dello streaming. Una richiesta identica a una riuscita pochi minuti prima falliva. In una sessione successiva, senza alcuna modifica, tutte le richieste sono passate al primo tentativo. Si tratta quindi di disponibilità intermittente degli endpoint: lo script prevede fino a sei tentativi per campione.
 
-## 7. Lavoro preliminare (prima della definizione dell'impianto)
+## 8. Lavoro preliminare (prima della definizione dell'impianto)
 
 Questa fase non fa parte dell'esperimento finale ma ne ha informato la costruzione; il codice si trova in `preliminare/`.
 
