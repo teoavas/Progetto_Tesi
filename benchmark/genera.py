@@ -15,6 +15,9 @@ from openai import OpenAI
 from chiave import API_KEY
 
 # Modelli disponibili
+TENTATIVI = 40   # il servizio NVIDIA e' intermittente: si insiste
+PAUSA = 15       # secondi fra un tentativo e l'altro
+
 MODELLI = {
     "1b": "meta/llama-3.2-1b-instruct",
     "3b": "meta/llama-3.2-3b-instruct",
@@ -80,7 +83,7 @@ client = OpenAI(
 
 # Tentativi limitati
 testo = None
-for tentativo in range(1, 7):
+for tentativo in range(1, TENTATIVI + 1):
     print(f"  Tentativo {tentativo}...", end="", flush=True)
     try:
         completion = client.chat.completions.create(
@@ -97,7 +100,7 @@ for tentativo in range(1, 7):
 
     except Exception as e:
         print(f" ERRORE: {e}")
-        time.sleep(3)
+        time.sleep(PAUSA)
 
 if testo is None:
     raise SystemExit("Errore: nessuna risposta dopo 6 tentativi.")
