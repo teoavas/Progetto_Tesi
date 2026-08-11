@@ -36,9 +36,9 @@ La parte AST + Klara è dichiarata secondaria: si affronta solo dopo il resto.
 ## Impianto sperimentale (parametri congelati)
 
 - **Dataset**: ULT_Lite, 200 campioni; se ne usano i **primi 100 nell'ordine del file** (criterio deterministico, da dichiarare in tesi). Campi: `func_name`, `code`, `prompt` (descrizione naturale, **non** passata al modello), `task_id`, `test_list` (assert umani di riferimento).
-- **Modelli**: `meta/llama-3.2-1b-instruct`, `meta/llama-3.2-3b-instruct`, `meta/llama-3.1-8b-instruct` su NVIDIA build. Il 70B è usato solo come controllo, fuori dallo studio.
+- **Modelli**: Llama 3.2 1B, Llama 3.2 3B e Llama 3.1 8B. In locale con Ollama: `llama3.2:1b`, `llama3.2:3b`, `llama3.1:8b`; su NVIDIA build: `meta/llama-3.2-1b-instruct`, `meta/llama-3.2-3b-instruct`, `meta/llama-3.1-8b-instruct`. Il 70B è stato usato solo come controllo, fuori dallo studio.
 - **Parametri**: temperatura 0, `max_tokens` 1024, una funzione per richiesta, prompt fisso a tre sezioni `[instruction]` / `[data]` / `[format]`.
-- **Output**: un file per campione in `benchmark/generati/<modello>/`, più un registro `generazioni.csv` con `finish_reason`, numero di tentativi e secondi.
+- **Output**: un file per campione in `generati/<modello>/`, nella cartella della via usata (`locale/` o `benchmark/`).
 
 Cambiare uno di questi parametri obbliga a rigenerare tutti i campioni.
 
@@ -78,12 +78,12 @@ Per confrontare fra loro le tre taglie servono condizioni identiche, quindi anch
 
 ## Note metodologiche da riportare in tesi
 
-- **Disponibilità intermittente degli endpoint NVIDIA**: in una prima sessione tutte le richieste di inferenza andavano in timeout (con l'endpoint dei modelli funzionante e il 70B raggiungibile); in una sessione successiva, senza modifiche, tutte le richieste sono passate al primo tentativo. Lo script effettua fino a sei tentativi per campione.
+- **Disponibilità intermittente degli endpoint NVIDIA**: in una prima sessione tutte le richieste di inferenza andavano in timeout (con l'endpoint dei modelli funzionante e il 70B raggiungibile); in una sessione successiva, senza modifiche, tutte le richieste sono passate al primo tentativo. In una sessione successiva ancora gli endpoint hanno smesso di rispondere del tutto, anche a una richiesta minima: da qui il passaggio all'esecuzione in locale.
 - **Troncamento**: `finish_reason = length` va trattato come categoria a sé. Un file troncato può superare il controllo sintattico se il taglio cade a fine funzione, risultando sano ma incompleto.
 - **Pulizia dell'output**: i modelli incapsulano il codice in blocchi markdown anche quando il prompt lo vieta; lo script li rimuove. La frequenza con cui accade è essa stessa una misura di aderenza al formato.
 
 ## Punti aperti per la relatrice
 
 1. Le metriche di coverage: solo statement coverage o anche branch coverage?
-2. Il campo `test_list` (assert umani) va usato come riferimento di confronto?
+2. ~~Il campo `test_list` come riferimento?~~ Risolto: gli autori del dataset dichiarano di non rilasciare i test di riferimento, e infatti quegli assert passano solo nel 12% dei casi. Non utilizzabile.
 3. Il troncamento va contato tra i "non eseguibili" o riportato separatamente?
