@@ -13,6 +13,7 @@ Uso:  python genera.py 1b 0        un campione
 """
 
 
+import csv
 import json
 import re
 import sys
@@ -59,20 +60,16 @@ inizio = time.perf_counter()
 
 client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama",
                 timeout=600, max_retries=0)
-flusso = client.chat.completions.create(
+completion = client.chat.completions.create(
     model=MODELLI[sigla],
     messages=[{"role": "user", "content": prompt}],
     temperature=0,
     max_tokens=1024,
-    stream=True,
+    stream=False,
 )
-
-pezzi = []
-for blocco in flusso:
-    pezzo = blocco.choices[0].delta.content or ""
-    print(pezzo, end="", flush=True)
-    pezzi.append(pezzo)
-testo = "".join(pezzi)
+testo = completion.choices[0].message.content
+motivo = completion.choices[0].finish_reason  # "stop" = finito, "length" = troncato
+print(testo)
 
 
 def pulisci(t):
@@ -85,4 +82,15 @@ nome = f"test_{indice:03d}_{campione['func_name']}.py"
 cartella = QUI / "generati" / sigla
 cartella.mkdir(parents=True, exist_ok=True)
 (cartella / nome).write_text(pulisci(testo), encoding="utf-8")
-print(f"\n\n-> {nome}  ({time.perf_counter()-inizio:.0f}s)")
+
+# Registro: una riga per generazione (serve per distinguere i troncamenti)
+registro = QUI / "generazioni.csv"
+nuovo = not registro.exists()
+with registro.open("a", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    if nuovo:
+        w.writerow(["modello", "indice", "func_name", "finish_reason", "secondi"])
+    w.writerow([sigla, indice, campione["func_name"], motivo,
+                round(time.perf_counter() - inizio, 1)])
+
+print(f"\n-> generati/{sigla}/{nome}  ({motivo}, {time.perf_counter()-inizio:.0f}s)")
