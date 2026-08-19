@@ -1,10 +1,12 @@
 # Fonti: numero, chiave BibTeX, riferimento e collegamento
 
-Per ogni voce: il numero usato in `stato_dell_arte.md`, la chiave da usare in `\cite{}`, il riferimento completo e il collegamento alla pagina ufficiale da cui verificare i dati.
+Per ogni voce: la chiave da usare in `\cite{}`, il riferimento completo e il collegamento alla pagina ufficiale da cui verificare i dati.
+
+**Il numero nella prima colonna serve solo come lista di controllo** (voce 1 di 25, voce 2 di 25...) mentre verifichi le fonti una alla volta: non ha nulla a che vedere con i numeri che compariranno nel PDF, che LaTeX assegna da solo in ordine di apparizione.
 
 **Provenienza dei dati** — è utile che tu lo sappia mentre controlli:
 
-- Le voci **1, 2, 14** vengono dai PDF che hai in `paper/`: autori, sede e pagine li ho letti direttamente dal documento, quindi sono affidabili.
+- Le voci **1, 2, 14** (numeri di questa tabella) vengono dai PDF che hai in `paper/`: autori, sede e pagine li ho letti direttamente dal documento, quindi sono affidabili.
 - La voce **3** viene dal PDF di TestGenEval che avevamo consultato.
 - La voce **25** viene dal PDF indicato dalla relatrice nel capitolo core.
 - Le voci **8, 12, 13, 15, 16, 17** le ho confermate con ricerche sul web durante il lavoro.

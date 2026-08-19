@@ -1,6 +1,6 @@
 # Bibliografia per lo stato dell'arte
 
-24 riferimenti, tutti con dati editoriali verificabili (conferenza o rivista, anno, autori). Il numero fra parentesi quadre è quello usato in `stato_dell_arte.md`. In Overleaf usa `references.bib` con `\cite{chiave}`: i numeri li assegna LaTeX in ordine di apparizione.
+24 riferimenti, tutti con dati editoriali verificabili (conferenza o rivista, anno, autori). La chiave in grassetto è quella da usare con `\cite{}`. In Overleaf usa `references.bib` con `\cite{chiave}`: i numeri li assegna LaTeX in ordine di apparizione.
 
 ★ = PDF già in `paper/`.
 
@@ -8,79 +8,79 @@
 
 ## A. Benchmark e dataset
 
-**[1]** ★ D. Huang, J. M. Zhang, M. Harman, Q. Zhang, M. Du, S.-K. Ng, *Benchmarking LLMs for Unit Test Generation from Real-World Functions*, arXiv:2508.00408, 2025.
+**`huang2025ult`** ★ D. Huang, J. M. Zhang, M. Harman, Q. Zhang, M. Du, S.-K. Ng, *Benchmarking LLMs for Unit Test Generation from Real-World Functions*, arXiv:2508.00408, 2025.
 → **Fonte primaria**: definisce ULT e PLT, il dataset usato in questo lavoro. Per: decontaminazione, soglia di complessità ciclomatica, metriche Pass@k / LCov@k / BCov@k / Mut@k, risultati di riferimento.
 
-**[2]** ★ W. Wang, C. Yang, Z. Wang, Y. Huang, Z. Chu, D. Song, L. Zhang, A. R. Chen, L. Ma, *TestEval: Benchmarking Large Language Models for Test Case Generation*, Findings of NAACL 2025, pp. 3547–3562.
+**`wang2025testeval`** ★ W. Wang, C. Yang, Z. Wang, Y. Huang, Z. Chu, D. Song, L. Zhang, A. R. Chen, L. Ma, *TestEval: Benchmarking Large Language Models for Test Case Generation*, Findings of NAACL 2025, pp. 3547–3562.
 → Per: confronto fra benchmark, tre compiti di copertura, divario di difficoltà rispetto a ULT.
 
-**[3]** K. Jain, G. Synnaeve, B. Rozière, *TestGenEval: A Real World Unit Test Generation and Test Completion Benchmark*, ICLR 2025.
+**`jain2025testgeneval`** K. Jain, G. Synnaeve, B. Rozière, *TestGenEval: A Real World Unit Test Generation and Test Completion Benchmark*, ICLR 2025.
 → Per: mutation score come metrica; i modelli faticano a ragionare sull'esecuzione.
 
-**[4]** M. Chen et al., *Evaluating Large Language Models Trained on Code*, arXiv:2107.03374, 2021.
+**`chen2021humaneval`** M. Chen et al., *Evaluating Large Language Models Trained on Code*, arXiv:2107.03374, 2021.
 → Origine di **pass@k** e di HumanEval. Da citare quando introduci la metrica.
 
-**[5]** J. Austin et al., *Program Synthesis with Large Language Models*, arXiv:2108.07732, 2021.
+**`austin2021mbpp`** J. Austin et al., *Program Synthesis with Large Language Models*, arXiv:2108.07732, 2021.
 → MBPP: origine dello schema di dati (`func_name`, `code`, `test_list`) che ULT eredita — spiega perché quel campo non è ground truth.
 
-**[6]** A. Lozhkov et al., *StarCoder 2 and The Stack v2*, arXiv:2402.19173, 2024.
+**`lozhkov2024stackv2`** A. Lozhkov et al., *StarCoder 2 and The Stack v2*, arXiv:2402.19173, 2024.
 → Il corpus da cui ULT estrae le funzioni.
 
 ## B. Generazione automatica prima degli LLM
 
-**[7]** G. Fraser, A. Arcuri, *EvoSuite: Automatic Test Suite Generation for Object-Oriented Software*, ESEC/FSE 2011.
+**`fraser2011evosuite`** G. Fraser, A. Arcuri, *EvoSuite: Automatic Test Suite Generation for Object-Oriented Software*, ESEC/FSE 2011.
 
-**[8]** S. Lukasczyk, G. Fraser, *Pynguin: Automated Unit Test Generation for Python*, ICSE 2022 (Companion), pp. 168–172.
+**`lukasczyk2022pynguin`** S. Lukasczyk, G. Fraser, *Pynguin: Automated Unit Test Generation for Python*, ICSE 2022 (Companion), pp. 168–172.
 → L'equivalente di EvoSuite per Python.
 
-**[9]** J. C. King, *Symbolic Execution and Program Testing*, Communications of the ACM, 19(7), 1976, pp. 385–394.
+**`king1976symbolic`** J. C. King, *Symbolic Execution and Program Testing*, Communications of the ACM, 19(7), 1976, pp. 385–394.
 
-**[10]** L. de Moura, N. Bjørner, *Z3: An Efficient SMT Solver*, TACAS 2008, pp. 337–340.
+**`demoura2008z3`** L. de Moura, N. Bjørner, *Z3: An Efficient SMT Solver*, TACAS 2008, pp. 337–340.
 → Il solver dietro Klara, nelle prove preliminari.
 
-**[11]** T. J. McCabe, *A Complexity Measure*, IEEE TSE, SE-2(4), 1976, pp. 308–320.
+**`mccabe1976complexity`** T. J. McCabe, *A Complexity Measure*, IEEE TSE, SE-2(4), 1976, pp. 308–320.
 → Complessità ciclomatica: criterio di selezione di ULT.
 
 ## C. Generazione di assert e oracoli
 
-**[12]** C. Watson, M. Tufano, K. Moran, G. Bavota, D. Poshyvanyk, *On Learning Meaningful Assert Statements for Unit Test Cases*, ICSE 2020, pp. 1398–1409.
+**`watson2020atlas`** C. Watson, M. Tufano, K. Moran, G. Bavota, D. Poshyvanyk, *On Learning Meaningful Assert Statements for Unit Test Cases*, ICSE 2020, pp. 1398–1409.
 → Introduce il problema dell'**oracolo**.
 
-**[13]** E. Dinella, G. Ryan, T. Mytkowicz, S. K. Lahiri, *TOGA: A Neural Method for Test Oracle Generation*, ICSE 2022, pp. 2130–2141.
+**`dinella2022toga`** E. Dinella, G. Ryan, T. Mytkowicz, S. K. Lahiri, *TOGA: A Neural Method for Test Oracle Generation*, ICSE 2022, pp. 2130–2141.
 
 ## D. Generazione di test con LLM
 
-**[14]** ★ M. Schäfer, S. Nadi, A. Eghbali, F. Tip, *An Empirical Evaluation of Using Large Language Models for Automated Unit Test Generation*, IEEE TSE 50(1), 2024, pp. 85–105.
+**`schaefer2024testpilot`** ★ M. Schäfer, S. Nadi, A. Eghbali, F. Tip, *An Empirical Evaluation of Using Large Language Models for Automated Unit Test Generation*, IEEE TSE 50(1), 2024, pp. 85–105.
 → Per: costruzione del prompt, ciclo di riparazione, metrica delle **assert non banali**.
 
-**[15]** C. Lemieux, J. P. Inala, S. K. Lahiri, S. Sen, *CodaMOSA: Escaping Coverage Plateaus in Test Generation with Pre-trained Large Language Models*, ICSE 2023.
+**`lemieux2023codamosa`** C. Lemieux, J. P. Inala, S. K. Lahiri, S. Sen, *CodaMOSA: Escaping Coverage Plateaus in Test Generation with Pre-trained Large Language Models*, ICSE 2023.
 → Approccio ibrido ricerca + LLM, costruito su Pynguin (quindi Python).
 
-**[16]** J. Altmayer Pizzorno, E. D. Berger, *CoverUp: Effective High Coverage Test Generation for Python*, arXiv:2403.16218, 2024.
+**`pizzorno2024coverup`** J. Altmayer Pizzorno, E. D. Berger, *CoverUp: Effective High Coverage Test Generation for Python*, arXiv:2403.16218, 2024.
 → Generazione guidata dalle righe non coperte: l'analogo automatico del ciclo che hai provato a mano.
 
 ## E. Metriche e loro limiti
 
-**[17]** L. Inozemtseva, R. Holmes, *Coverage Is Not Strongly Correlated with Test Suite Effectiveness*, ICSE 2014, pp. 435–445.
+**`inozemtseva2014coverage`** L. Inozemtseva, R. Holmes, *Coverage Is Not Strongly Correlated with Test Suite Effectiveness*, ICSE 2014, pp. 435–445.
 → **Il riferimento chiave**: giustifica l'intera tesi.
 
-**[18]** R. Just, D. Jalali, L. Inozemtseva, M. D. Ernst, R. Holmes, G. Fraser, *Are Mutants a Valid Substitute for Real Faults in Software Testing?*, FSE 2014, pp. 654–665.
+**`just2014mutants`** R. Just, D. Jalali, L. Inozemtseva, M. D. Ernst, R. Holmes, G. Fraser, *Are Mutants a Valid Substitute for Real Faults in Software Testing?*, FSE 2014, pp. 654–665.
 
-**[19]** M. Papadakis, M. Kintis, J. Zhang, Y. Jia, Y. Le Traon, M. Harman, *Mutation Testing Advances: An Analysis and Survey*, Advances in Computers, vol. 112, 2019, pp. 275–378.
+**`papadakis2019mutation`** M. Papadakis, M. Kintis, J. Zhang, Y. Jia, Y. Le Traon, M. Harman, *Mutation Testing Advances: An Analysis and Survey*, Advances in Computers, vol. 112, 2019, pp. 275–378.
 
-**[20]** A. van Deursen, L. Moonen, A. van den Bergh, G. Kok, *Refactoring Test Code*, XP 2001, pp. 92–95.
+**`vandeursen2001testsmells`** A. van Deursen, L. Moonen, A. van den Bergh, G. Kok, *Refactoring Test Code*, XP 2001, pp. 92–95.
 → Introduce i **test smell** e il catalogo originario.
 
 ## F. Modelli e strumenti
 
-**[21]** Llama Team, AI @ Meta, *The Llama 3 Herd of Models*, arXiv:2407.21783, 2024.
+**`llama3herd`** Llama Team, AI @ Meta, *The Llama 3 Herd of Models*, arXiv:2407.21783, 2024.
 → I modelli che usi vanno citati.
 
-**[22]** H. Krekel et al., *pytest*, https://docs.pytest.org
+**`pytest`** H. Krekel et al., *pytest*, https://docs.pytest.org
 
-**[23]** N. Batchelder, *coverage.py*, https://coverage.readthedocs.io
+**`coveragepy`** N. Batchelder, *coverage.py*, https://coverage.readthedocs.io
 
-**[24]** *Ollama*, https://ollama.com
+**`ollama`** *Ollama*, https://ollama.com
 
 ---
 

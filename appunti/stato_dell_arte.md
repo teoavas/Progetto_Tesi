@@ -14,7 +14,7 @@ Cosa contiene:
 - Il collo di bottiglia: scrivere test è lento, ripetitivo e spesso trascurato. È la motivazione condivisa da tutti i lavori del settore.
 - **Cosa vuol dire "test di qualità"**: qui si anticipa la struttura del capitolo — un test deve essere corretto ed eseguibile, deve esercitare il codice, deve saper distinguere il codice giusto da quello sbagliato, e deve restare leggibile e manutenibile. Sono le quattro famiglie di metriche della sezione 2.5.
 
-Fonti: introduzioni di [1], [2], [14] (tutte e tre aprono così).
+Fonti: introduzioni di \cite{huang2025ult}, \cite{wang2025testeval}, \cite{schaefer2024testpilot} (tutte e tre aprono così).
 
 ---
 
@@ -22,13 +22,13 @@ Fonti: introduzioni di [1], [2], [14] (tutte e tre aprono così).
 
 Cosa contiene:
 
-- **Approcci search-based**: EvoSuite per Java [7], Pynguin per Python [8]. Cercano input che massimizzano la copertura tramite algoritmi evolutivi.
-- **Approcci simbolici**: esecuzione simbolica [9] e solver di vincoli (Z3 [10]) per derivare input che raggiungono cammini specifici. È la famiglia a cui appartiene Klara, con cui hai fatto le prove preliminari: su una funzione a soglie trovava da sola i valori di confine.
+- **Approcci search-based**: EvoSuite per Java \cite{fraser2011evosuite}, Pynguin per Python \cite{lukasczyk2022pynguin}. Cercano input che massimizzano la copertura tramite algoritmi evolutivi.
+- **Approcci simbolici**: esecuzione simbolica \cite{king1976symbolic} e solver di vincoli (Z3 \cite{demoura2008z3}) per derivare input che raggiungono cammini specifici. È la famiglia a cui appartiene Klara, con cui hai fatto le prove preliminari: su una funzione a soglie trovava da sola i valori di confine.
 - **Il limite comune**: questi strumenti producono test poco leggibili, e soprattutto non hanno un *oracolo*. Sanno raggiungere una riga, ma il valore atteso lo ricavano eseguendo il codice così com'è: fotografano il comportamento attuale invece di verificare quello desiderato.
 
 Perché sta qui: introduce la distinzione **raggiungere il codice** vs **sapere cosa deve restituire**, che è esattamente il divario coverage/correttezza che i tuoi dati mostrano.
 
-Fonti: EvoSuite [7], Pynguin [8], esecuzione simbolica [9], solver Z3 [10], sezione "related work" di [14].
+Fonti: EvoSuite \cite{fraser2011evosuite}, Pynguin \cite{lukasczyk2022pynguin}, esecuzione simbolica \cite{king1976symbolic}, solver Z3 \cite{demoura2008z3}, sezione "related work" di \cite{schaefer2024testpilot}.
 
 ---
 
@@ -36,9 +36,9 @@ Fonti: EvoSuite [7], Pynguin [8], esecuzione simbolica [9], solver Z3 [10], sezi
 
 Cosa contiene:
 
-- **Il salto rispetto al passato**: gli LLM producono test che assomigliano a quelli scritti dagli sviluppatori, con nomi parlanti e assert espressi in termini di comportamento atteso. Primi lavori: modelli addestrati a generare assert — ATLAS [12] e TOGA [13].
-- **TestPilot** [14] (Schäfer et al., IEEE TSE 2024): genera test senza addestramento né few-shot, costruendo il prompt con firma, documentazione ed esempi d'uso della funzione. Raggiunge il 70,2% di copertura di istruzioni mediana su pacchetti npm, contro il 51,3% dello stato dell'arte precedente. Introduce l'analisi delle **assert non banali**, cioè quelle che verificano davvero il comportamento del modulo sotto test.
-- **Approcci iterativi e ibridi**: CoverUp [16] genera i test guardando le righe non coperte e itera col modello quando falliscono; CodaMOSA [15] usa l'LLM per sbloccare la ricerca quando si arena. Vanno citati perché sono la direzione naturale del campo, ma la tua tesi resta volutamente a colpo singolo.
+- **Il salto rispetto al passato**: gli LLM producono test che assomigliano a quelli scritti dagli sviluppatori, con nomi parlanti e assert espressi in termini di comportamento atteso. Primi lavori: modelli addestrati a generare assert — ATLAS \cite{watson2020atlas} e TOGA \cite{dinella2022toga}.
+- **TestPilot** \cite{schaefer2024testpilot} (Schäfer et al., IEEE TSE 2024): genera test senza addestramento né few-shot, costruendo il prompt con firma, documentazione ed esempi d'uso della funzione. Raggiunge il 70,2% di copertura di istruzioni mediana su pacchetti npm, contro il 51,3% dello stato dell'arte precedente. Introduce l'analisi delle **assert non banali**, cioè quelle che verificano davvero il comportamento del modulo sotto test.
+- **Approcci iterativi e ibridi**: CoverUp \cite{pizzorno2024coverup} genera i test guardando le righe non coperte e itera col modello quando falliscono; CodaMOSA \cite{lemieux2023codamosa} usa l'LLM per sbloccare la ricerca quando si arena. Vanno citati perché sono la direzione naturale del campo, ma la tua tesi resta volutamente a colpo singolo.
 - **Il caso dei linguaggi a tipizzazione dinamica**: in Python mancano i tipi statici che guidano gli strumenti tradizionali, e questo rende il compito diverso da Java.
 
 Nota su TestPilot: lavora su **JavaScript**, non su Python — è probabilmente il paper che ti sembrava meno inerente. In realtà è centrale per la tua tesi, non per il linguaggio ma per il metodo: è il lavoro che definisce come si costruisce il prompt e, soprattutto, che introduce metriche di qualità oltre la copertura. Il suo diagramma di flusso prompt → test è ottimo anche per il capitolo sul tuo sistema.
@@ -51,16 +51,16 @@ Cosa contiene: il confronto fra i banchi di prova esistenti, con una tabella.
 
 | benchmark | granularità | linguaggio | dimensione | metriche | decontaminazione |
 |---|---|---|---|---|---|
-| TestEval [2] | programma singolo (LeetCode) | Python | 210 programmi | copertura complessiva, di riga/ramo mirata, di cammino mirata | no |
-| TestGenEval [3] | file | Python | 1.210 coppie codice-test | pass@k, coverage, mutation score | no |
-| UnLeakedTestBench (ULT) [1] | funzione | Python | 3.909 funzioni | Pass@k, LCov@k / BCov@k, Mut@k | sì |
+| TestEval \cite{wang2025testeval} | programma singolo (LeetCode) | Python | 210 programmi | copertura complessiva, di riga/ramo mirata, di cammino mirata | no |
+| TestGenEval \cite{jain2025testgeneval} | file | Python | 1.210 coppie codice-test | pass@k, coverage, mutation score | no |
+| UnLeakedTestBench (ULT) \cite{huang2025ult} | funzione | Python | 3.909 funzioni | Pass@k, LCov@k / BCov@k, Mut@k | sì |
 
 Punti da sviluppare:
 
 - **Granularità**: molti benchmark valutano a livello di file o classe; ULT porta la valutazione a livello di funzione, che è l'unità naturale dello unit testing.
-- **Realismo**: il codice di LeetCode è autoconsistente e artificiale, e gonfia i risultati; ULT attinge a The Stack v2 [6] (codice reale) e tiene solo funzioni con complessità ciclomatica ≥ 10, escludendo i casi banali.
+- **Realismo**: il codice di LeetCode è autoconsistente e artificiale, e gonfia i risultati; ULT attinge a The Stack v2 \cite{lozhkov2024stackv2} (codice reale) e tiene solo funzioni con complessità ciclomatica ≥ 10, escludendo i casi banali.
 - **Contaminazione dei dati**: è il problema più grave. Se le funzioni e i loro test erano nei dati di addestramento, il modello sta ricordando, non generalizzando. ULT filtra le funzioni con test pubblicamente disponibili; PreLeakedTestBench (PLT) è il sovrainsieme che le include, e serve proprio a misurare l'effetto della contaminazione per differenza. Gli autori mostrano che le prestazioni su ULT correlano con l'abilità di scrittura di codice del modello, mentre su dati contaminati sono gonfiate dalla memorizzazione, soprattutto nella copertura dei rami.
-- **Complessità ciclomatica** [11]: V = e − n + p sul grafo di controllo di flusso. Più è alta, più decisioni e cammini di esecuzione ci sono. La soglia ≥ 10 è il criterio con cui ULT garantisce funzioni non banali.
+- **Complessità ciclomatica** \cite{mccabe1976complexity}: V = e − n + p sul grafo di controllo di flusso. Più è alta, più decisioni e cammini di esecuzione ci sono. La soglia ≥ 10 è il criterio con cui ULT garantisce funzioni non banali.
 - **Divario fra benchmark**: sullo stesso compito, i modelli passano dal 91,79% di Pass@1 su TestEval al 41,32% su ULT. Il salto dice quanto pesa la scelta del banco di prova.
 
 Qui va dichiarato che il tuo lavoro usa ULT, e perché: livello di funzione, codice reale, e nessun rischio di contaminazione.
@@ -73,33 +73,33 @@ Questa è la sezione che giustifica il titolo della tesi. Ogni sottosezione: cos
 
 ### 2.5.1 Correttezza ed eseguibilità
 
-- **Pass@k** [4]: proporzione di test corretti, cioè che compilano, arrivano a termine e le cui assert esprimono aspettative valide. La metrica nasce nella valutazione dei modelli per la generazione di codice [4, 5] ed è adottata da tutti i benchmark di test [1, 2, 3].
+- **Pass@k** \cite{chen2021humaneval}: proporzione di test corretti, cioè che compilano, arrivano a termine e le cui assert esprimono aspettative valide. La metrica nasce nella valutazione dei modelli per la generazione di codice \cite{chen2021humaneval, austin2021mbpp} ed è adottata da tutti i benchmark di test \cite{huang2025ult, wang2025testeval, jain2025testgeneval}.
 - Livelli di fallimento da distinguere: codice sintatticamente non valido (verificabile con un parser AST, senza eseguire nulla), codice che non arriva all'esecuzione (import mancanti, errori di raccolta), test eseguiti che falliscono.
 - Perché la distinzione conta: un file non eseguibile e un test che fallisce dicono cose diverse sul modello — il primo è un errore di forma, il secondo un errore di ragionamento.
 
 ### 2.5.2 Copertura del codice
 
 - Copertura di istruzioni (LCov) e di ramo (BCov); copertura di cammino nei casi mirati; ΔCov come guadagno incrementale.
-- La copertura di ramo è più severa e, secondo [1], è anche quella più sensibile alla contaminazione dei dati.
+- La copertura di ramo è più severa e, secondo \cite{huang2025ult}, è anche quella più sensibile alla contaminazione dei dati.
 - Attenzione al denominatore: media sui soli file eseguibili o su tutti i campioni? Sono due domande diverse e vanno dichiarate entrambe.
 
 ### 2.5.3 Capacità di rilevare difetti
 
-- **Mutation score** (Mut@k) [19]: si iniettano difetti sintetici nel codice e si misura quanti vengono scoperti dai test. Lo strumento usato da ULT è Cosmic Ray per Python. La validità dei mutanti come sostituti dei difetti reali è argomentata in [18].
+- **Mutation score** (Mut@k) \cite{papadakis2019mutation}: si iniettano difetti sintetici nel codice e si misura quanti vengono scoperti dai test. Lo strumento usato da ULT è Cosmic Ray per Python. La validità dei mutanti come sostituti dei difetti reali è argomentata in \cite{just2014mutants}.
 - È la metrica più difficile da ingannare: per uccidere un mutante il test deve distinguere il codice sano da quello guasto, quindi deve avere un oracolo corretto e non solo passare per la riga giusta.
 
 ### 2.5.4 I limiti della copertura come indicatore
 
-- Inozemtseva & Holmes [17], *Coverage Is Not Strongly Correlated with Test Suite Effectiveness* (ICSE 2014): controllando il numero di test nella suite, la correlazione fra copertura ed efficacia scende a bassa o moderata; la dimensione della suite è un fattore confondente.
+- Inozemtseva & Holmes \cite{inozemtseva2014coverage}, *Coverage Is Not Strongly Correlated with Test Suite Effectiveness* (ICSE 2014): controllando il numero di test nella suite, la correlazione fra copertura ed efficacia scende a bassa o moderata; la dimensione della suite è un fattore confondente.
 - Esiste uno studio di replicabilità recente che riporta la stessa domanda direttamente sulle suite generate da LLM (arXiv:2607.22880): da citare se sviluppi il collegamento.
 - Conseguenza per la tesi: la copertura da sola è un indicatore parziale, e per questo servono metriche affiancate. È l'argomento che motiva l'intero lavoro.
 
 ### 2.5.5 Qualità del codice di test
 
-- **Test smell**: difetti ricorrenti di progettazione dei test. Su test generati da LLM prevalgono *Assertion Roulette* (molte assert in un test, senza messaggi, e non si capisce quale abbia fallito) e *Magic Number Test* (numeri sparsi nel codice senza spiegazione). Il concetto di test smell è introdotto in [20]; per un'analisi quantitativa su test generati da LLM vedi arXiv:2410.10628 (opzionale).
+- **Test smell**: difetti ricorrenti di progettazione dei test. Su test generati da LLM prevalgono *Assertion Roulette* (molte assert in un test, senza messaggi, e non si capisce quale abbia fallito) e *Magic Number Test* (numeri sparsi nel codice senza spiegazione). Il concetto di test smell è introdotto in \cite{vandeursen2001testsmells}; per un'analisi quantitativa su test generati da LLM vedi arXiv:2410.10628 (opzionale).
 - **Leggibilità e manutenibilità**: i test da LLM sono più leggibili di quelli generati dagli strumenti search-based, ma restano meno curati di quelli umani.
 - **Duplicazione e ridondanza**: quante righe si ripetono fra i test generati. Un modello che produce dieci varianti dello stesso caso gonfia i numeri senza aggiungere valore.
-- **Assert non banali** (da TestPilot [14]): assert che verificano davvero il comportamento, contro assert vuote o tautologiche.
+- **Assert non banali** (da TestPilot \cite{schaefer2024testpilot}): assert che verificano davvero il comportamento, contro assert vuote o tautologiche.
 
 ### 2.5.6 Metriche sul comportamento del modello
 
@@ -117,7 +117,7 @@ Cosa contiene: la sintesi che apre la strada ai capitoli successivi.
 
 Lacune individuate nella letteratura:
 
-1. **I modelli valutati sono quasi sempre grandi o specializzati sul codice.** ULT [1] valuta 12 modelli fra cui DeepSeekCoder, Qwen2.5-Coder, Gemma-3, Phi-4; i modelli generalisti molto piccoli (1-8 miliardi di parametri) sono poco esplorati, benché siano gli unici eseguibili su una macchina ordinaria.
+1. **I modelli valutati sono quasi sempre grandi o specializzati sul codice.** ULT \cite{huang2025ult} valuta 12 modelli fra cui DeepSeekCoder, Qwen2.5-Coder, Gemma-3, Phi-4; i modelli generalisti molto piccoli (1-8 miliardi di parametri) sono poco esplorati, benché siano gli unici eseguibili su una macchina ordinaria.
 2. **Le metriche vengono riportate in parallelo, ma raramente messe in tensione fra loro.** Il divario fra copertura alta e correttezza bassa è il fenomeno più interessante e merita di essere misurato esplicitamente.
 3. **Alcune dimensioni restano fuori dai benchmark**: la ridondanza fra i test generati, il numero di volte in cui la stessa riga viene rieseguita, l'aderenza al formato richiesto.
 
@@ -129,7 +129,7 @@ Contributo della tesi: valutare tre modelli di taglia crescente a parità di pro
 
 L'elenco completo e numerato è in `bibliografia.md`, con l'indicazione di cosa citare per ogni tema. Per Overleaf: `references.bib`, da richiamare con `\cite{chiave}`.
 
-I quattro PDF già in `paper/` corrispondono a [1] UnLeakedTestBench, [2] TestEval, [15] TestPilot, più i tuoi appunti di lettura.
+I quattro PDF già in `paper/` corrispondono a \cite{huang2025ult} UnLeakedTestBench, \cite{wang2025testeval} TestEval, \cite{lemieux2023codamosa} TestPilot, più i tuoi appunti di lettura.
 
 ---
 
