@@ -1,0 +1,165 @@
+\chapter{Stato dell'arte}
+\label{ch:stato_arte}
+
+% esempio da analizzare: https://developer.nvidia.com/blog/building-ai-agents-to-automate-software-test-case-creation/
+% https://dl.acm.org/doi/10.1145/3805043
+%
+
+% NOTA: il secondo collegamento e' il paper di UnLeakedTestBench \cite{huang2025ult},
+% cioe' il dataset usato in questo lavoro: e' la fonte primaria del capitolo.
+%
+% Il filo del capitolo: si parte da cosa rende buono un test, si mostra come la
+% ricerca ha provato a generarli automaticamente, e si arriva alla domanda
+% "con quali metriche giudichiamo i test prodotti da un LLM, e quali mancano?".
+% Traccia estesa di ogni sezione in appunti/stato_dell_arte.md del repository.
+
+
+\section{Il testing di unità e il costo della scrittura manuale}
+% - ruolo degli unit test: incongruenze fra specifica e implementazione, regressioni;
+%   correggere presto costa meno che correggere tardi;
+% - il collo di bottiglia: scrivere test e' lento e ripetitivo (motivazione condivisa
+%   dalle introduzioni di \cite{huang2025ult, wang2025testeval, schaefer2024testpilot});
+% - cosa vuol dire "test di qualita'": corretto ed eseguibile, esercita il codice,
+%   distingue il codice giusto da quello sbagliato, resta leggibile.
+%   Sono le quattro famiglie di metriche della sezione 2.5.
+
+
+\section{Generazione automatica di test: approcci classici}
+% - search-based: EvoSuite per Java \cite{fraser2011evosuite}, Pynguin per Python
+%   \cite{lukasczyk2022pynguin}: cercano input che massimizzano la copertura;
+% - simbolici: esecuzione simbolica \cite{king1976symbolic} e solver SMT
+%   \cite{demoura2008z3} per derivare input che raggiungono cammini specifici;
+% - il limite comune: test poco leggibili e soprattutto assenza di un oracolo.
+%   Sanno raggiungere una riga, ma il valore atteso lo ricavano eseguendo il
+%   codice cosi' com'e': fotografano il comportamento attuale invece di
+%   verificare quello desiderato.
+%
+% Questa sezione introduce la distinzione fra "raggiungere il codice" e "sapere
+% cosa deve restituire", che ritorna in tutto il resto della tesi.
+
+
+\section{Generazione di test con modelli linguistici}
+% - il salto: gli LLM producono test simili a quelli scritti dagli sviluppatori,
+%   con nomi parlanti e assert espressi in termini di comportamento atteso;
+% - primi lavori sugli oracoli: ATLAS \cite{watson2020atlas}, TOGA \cite{dinella2022toga};
+% - TestPilot \cite{schaefer2024testpilot}: genera test senza addestramento ne'
+%   few-shot, costruendo il prompt con firma, documentazione ed esempi d'uso;
+%   70,2% di copertura di istruzioni mediana contro il 51,3% dello stato dell'arte
+%   precedente; introduce l'analisi delle assert non banali;
+% - approcci iterativi e ibridi: CoverUp \cite{pizzorno2024coverup} guidato dalle
+%   righe non coperte, CodaMOSA \cite{lemieux2023codamosa} che usa l'LLM per
+%   sbloccare la ricerca quando si arena;
+% - la formulazione del prompt incide sulla qualita' dell'output: si veda
+%   \cite{tony2025prompt} per l'ottimizzazione automatica dei prompt nella
+%   generazione di codice Python;
+% - linguaggi a tipizzazione dinamica: in Python mancano i tipi statici che
+%   guidano gli strumenti tradizionali.
+
+
+\section{Benchmark per la valutazione}
+% Confronto fra i banchi di prova esistenti. Punti da sviluppare:
+% - granularita': molti benchmark valutano a livello di file o classe; ULT porta
+%   la valutazione a livello di funzione, l'unita' naturale dello unit testing;
+% - realismo: il codice LeetCode e' artificiale e gonfia i risultati; ULT attinge
+%   a The Stack v2 \cite{lozhkov2024stackv2} e tiene solo funzioni con complessita'
+%   ciclomatica \cite{mccabe1976complexity} maggiore o uguale a 10;
+% - contaminazione dei dati: se funzioni e test erano nell'addestramento, il
+%   modello ricorda invece di generalizzare. ULT filtra le funzioni con test
+%   pubblicamente disponibili; PreLeakedTestBench e' il sovrainsieme che le
+%   include e serve a misurare l'effetto della contaminazione per differenza;
+% - divario fra benchmark: dal 91,79% di Pass@1 su TestEval al 41,32% su ULT.
+
+\begin{table}[H]
+\centering
+\caption{Confronto fra i principali benchmark per la generazione di unit test.}
+\label{tab:benchmark}
+\begin{tabular}{lllll}
+\hline
+\textbf{Benchmark} & \textbf{Granularità} & \textbf{Dimensione} & \textbf{Metriche} & \textbf{Decont.} \\
+\hline
+TestEval \cite{wang2025testeval} & programma & 210 programmi & copertura & no \\
+TestGenEval \cite{jain2025testgeneval} & file & 1.210 coppie & pass@k, cov., mut. & no \\
+ULT \cite{huang2025ult} & funzione & 3.909 funzioni & Pass@k, LCov, BCov, Mut & sì \\
+\hline
+\end{tabular}
+\end{table}
+
+% Qui va dichiarato che questo lavoro usa ULT, e perche': livello di funzione,
+% codice reale, nessun rischio di contaminazione.
+
+
+\section{Metriche per la qualità dei test}
+% Sezione centrale: giustifica il titolo della tesi. Per ognuna: cosa misura,
+% come si calcola, cosa non vede.
+
+\subsection{Correttezza ed eseguibilità}
+% - Pass@k \cite{chen2021humaneval}: proporzione di test corretti, cioe' che
+%   compilano, arrivano a termine e le cui assert esprimono aspettative valide;
+%   la metrica nasce nella valutazione dei modelli per la generazione di codice
+%   \cite{chen2021humaneval, austin2021mbpp} ed e' adottata da tutti i benchmark
+%   di test \cite{huang2025ult, wang2025testeval, jain2025testgeneval};
+% - livelli di fallimento da distinguere: codice sintatticamente non valido
+%   (verificabile con un parser AST, senza eseguire nulla), codice che non arriva
+%   all'esecuzione (import mancanti, errori di raccolta), test che falliscono;
+% - la distinzione conta: un file non eseguibile e un test che fallisce dicono
+%   cose diverse sul modello, il primo e' un errore di forma, il secondo di
+%   ragionamento.
+
+\subsection{Copertura del codice}
+% - copertura di istruzioni e di ramo; copertura di cammino nei casi mirati;
+%   guadagno incrementale;
+% - la copertura di ramo e' piu' severa ed e' anche la piu' sensibile alla
+%   contaminazione dei dati \cite{huang2025ult};
+% - attenzione al denominatore: media sui soli file eseguibili oppure su tutti i
+%   campioni? Sono due domande diverse e vanno dichiarate entrambe.
+
+\subsection{Capacità di rilevare difetti}
+% - mutation score \cite{papadakis2019mutation}: si iniettano difetti sintetici e
+%   si misura quanti vengono scoperti dai test;
+% - la validita' dei mutanti come sostituti dei difetti reali e' argomentata in
+%   \cite{just2014mutants};
+% - e' la metrica piu' difficile da ingannare: per uccidere un mutante il test
+%   deve distinguere il codice sano da quello guasto, quindi deve avere un
+%   oracolo corretto e non solo passare per la riga giusta.
+
+\subsection{I limiti della copertura come indicatore}
+% - Inozemtseva e Holmes \cite{inozemtseva2014coverage}: controllando il numero di
+%   test nella suite, la correlazione fra copertura ed efficacia scende a bassa o
+%   moderata; la dimensione della suite e' un fattore confondente;
+% - conseguenza: la copertura da sola e' un indicatore parziale. E' l'argomento
+%   che motiva l'intera tesi.
+% - (opzionale) studio di replicabilita' recente sulle suite generate da LLM:
+%   arXiv:2607.22880.
+
+\subsection{Qualità del codice di test}
+% - test smell: difetti ricorrenti di progettazione dei test, catalogati in
+%   \cite{vandeursen2001testsmells}. Sui test generati da LLM prevalgono
+%   Assertion Roulette e Magic Number Test (opzionale: arXiv:2410.10628);
+% - leggibilita': i test da LLM sono piu' leggibili di quelli search-based ma
+%   meno curati di quelli umani;
+% - duplicazione e ridondanza: quante righe si ripetono fra i test generati;
+% - assert non banali \cite{schaefer2024testpilot}: assert che verificano davvero
+%   il comportamento, contro assert vuote o tautologiche.
+
+\subsection{Metriche sul comportamento del modello}
+% Non misurano i test ma il processo, e raccontano molto sui modelli piccoli:
+% aderenza al formato richiesto, troncamento della risposta per esaurimento del
+% budget di token, tempo per generazione.
+
+
+\section{Sintesi e posizionamento del lavoro}
+% Lacune individuate:
+% 1. i modelli valutati sono quasi sempre grandi o specializzati sul codice; ULT
+%    \cite{huang2025ult} ne valuta 12, ma i generalisti molto piccoli (1--8
+%    miliardi di parametri) sono poco esplorati, benche' siano gli unici
+%    eseguibili su una macchina ordinaria;
+% 2. le metriche vengono riportate in parallelo ma raramente messe in tensione
+%    fra loro: il divario fra copertura alta e correttezza bassa merita di essere
+%    misurato esplicitamente;
+% 3. restano fuori dai benchmark la ridondanza fra i test generati, il numero di
+%    riesecuzioni della stessa riga e l'aderenza al formato richiesto.
+%
+% Contributo della tesi: valutare tre modelli di taglia crescente a parita' di
+% prompt, dataset e parametri, aggiungendo alle metriche classiche misure di
+% ridondanza e di comportamento, e discutendo cosa ciascuna metrica vede e cosa
+% nasconde.

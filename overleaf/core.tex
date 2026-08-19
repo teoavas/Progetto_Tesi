@@ -1,0 +1,87 @@
+\chapter{Il sistema proposto}
+\label{ch:core}
+
+% prendere ispirazione dalla parte di formalization di questo articolo: https://iris.unica.it/bitstream/11584/461825/1/1-s2.0-S0164121225003516-main_2.pdf
+% possibilmente pensare a una figura con uno schema a blocchi
+% descrivere il sistema in modo generale, senza scendere nei dettagli implementativi
+
+% NOTA: l'articolo indicato e' \cite{tony2025prompt} (Journal of Systems and
+% Software, 2025): usarne la sezione di formalizzazione come modello per la
+% notazione di questo capitolo.
+%
+% Schema a blocchi suggerito:
+%   dataset (funzione) -> costruzione del prompt -> modello -> normalizzazione
+%   dell'output -> file di test -> esecuzione -> misure
+
+
+\section{Formalizzazione}
+% Notazione da introdurre, sul modello di \cite{tony2025prompt}:
+% - F = insieme delle funzioni sotto test, f in F;
+% - M = insieme dei modelli considerati, m in M;
+% - P(f) = prompt costruito a partire dalla funzione f tramite il template fisso;
+% - T(m, f) = file di test prodotto dal modello m per la funzione f;
+% - le metriche come funzioni definite su T(m, f) e f.
+% Definire qui i simboli usati nel capitolo dei risultati.
+
+
+\section{Architettura generale}
+% Il sistema e' una catena a colpo singolo: una funzione, una richiesta, un file
+% di test. Non c'e' iterazione di riparazione, per scelta: si vuole misurare la
+% capacita' dei modelli senza aiuti esterni.
+%
+% Blocchi:
+% 1. selezione del campione dal dataset;
+% 2. costruzione del prompt secondo un template fisso;
+% 3. invocazione del modello a parametri costanti;
+% 4. normalizzazione della risposta (rimozione di eventuali blocchi markdown);
+% 5. salvataggio in un file separato per ogni coppia (modello, funzione);
+% 6. esecuzione dei test in ambiente isolato e calcolo delle metriche.
+
+
+\section{Dataset e selezione dei campioni}
+% ULT_Lite \cite{huang2025ult}: 200 campioni in formato JSON Lines; ne vengono
+% usati i primi 100 nell'ordine del file (criterio deterministico e riproducibile).
+% Ogni campione contiene nome della funzione, codice sorgente, descrizione in
+% linguaggio naturale, identificativo e una lista di assert.
+% Nota: la descrizione in linguaggio naturale non viene passata al modello, per
+% scelta sperimentale; la lista di assert non e' utilizzabile come riferimento,
+% perche' gli autori del benchmark dichiarano di non rilasciare i test di
+% verita' per non contaminare i futuri addestramenti.
+
+
+\section{Costruzione del prompt}
+% Template fisso in tre sezioni:
+% [instruction] i vincoli: stile pytest senza classi, import esplicito della
+%   funzione sotto test, da 3 a 8 funzioni di test con nomi numerati, almeno un
+%   assert per test, divieto di riscrivere la funzione, divieto di spiegazioni e
+%   markdown;
+% [data] il solo codice della funzione;
+% [format] lo scheletro atteso dell'output.
+% Riportare il template per intero: e' parte del contributo, e permette la
+% riproducibilita'.
+% Motivazione della sezione [format]: per i modelli piccoli vedere la forma
+% attesa e' piu' efficace che leggerne la descrizione.
+
+
+\section{Modelli e parametri}
+% Tre modelli della stessa famiglia \cite{llama3herd} di dimensione crescente
+% (1B, 3B, 8B), a parita' di prompt e parametri: temperatura 0 (generazione
+% deterministica, una sola esecuzione per campione) e limite di 1024 token in
+% uscita. Il limite lascia circa il doppio dello spazio necessario a otto test:
+% chi rispetta il vincolo non viene mai troncato.
+% Discutere qui l'infrastruttura di esecuzione (servizio remoto e locale) e la
+% quantizzazione a 4 bit dei modelli eseguiti in locale.
+
+
+\section{Esecuzione e misura}
+% Per ogni file di test generato:
+% 1. controllo sintattico con il parser AST, senza eseguire il codice;
+% 2. esecuzione con pytest \cite{pytest} in una cartella temporanea isolata e con
+%    limite di tempo, accanto al file contenente la funzione sotto test;
+% 3. calcolo della copertura con coverage.py \cite{coveragepy} sulla sola
+%    funzione sotto test.
+% Classificazione dell'esito in: non eseguibile, eseguibile ma fallito, passato,
+% oltre al caso di superamento del limite di tempo.
+% Nota implementativa: il campo con il codice del dataset non include gli import
+% necessari alla funzione, che vanno anteposti ed esclusi dal calcolo della
+% copertura.

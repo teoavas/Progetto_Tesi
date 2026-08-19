@@ -1,0 +1,100 @@
+\chapter{Esperimenti e risultati}
+\label{ch:risultati}
+
+% dataset (prendere 20 campioni, arrivare a 100 sarebbe l'ideale) https://github.com/huangd1999/UnLeakedTestBench/blob/main/datasets/ULT_Lite.jsonl
+
+% modelli da https://build.nvidia.com/models?filters=usecase%3Ausecase_code_gen (prendere llama 1, 3, 8 billion)
+% settare la temperatura a zero
+
+% dichiarato il template per il prompt
+% formattare il prompt
+% [instruction] write the unit test for this function. Output only the code, formatted as ....
+% [data] <sample del dataset>
+%
+% output viene salvato in file separati
+
+% metriche da misurare
+% - quanto sono in grado di coprire il codice effettivamente (coverage)
+% - possibile misura di quanto sono rieseguite le linee (contare quante volte viene eseguita la stessa linea)
+% - quante linee sono replicate (limitato ai file di test, per esempio con questo tool https://github.com/platisd/duplicate-code-detection-tool)
+% codice non eseguibile -> errori di python o simili OPPURE test falliti (sarebbe l'ideale distinguerli)
+% - eseguibile ma fallito
+% - non eseguibile
+
+% aggiunge ulteriore valore fare la valutazione "senza LLM", ovvero con AST + KLARA
+
+% si può mettere anche un esempio di generazione di test end-to-end e la spiegazione delle metriche fatta per via visiva
+
+
+% --- da qui: struttura da riempire con i risultati definitivi ---
+
+\section{Setup sperimentale}
+% Riepilogo compatto: 100 campioni di ULT_Lite \cite{huang2025ult}, tre modelli
+% \cite{llama3herd} di taglia 1B, 3B e 8B, temperatura 0, limite di 1024 token,
+% una funzione per richiesta, un file di output per coppia (modello, funzione).
+% Dichiarare l'infrastruttura di esecuzione e la quantizzazione.
+
+
+\section{Metriche misurate}
+% Definizione operativa di ciascuna metrica, con la formula quando serve:
+% - esito: non eseguibile / eseguibile ma fallito / passato;
+% - copertura di istruzioni sulla funzione sotto test, con i due denominatori
+%   (soli file eseguibili, oppure tutti i campioni);
+% - proporzione di test corretti sul totale dei test generati;
+% - riesecuzione delle righe: quante volte la stessa riga viene eseguita;
+% - duplicazione fra i file di test;
+% - aderenza al formato e tasso di troncamento.
+
+
+\section{Risultati per modello}
+% Tabella principale: una riga per modello, colonne = metriche.
+% Grafici suggeriti:
+% - barre impilate degli esiti per modello;
+% - distribuzione della copertura (box plot) per modello;
+% - dispersione copertura contro proporzione di test corretti.
+
+\begin{table}[H]
+\centering
+\caption{Esiti dell'esecuzione dei test generati, per modello (100 campioni ciascuno).}
+\label{tab:esiti}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Modello} & \textbf{Passati} & \textbf{Falliti} & \textbf{Non eseguibili} & \textbf{Copertura media} \\
+\hline
+Llama 3.2 1B & -- & -- & -- & -- \\
+Llama 3.2 3B & -- & -- & -- & -- \\
+Llama 3.1 8B & -- & -- & -- & -- \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Copertura e correttezza}
+% Il risultato piu' rilevante emerso finora: la copertura resta alta mentre la
+% proporzione di test corretti e' bassa. Il modello sceglie input plausibili e
+% li fa arrivare al codice, ma sbaglia il valore atteso nell'assert.
+% Osservazione importante: la copertura e' alta anche grazie ai test che
+% falliscono, perche' un assert sbagliato esegue comunque la funzione prima di
+% fallire. Le due metriche vanno lette insieme.
+% Collegare a \cite{inozemtseva2014coverage}: la copertura da sola non basta.
+
+
+\section{Aderenza al formato e troncamento}
+% Quanto i modelli rispettano i vincoli del prompt, e cosa succede quando non lo
+% fanno: la violazione del vincolo sul numero di test porta all'esaurimento del
+% budget di token e quindi a file troncati, che risultano non eseguibili.
+% Notare che un file troncato puo' superare il controllo sintattico se il taglio
+% cade a fine funzione: sembra sano ma e' incompleto.
+
+
+\section{Esempio end-to-end}
+% Una funzione del dataset, il prompt costruito, il test generato dai tre
+% modelli e le metriche corrispondenti, per mostrare concretamente cosa
+% significa ciascuna misura.
+
+
+\section{Confronto con i risultati pubblicati}
+% \cite{huang2025ult} riporta, come media su 12 modelli di dimensioni maggiori e
+% in gran parte specializzati sul codice, Pass@1 del 41,32% e copertura di riga
+% del 45,10%. Discutere la coerenza dei risultati ottenuti e le differenze di
+% protocollo che rendono i numeri non direttamente confrontabili.

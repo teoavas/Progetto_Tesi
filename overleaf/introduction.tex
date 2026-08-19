@@ -1,0 +1,50 @@
+\chapter{Introduzione}
+\label{ch:introduzione}
+
+% generazione di test per progetti python con large language models
+% quanto sono in grado di coprire il codice effettivamente (coverage)
+% possibile misura di quanto sono rieseguite le linee (contare quante volte viene eseguita la stessa linea)
+% quante linee sono replicate (limitato ai file di test, per esempio con questo tool https://github.com/platisd/duplicate-code-detection-tool)
+
+
+% --- da qui: bozza da rielaborare ---
+
+Il testing di unità è una componente critica del processo di sviluppo del
+software: una suite di test di buona qualità permette di individuare le
+incongruenze tra le specifiche di un sistema e la sua implementazione, e di
+catturare le regressioni introdotte durante l'evoluzione del codice. Scrivere
+buoni test è tuttavia un'attività costosa e ripetitiva, che nella pratica viene
+spesso trascurata in tutto o in parte.
+
+I modelli linguistici di grandi dimensioni (LLM) hanno mostrato capacità
+notevoli nella generazione di codice, e la generazione automatica di unit test
+è una delle applicazioni più promettenti. Valutare la qualità dei test così
+prodotti è però tutt'altro che immediato: un test può essere sintatticamente
+valido ma non eseguibile, può eseguire il codice senza verificarne davvero il
+comportamento, oppure può raggiungere una copertura elevata pur non essendo in
+grado di individuare alcun difetto.
+
+\section{Obiettivo della tesi}
+% TODO: rifinire con la relatrice.
+
+Questa tesi studia \emph{con quali metriche} si può valutare la qualità degli
+unit test generati da un LLM, e cosa ciascuna metrica riesce a cogliere. A
+questo scopo vengono generati test per un insieme di funzioni Python reali
+utilizzando tre modelli della stessa famiglia ma di dimensione crescente, a
+parità di prompt, di dataset e di parametri di generazione; i test prodotti
+vengono poi eseguiti e misurati secondo più dimensioni: esito dell'esecuzione,
+copertura del codice, ridondanza fra i test e aderenza al formato richiesto.
+
+Il confronto fra modelli di taglia diversa a condizioni identiche permette di
+osservare quali aspetti della qualità migliorano con la dimensione del modello
+e quali no; l'uso congiunto di più metriche permette di mettere in luce
+fenomeni che una singola misura nasconderebbe.
+
+\section{Struttura del documento}
+% TODO: completare quando i capitoli saranno stabili.
+
+Il Capitolo~\ref{ch:stato_arte} inquadra lo stato dell'arte sulla generazione
+automatica di test e sulle metriche usate per valutarla. Il
+Capitolo~\ref{ch:core} descrive il sistema realizzato. Il
+Capitolo~\ref{ch:risultati} presenta gli esperimenti e i risultati ottenuti.
+Seguono le conclusioni e gli sviluppi futuri.
