@@ -15,6 +15,13 @@
 
 
 \section{Il testing di unità e il costo della scrittura manuale}
+
+
+Gli unit test sono un passaggio fondamentale dello sviluppo software, che permette agli sviluppatori di controllare che il codice scritto risulti robusto e funzioni secondo le specifiche richieste. Permette quindi di evidenziare potenziali errori nel software prima che venga effettivamente fatto operare, così come durante l'intero ciclo di vita del codice.
+
+La scrittura manuale dei test può essere vista come un grande collo di bottiglia nel processo di sviluppo. Non solo è causa di larghe perdite di tempo per l'effettiva scrittura di test ma, al contempo, richiede la conoscenza profonda del codice sul quale si sta lavorando \cite{schaefer2024testpilot}.
+
+Scrivere un "test di qualità" significa quindi assicurarsi  che questo sia innzanzitutto corretto ed eseguibile e, allo stesso tempo, deve essere in grado di esercitare il codice in modo esaustivo. Questo è reso complicato dal fatto che nelle moderne architetture di programmi interconnessi è presente spesso una logica intricata, numerose dipendenze e svariati formati di input \cite{huang2025ult}. Nel caso manuale di scrittura, implementare una test suite su un numero molto elevato di funzioni e riuscire a mantenere test di qualità alta è quindi un compito estremamente dispendioso.
 % - ruolo degli unit test: incongruenze fra specifica e implementazione, regressioni;
 %   correggere presto costa meno che correggere tardi;
 % - il collo di bottiglia: scrivere test e' lento e ripetitivo (motivazione condivisa
@@ -57,6 +64,14 @@
 
 
 \section{Benchmark per la valutazione}
+I test generati dagli LLM devono poter essere valutati tramite dei parametri per evidenziare la loro efficacia. Diversi benchmark si sono presi il diritto di raccogliere del codice per analizzare come diversi modelli sviluppassero test e su questi fosse possibile estrarre dei risultati su più metriche contemporaneamente.
+
+In UnLeakedTestbench \cite{huang2025ult} sono raccolte funzioni che rispettano a priori diversi attributi che permettono di valutare le capacità del modello sulla singola FUT (Function Under Test). 
+
+Granularità: valutazione a livello di funzione, al contrario di classi o file. Realismo: generare test partendo per esempio da codice attinto da LeetCode equivale ad esercitare il modello su qualcosa di artificiale e artificioso. ULT attinge a The Stack v2 \cite{lozhkov2024stackv2}, un'ampia raccolta di codice open-source dalla quale sono state estratte funzioni scritte in linguaggio Python di software reale. Le funzioni candidate inoltre hanno una complessità ciclomatica \cite{mccabe1976complexity} non inferiore a dieci in modo tale da eliminare a priori le funzioni triviali che avrebbero considerevolmente favorito la performance dei modelli sulla suite.
+Infine le funzioni prese sotto esame sono esenti da contaminazione: questo significa che sono codice non presente in fase di addestramento del modello in considerazione. Questo infatti avrebbe favorito la "memoria".
+
+Ad ULT è stato affiancato PLT: un superset che in maniera preliminare opera come ULT per gli altri attributi delle funzioni contentute, infatti include lo stesso ULT. All'interno però si trovano anche  tutte quelle funzioni che sono state scartate per contaminazione e risulta utile per accreditare ancor di più la tesi per la quale il codice contaminato falsa i risultati ottenuti
 % Confronto fra i banchi di prova esistenti. Punti da sviluppare:
 % - granularita': molti benchmark valutano a livello di file o classe; ULT porta
 %   la valutazione a livello di funzione, l'unita' naturale dello unit testing;
