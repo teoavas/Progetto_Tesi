@@ -13,4 +13,7 @@ jobs:
       - name: Installa dipendenze
         run: pip install -r requirements.txt
       - name: Controllo sintassi degli script
-        run: python -m compileall -q benchmark
+        # esclude generati/: contiene i test prodotti dai modelli, alcuni dei
+        # quali sono sintatticamente non validi per costruzione (e' cio' che
+        # lo studio misura), quindi non vanno compilati.
+        run: python -m compileall -q -x '(generati|__pycache__)' benchmark locale
