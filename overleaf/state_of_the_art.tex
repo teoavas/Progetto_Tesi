@@ -32,6 +32,17 @@ Scrivere un "test di qualità" significa quindi assicurarsi  che questo sia innz
 
 
 \section{Generazione automatica di test: approcci classici}
+Gli approcci classici per la generazione automatica di testing sono il primo passo per l'attuazione di un nuovo standard non basato sul lavoro diretto dell'uomo in questo campo. Quando si genera un test in primis ci si deve chiedere: con quali input "chiamo la funzione". Questo deve essere fatto in modo tale da esplorarla e coprire più casi possibili. Secondo, conoscendo gli input dati, che cosa ci aspettiamo restituisca?
+
+Ci sono due rami principali:
+
+Nel paradigma Search-Based Software Testing (SBST) la generazione dei test è vista come un problema di ottimizzazione. EvoSuite parte da un insieme casuale di test. Viene usata la copertura come fattore di merito: le suite che hanno la "coverage" più alta sopravvivono e vengono combinate tramite operatori genetici come crossover e mutazione, mentre quelle che non soddisfano la specifica desiderata vengono progressivamente scartate \cite{fraser2011evosuite}. Pynguin sfrutta lo stesso paradigma specificamente su Python (laddove EvoSuite è eseguito per classi nel linguaggio Java) nel quale lo strumento, privo di tipizzazione statica, deve effettuare un'analisi preliminare. Viene quindi fatta una scansione sul codice per trovare tipi espliciti oppure si controllano le type annotations e qualora manchino comunque le informazioni necessarie Pynguin sceglierà i tipi in modo casuale \cite{lukasczyk2022pynguin}.
+
+L'esecuzione simbolica, d'altro canto, affronta la generazione dei test come un problema matematico per raggiungere specifici cammini di esecuzione della porzione di codice sulla quale si sta lavorando \cite{king1976symbolic}. Il programma non viene eseguito con valori numerici specifici ma con simboli algebrici che rappresentano valori arbitrari. Durante l'esecuzione (in particolare quando si incontra una diramazione condizionale) viene aggiornata la "Path Condition" che descrive un determinato cammino e gli input necessario a percorrerlo. Risolvendo i vincoli logici che si incontrano è possibile risalire al valore numerico necessario a rispettare la condizione.
+
+Entrambe queste famiglie di strumenti hanno un limite di fondo: seppur eccellendo nell'esplorazione e nel raggiungere determinati rami specifici, non dispongono din un "oracolo": il valore atteso da inserire nell'asserzione viene ottenuto limitandosi a "fotografare" la situazione già esistente senza controllare le specifiche desiderate. Se la funzione contenesse un difetto, il test generato in modo automatico lo farebbe passare come corretto: saper raggiungere il codice e conoscere cosa quel codice debba restituire sono due qualità distinte e la modalità di generazione automatica dei test ha solo la prima.
+
+
 % - search-based: EvoSuite per Java \cite{fraser2011evosuite}, Pynguin per Python
 %   \cite{lukasczyk2022pynguin}: cercano input che massimizzano la copertura;
 % - simbolici: esecuzione simbolica \cite{king1976symbolic} e solver SMT
@@ -46,6 +57,9 @@ Scrivere un "test di qualità" significa quindi assicurarsi  che questo sia innz
 
 
 \section{Generazione di test con modelli linguistici}
+Un primo passo nella direzione di unire in un unico workflow sia l'esplorazione del codice che la deduzione di un oracolo è avvenuto grazie allo sviluppo di reti di apprendimento automatico. Un esempio di sviluppo di questo tipo di tecnologia è rappresentato da TOGA (Test Oracle Generation) \cite{dinella2022toga}. TOGA si colloca come ponte tra la generazione automatica e i modelli neurali: delega a due sottosistemi due compiti diversi. Ad uno strumento (come può essere EvoSuite) affida la generazione della sequenza di esecuzione (test prefix), mentre affida ad una rete neurale il compito di dedurre l'oracolo. Questo però presuppone la disposizione di un ampio corpus di addestramento della suddetta rete, ed è questo ciò che i modelli linguistici eliminano.
+
+Il salto nella generazione dei test è avvenuto proprio con i modelli linguistici di grandi dimensioni. Il vantaggio offerto dall'utilizzo di questi strumenti sta nella capacità di avvicinarsi di più al risultato corretto, "indovinando" a partire dal nome della funzione, dalla docstring oppure in altri casi dagli stessi schemi visti in fase di addestramento \cite{schaefer2024testpilot}. Un ulteriore vantaggio è la leggibilità: i nomi dei test sono descrittivi e le asserzioni esprimono il comportamento della funzione. Il valore atteso proviene da un'ipotesi su ciò che il codice dovrebbe fare, non da ciò che fa.
 % - il salto: gli LLM producono test simili a quelli scritti dagli sviluppatori,
 %   con nomi parlanti e assert espressi in termini di comportamento atteso;
 % - primi lavori sugli oracoli: ATLAS \cite{watson2020atlas}, TOGA \cite{dinella2022toga};
@@ -71,7 +85,7 @@ In UnLeakedTestbench \cite{huang2025ult} sono raccolte funzioni che rispettano a
 Granularità: valutazione a livello di funzione, al contrario di classi o file. Realismo: generare test partendo per esempio da codice attinto da LeetCode equivale ad esercitare il modello su qualcosa di artificiale e artificioso. ULT attinge a The Stack v2 \cite{lozhkov2024stackv2}, un'ampia raccolta di codice open-source dalla quale sono state estratte funzioni scritte in linguaggio Python di software reale. Le funzioni candidate inoltre hanno una complessità ciclomatica \cite{mccabe1976complexity} non inferiore a dieci in modo tale da eliminare a priori le funzioni triviali che avrebbero considerevolmente favorito la performance dei modelli sulla suite.
 Infine le funzioni prese sotto esame sono esenti da contaminazione: questo significa che sono codice non presente in fase di addestramento del modello in considerazione. Questo infatti avrebbe favorito la "memoria".
 
-Ad ULT è stato affiancato PLT: un superset che in maniera preliminare opera come ULT per gli altri attributi delle funzioni contentute, infatti include lo stesso ULT. All'interno però si trovano anche  tutte quelle funzioni che sono state scartate per contaminazione e risulta utile per accreditare ancor di più la tesi per la quale il codice contaminato falsa i risultati ottenuti
+Ad ULT è stato affiancato PLT: un superset che in maniera preliminare opera come ULT per gli altri attributi delle funzioni contentute, infatti include lo stesso ULT. All'interno però si trovano anche  tutte quelle funzioni che sono state scartate per contaminazione e risulta utile per accreditare ancor di più la tesi per la quale il codice contaminato falsa i risultati ottenuti.
 % Confronto fra i banchi di prova esistenti. Punti da sviluppare:
 % - granularita': molti benchmark valutano a livello di file o classe; ULT porta
 %   la valutazione a livello di funzione, l'unita' naturale dello unit testing;

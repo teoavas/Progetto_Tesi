@@ -45,7 +45,7 @@ Dove non sono certo dell'indirizzo esatto della pagina, trovi scritto *(da confe
 
 | chiave | riferimento | collegamento |
 |---|---|---|
-| 📄 `schaefer2024testpilot` | Schäfer, Nadi, Eghbali, Tip — *An Empirical Evaluation of Using LLMs for Automated Unit Test Generation*, IEEE TSE 50(1), 2024, pp. 85–105 | https://dl.acm.org/doi/10.1109/TSE.2023.3334955 *(da confermare)* — hai il PDF in `paper/` |
+| 📄 `schaefer2024testpilot` | Schäfer, Nadi, Eghbali, Tip — *An Empirical Evaluation of Using LLMs for Automated Unit Test Generation*, IEEE TSE 50(1), 2024, pp. 85–105 | https://doi.org/10.1109/TSE.2023.3334955 — **verificato dalla prima pagina del PDF** in `paper/TestPilot_Schaefer_TSE2024.pdf` (volume, numero, pagine e DOI). Preprint con abstract ed export BibTeX: https://arxiv.org/abs/2302.06527 — Scholar: https://scholar.google.com/scholar_lookup?arxiv_id=2302.06527 |
 | 🔎 `lemieux2023codamosa` | Lemieux, Inala, Lahiri, Sen — *CodaMOSA*, ICSE 2023 | https://www.microsoft.com/en-us/research/publication/codamosa-escaping-coverage-plateaus-in-test-generation-with-pre-trained-large-language-models/ |
 | 🔎 `pizzorno2024coverup` | Altmayer Pizzorno, Berger — *CoverUp: Effective High Coverage Test Generation for Python*, 2024 | https://arxiv.org/abs/2403.16218 |
 
