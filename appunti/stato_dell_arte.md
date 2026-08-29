@@ -71,6 +71,8 @@ Qui va dichiarato che il tuo lavoro usa ULT, e perché: livello di funzione, cod
 
 Questa è la sezione che giustifica il titolo della tesi. Ogni sottosezione: cosa misura, come si calcola, cosa non vede.
 
+**Come scriverla, alla luce del piano di misura concordato** (vedi `appunti_esperimenti.md` §9). Il 2.5 è una rassegna della letteratura, non l'elenco di ciò che farai: quello sta nel capitolo 3. Però l'ordine delle sottosezioni deve preparare il capitolo 4, così che ogni metrica che poi misuri risulti già definita e già problematizzata qui. Le metriche effettivamente calcolate sono cinque — copertura di riga e di ramo, duplicazione, aderenza al formato, mutation score, tempo di generazione — e tutte in percentuale. Le altre (test smell, leggibilità, assert non banali, somiglianza con i test umani) restano in questa sezione come stato dell'arte e tornano negli sviluppi futuri: è esattamente ciò che intende la relatrice quando dice "quello che non misuriamo si può mettere nei related e menzionare nei future work".
+
 ### 2.5.1 Correttezza ed eseguibilità
 
 - **Pass@k** \cite{chen2021humaneval}: proporzione di test corretti, cioè che compilano, arrivano a termine e le cui assert esprimono aspettative valide. La metrica nasce nella valutazione dei modelli per la generazione di codice \cite{chen2021humaneval, austin2021mbpp} ed è adottata da tutti i benchmark di test \cite{huang2025ult, wang2025testeval, jain2025testgeneval}.

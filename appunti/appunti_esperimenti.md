@@ -87,3 +87,62 @@ Questa fase non fa parte dell'esperimento finale ma ne ha informato la costruzio
 - **Klara**: generazione automatica di scheletri di test tramite il solver SMT Z3. Su funzioni semplici individua da sé i valori di confine (per una classificazione di voti: 0, 18, 24, 28). Limite rilevante: supporta un sottoinsieme ristretto di Python e non è installabile su Python 3.12.
 - **Ciclo manuale con LLM**: generando test via chat e restituendo al modello le righe non coperte, la coverage di un file di esempio è passata dal 47% al 100% in una sola iterazione. Su funzioni semplici però il risultato è quasi garantito e non dimostra nulla: serve codice dove il primo tentativo fallisce.
 - **Codice irraggiungibile**: su un file di prova più complesso, l'unica riga non coperta dopo 46 test si è rivelata irraggiungibile per costruzione (codice difensivo mai attivabile). Ne segue che un criterio di arresto basato sul raggiungimento del 100% non è praticabile, e che le righe non coperte hanno anche un valore diagnostico.
+
+## 9. Piano di misura concordato con la relatrice (agosto 2026)
+
+Indicazioni ricevute per email, integrate con gli appunti presi a voce.
+
+### 9.1 L'albero di classificazione
+
+È la struttura portante dei capitoli 3 e 4, e va disegnata come figura nella tesi.
+
+```
+N campioni
+├─ test NON scritti                    (parte statica: fallimento della pipeline)
+│     nessuna risposta, risposta vuota, errore dell'endpoint
+└─ test SCRITTI
+      ├─ sintatticamente non validi    (parte statica: ast.parse fallisce)
+      └─ sintatticamente validi
+            ├─ FALLITI                 (parte dinamica: almeno un test non passa)
+            │     da raggruppare per categoria di fallimento
+            └─ PASSATI                 (parte dinamica: tutti i test passano)
+```
+
+Il taglio statico/dinamico coincide con quello fra ciò che si stabilisce senza eseguire nulla (`ast.parse`, `finish_reason`, aderenza al formato) e ciò che richiede l'esecuzione. Ogni ramo si riporta come **percentuale**, e **separatamente per ogni modello**.
+
+### 9.2 Metriche da calcolare
+
+Insieme definitivo, tutte in percentuale per renderle indipendenti dal setup:
+
+| metrica | denominatore | stato |
+|---|---|---|
+| esiti dell'albero (§9.1) | campioni del modello | parziale: da separare "non scritti" da "non eseguibili" |
+| copertura di riga | righe eseguibili della funzione | fatta |
+| copertura di ramo | rami della funzione | **da aggiungere**: `coverage run --branch` |
+| duplicazione | righe di test duplicate su righe di test totali | da scrivere |
+| aderenza al formato | campioni del modello | da scrivere |
+| mutation score | mutanti non equivalenti uccisi | da scrivere (Cosmic Ray, su un sottoinsieme) |
+| tempo di generazione | — | già in `generazioni.csv`, da unire |
+
+Escluse d'accordo con la relatrice: accuratezza semantica delle assert, perché richiede analisi umana.
+
+### 9.3 Punti da chiarire con la relatrice
+
+1. **"Coverage e duplicazione sui test che hanno successo".** Se "successo" significa il *file* intero, sull'8B il campione si riduce a 3 casi su 100 e la misura non dice nulla. Se significa la *singola funzione di test* — lettura coerente con il Pass@k di ULT, che conta i test corretti e non i file — allora la base è ampia (187 test su 800) e la misura ha senso. Proposta operativa: rieseguire la suite deselezionando i test che falliscono e misurare copertura e duplicazione su quel sottoinsieme, riportando comunque anche il valore su tutti i test.
+   Motivo per riportare entrambi: la copertura è alta **anche grazie** ai test che falliscono, perché un assert sbagliato esegue comunque la funzione prima di fallire. Restringersi ai soli test passati cancella il risultato più interessante del lavoro (77,4% di copertura contro 23,4% di test corretti).
+2. **"Aderenza al formato (explicit typing)".** Il template del prompt non chiede annotazioni di tipo: i vincoli verificabili sono stile pytest senza classi, import `from funzione import ...`, da 3 a 8 test con nomi numerati, almeno un assert per test, assenza di markdown. Da chiedere se intendeva altro.
+3. **"Imitation score".** Termine non standard. L'interpretazione più probabile è la somiglianza fra test generati e test umani, misurata in TestPilot \cite{schaefer2024testpilot} con la distanza di edit normalizzata (il 92,8% dei test generati ha meno del 50% di somiglianza con quelli esistenti). Così definita è automatizzabile; da confermare.
+4. **Tempo di generazione.** Misurabile, ma confrontabile solo a parità di infrastruttura: sull'8B si passa da ~3 secondi su NVIDIA a ~29-79 secondi in locale con pesi quantizzati. Il confronto fra le tre taglie va fatto solo sui dati locali.
+
+### 9.4 Modifiche necessarie a `misura.py`
+
+- salvare l'output integrale di pytest per ogni campione (`report/<sigla>/<indice>.txt`): serve per l'analisi dei fallimenti e la loro categorizzazione;
+- distinguere "non scritto" (file assente o vuoto) da "sintatticamente non valido";
+- aggiungere `--branch` al comando di coverage;
+- contare le funzioni di test presenti nel file tramite AST, per avere il denominatore per campione;
+- unire il tempo di generazione da `generazioni.csv`.
+
+### 9.5 Cosa non misuriamo
+
+Va nella sezione dei lavori correlati (il capitolo 2, lo stato dell'arte) e ripreso negli sviluppi futuri: test smell, leggibilità, assert non banali, ridondanza misurata come riesecuzione delle righe se non si arriva a implementarla.
+
