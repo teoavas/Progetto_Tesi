@@ -32,6 +32,7 @@ Scrivere un "test di qualità" significa quindi assicurarsi  che questo sia innz
 
 
 \section{Generazione automatica di test: approcci classici}
+\label{sec:classici}
 Gli approcci classici per la generazione automatica di testing sono il primo passo per l'attuazione di un nuovo standard non basato sul lavoro diretto dell'uomo in questo campo. Quando si genera un test in primis ci si deve chiedere: con quali input "chiamo la funzione". Questo deve essere fatto in modo tale da esplorarla e coprire più casi possibili. Secondo, conoscendo gli input dati, che cosa ci aspettiamo restituisca?
 
 Ci sono due rami principali:
@@ -78,11 +79,12 @@ Il salto nella generazione dei test è avvenuto proprio con i modelli linguistic
 
 
 \section{Benchmark per la valutazione}
-I test generati dagli LLM devono poter essere valutati tramite dei parametri per evidenziare la loro efficacia. Diversi benchmark si sono presi il diritto di raccogliere del codice per analizzare come diversi modelli sviluppassero test e su questi fosse possibile estrarre dei risultati su più metriche contemporaneamente.
+\label{sec:bench}
+I test generati dagli LLM devono poter essere valutati tramite dei parametri per evidenziare la loro efficacia. Diversi studi si sono prodigati per analizzare come diversi modelli sviluppassero test e su questi fosse possibile estrarre dei risultati su più metriche contemporaneamente.
 
 In UnLeakedTestbench \cite{huang2025ult} sono raccolte funzioni che rispettano a priori diversi attributi che permettono di valutare le capacità del modello sulla singola FUT (Function Under Test). 
 
-Granularità: valutazione a livello di funzione, al contrario di classi o file. Realismo: generare test partendo per esempio da codice attinto da LeetCode equivale ad esercitare il modello su qualcosa di artificiale e artificioso. ULT attinge a The Stack v2 \cite{lozhkov2024stackv2}, un'ampia raccolta di codice open-source dalla quale sono state estratte funzioni scritte in linguaggio Python di software reale. Le funzioni candidate inoltre hanno una complessità ciclomatica \cite{mccabe1976complexity} non inferiore a dieci in modo tale da eliminare a priori le funzioni triviali che avrebbero considerevolmente favorito la performance dei modelli sulla suite.
+Granularità: valutazione a livello di funzione, al contrario di classi o file. Realismo: generare test partendo per esempio da codice attinto da LeetCode equivale ad esercitare il modello su qualcosa di artificiale e non attinente a come verrebbe scritto da un umano. ULT attinge a The Stack v2 \cite{lozhkov2024stackv2}, un'ampia raccolta di codice open-source dalla quale sono state estratte funzioni scritte in linguaggio Python di software reale. Le funzioni candidate inoltre hanno una complessità ciclomatica \cite{mccabe1976complexity} non inferiore a dieci in modo tale da eliminare a priori le funzioni triviali che avrebbero considerevolmente favorito la performance dei modelli sulla suite.
 Infine le funzioni prese sotto esame sono esenti da contaminazione: questo significa che sono codice non presente in fase di addestramento del modello in considerazione. Questo infatti avrebbe favorito la "memoria".
 
 Ad ULT è stato affiancato PLT: un superset che in maniera preliminare opera come ULT per gli altri attributi delle funzioni contentute, infatti include lo stesso ULT. All'interno però si trovano anche  tutte quelle funzioni che sono state scartate per contaminazione e risulta utile per accreditare ancor di più la tesi per la quale il codice contaminato falsa i risultati ottenuti.
@@ -118,65 +120,170 @@ ULT \cite{huang2025ult} & funzione & 3.909 funzioni & Pass@k, LCov, BCov, Mut & 
 
 
 \section{Metriche per la qualità dei test}
+La valutazione di un test generato da un modello linguistico va oltre il fatto che questo sia sintatticamente valido e sia eseguito senza errori. Sebbene siano condizioni necessarie, non sono sufficienti a descriverne tutti gli aspetti. La letteratura ne affronta molti altri: quanto il test sia capace di esplorare il codice, se sia in grado di individuare un'implementazione difettosa, la ridondanza e la duplicazione.
+
+Solo la lettura congiunta di queste misure è capace di restituire una panoramica adeguata sull'affidabilità del test.
+
+
 % Sezione centrale: giustifica il titolo della tesi. Per ognuna: cosa misura,
-% come si calcola, cosa non vede.
+% come si calcola, cosa non vede. L'ordine e' argomentativo: si parte da cosa
+% significa che un test "funziona", si passa a quanto esercita il codice, si
+% mostra perche' quella misura da sola inganna, e si arriva alle metriche che
+% coprono il vuoto.
 
 \subsection{Correttezza ed eseguibilità}
+In primis il test deve essere generato: un modello può fornire una risposta vuota o non rispondere affatto anche se il prompt fornito è lo stesso di quelli per cui ha risposto correttamente. Questo tipo di fallimento avviene quindi nella pipeline di generazione del test e va contato separatamente dalle altre metriche: queste infatti possono essere estratte solo alla fine del processo.
+In ordine segue poi la correttezza sintattica del test: questa può essere verificata con un parser AST ancor prima che il test venga eseguito. Poi il codice sintatticamente corretto ma che non arriva all'esecuzione per esempio a causa di import mancanti o incompleti. Infine la differenza tra test eseguiti che falliscono e test che invece passano.
+
+La metrica che esprime la proporzione di test passati è chiamata Pass@k \cite{chen2021humaneval}: test corretti sintatticamente che arrivano a termine e le cui assert esprimono aspettative esatte sul comportamento della funzione. Questa qualità è valutata sul singolo test: è il numero di test validi per funzione diviso il numero di test richiesti ($K$). Il calcolo di Pass@k passa attraverso $C_i$, definito come il numero di test corretti generati per la i-esima funzione (dove $0 \leq C_i \leq K$). Se chiamiamo con $N$ il numero totale di funzioni in un benchmark, secondo la formulazione di Huang et al. \cite{huang2025ult} otteniamo: \begin{equation}
+Pass@k = \frac{\sum_{i=1}^{N} C_i}{N \times K}.
+\label{eq:passk}
+\end{equation} 
+
+Questa metrica nasce per la valutazione dei modelli nella generazione di codice \cite{chen2021humaneval} e viene adottata da tutti i benchmark di testing \cite{huang2025ult, wang2025testeval, jain2025testgeneval}. Non è però capace di distinguere autonomamente un errore di forma da un errore di ragionamento ed è quindi necessario attribuire dei livelli di fallimento.
+% - la prima domanda non e' se il test sia buono ma se esista: un modello puo'
+%   non rispondere affatto, o restituire una risposta vuota. E' il fallimento
+%   della pipeline, e va contato separatamente da tutto il resto;
+% - i livelli successivi, in ordine di severita' crescente: codice
+%   sintatticamente non valido (verificabile con un parser AST, senza eseguire
+%   nulla), codice che non arriva all'esecuzione (import mancanti, errori di
+%   raccolta), test eseguiti che falliscono, test che passano;
 % - Pass@k \cite{chen2021humaneval}: proporzione di test corretti, cioe' che
-%   compilano, arrivano a termine e le cui assert esprimono aspettative valide;
-%   la metrica nasce nella valutazione dei modelli per la generazione di codice
+%   compilano, arrivano a termine e le cui assert esprimono aspettative valide.
+%   Da precisare che la metrica e' definita sul SINGOLO test, non sul file: in
+%   \cite{huang2025ult} e' il numero di test corretti per funzione diviso il
+%   numero di test richiesti. Un file con sei test di cui quattro passano non e'
+%   ne' un successo ne' un fallimento;
+% - la metrica nasce nella valutazione dei modelli per la generazione di codice
 %   \cite{chen2021humaneval, austin2021mbpp} ed e' adottata da tutti i benchmark
 %   di test \cite{huang2025ult, wang2025testeval, jain2025testgeneval};
-% - livelli di fallimento da distinguere: codice sintatticamente non valido
-%   (verificabile con un parser AST, senza eseguire nulla), codice che non arriva
-%   all'esecuzione (import mancanti, errori di raccolta), test che falliscono;
-% - la distinzione conta: un file non eseguibile e un test che fallisce dicono
-%   cose diverse sul modello, il primo e' un errore di forma, il secondo di
-%   ragionamento.
+% - perche' la distinzione conta: un file non eseguibile e un test che fallisce
+%   dicono cose diverse sul modello, il primo e' un errore di forma, il secondo
+%   di ragionamento.
 
 \subsection{Copertura del codice}
-% - copertura di istruzioni e di ramo; copertura di cammino nei casi mirati;
-%   guadagno incrementale;
-% - la copertura di ramo e' piu' severa ed e' anche la piu' sensibile alla
-%   contaminazione dei dati \cite{huang2025ult};
-% - attenzione al denominatore: media sui soli file eseguibili oppure su tutti i
-%   campioni? Sono due domande diverse e vanno dichiarate entrambe.
+La copertura è un'altra metrica nella valutazione dei test. In linea generale può essere definita come quella qualità che esprime quanto il codice viene esplorato. Secondo la definizione adottata da Huang et al. \cite{huang2025ult} può essere espressa secondo due sottometriche: coprtura di riga (LCov@k) e copertura di ramo (BCov@k). La prima è la percentuale delle linee di codice eseguite dai test case generati dalle prime k richieste (in questo caso k indica il numero di richieste fatte al modello). La seconda è la percentuale di rami di esecuzione attraversati dai casi di test nelle prime k richieste. Data una suite di funzioni ad alta complessità ciclomatica, la Branch Coverage è quella che discrimina meglio tra modelli ed è la più sensibile alla contaminazione dei dati \cite{huang2025ult}.
 
-\subsection{Capacità di rilevare difetti}
-% - mutation score \cite{papadakis2019mutation}: si iniettano difetti sintetici e
-%   si misura quanti vengono scoperti dai test;
-% - la validita' dei mutanti come sostituti dei difetti reali e' argomentata in
-%   \cite{just2014mutants};
-% - e' la metrica piu' difficile da ingannare: per uccidere un mutante il test
-%   deve distinguere il codice sano da quello guasto, quindi deve avere un
-%   oracolo corretto e non solo passare per la riga giusta.
+Una nota fondamentale da riportare è che la coverage è ottenuta anche dai test che falliscono perché un assert errato esegue comunque la funzione prima di sollevare l'eccezione.
+
+% - copertura di istruzioni e di ramo; copertura di cammino nei casi mirati;
+%   guadagno incrementale al crescere del numero di test;
+% - la copertura di ramo e' piu' severa, e su funzioni ad alta complessita'
+%   ciclomatica e' quella che discrimina davvero fra i modelli; secondo
+%   \cite{huang2025ult} e' anche la piu' sensibile alla contaminazione dei dati;
+% - attenzione al denominatore: media sui soli file eseguibili oppure su tutti i
+%   campioni? Sono due domande diverse e vanno dichiarate entrambe;
+% - osservazione che prepara la sottosezione seguente: la copertura si ottiene
+%   anche dai test che falliscono, perche' un assert sbagliato esegue comunque
+%   la funzione prima di sollevare l'errore.
 
 \subsection{I limiti della copertura come indicatore}
-% - Inozemtseva e Holmes \cite{inozemtseva2014coverage}: controllando il numero di
-%   test nella suite, la correlazione fra copertura ed efficacia scende a bassa o
-%   moderata; la dimensione della suite e' un fattore confondente;
-% - conseguenza: la copertura da sola e' un indicatore parziale. E' l'argomento
-%   che motiva l'intera tesi.
+L'efficacia della misura di copertura del codice è dibattuta in letteratura. Secondo lo studio effettuato da Inozemtseva e Holmes \cite{inozemtseva2014coverage} la correlazione tra il livello di copertura e l'efficacia nell'individuare i difetti è è più debole di quanto comunemente si assuma. Gli autori hanno descritto come la dimensione della suite di test possa agire come fattore confondente. Una volta reso costante il numero di test presenti nella suite, la correlazione sopra citata scende a bassa o moderata. La critica appare evidente se accostata a ciò che è stato detto nella Sezione~\ref{sec:classici}: raggiungere una riga non implica sapere cosa questa debba produrre.
+% - Inozemtseva e Holmes \cite{inozemtseva2014coverage}: controllando il numero
+%   di test nella suite, la correlazione fra copertura ed efficacia scende a
+%   bassa o moderata; la dimensione della suite e' un fattore confondente;
+% - il punto e' quello gia' incontrato nel 2.2 con gli strumenti search-based:
+%   raggiungere una riga non significa sapere cosa quella riga debba produrre.
+%   La copertura misura il primo aspetto e ignora il secondo;
+% - conseguenza per la tesi: la copertura da sola e' un indicatore parziale, e
+%   serve affiancarle metriche che guardino l'oracolo. E' l'argomento che motiva
+%   l'intero lavoro;
 % - (opzionale) studio di replicabilita' recente sulle suite generate da LLM:
 %   arXiv:2607.22880.
 
+\subsection{Capacità di rilevare difetti}
+Il mutation score (Mut@k) risponde direttamente al limite sopra descritto della copertura nella valutazione. Viene effettuato introducendo piccole modifiche sintattiche (un "+" che diventa "-", un "$>$" che diventa "$\geq$") ottenendo versioni difettose della funzione, dette mutanti. Una test suite uccide un mutante se fallisce quando viene eseguita sul codice mutato, mentre passa correttamente su quello originale. Nel lavoro sviluppato da Huang et al. è stato posto un timeout pari a 120 secondi in modo da evitare che la suite di test elabori per troppo tempo su un mutante \cite{huang2025ult}. Gli stessi autori riportano la formulazione per ottenere il punteggio: \begin{equation}
+Mut@k = \frac{\sum_{i=1}^{N} M_i}{N}.
+\label{eq:mutk}
+\end{equation}, 
+dove $N$ è il numero totale di funzioni in un benchmark mentre $M_i$ la proporzione di mutanti uccisi dalla suite generata per la i-esima funzione.
+
+Il mutation score è la metrica più difficile da ingannare: il test per uccidere il mutante deve essere in grado di discernere il codice sano da quello difettoso, quindi deve essere in possesso di un oracolo funzionante. Il costo tuttavia è elevato perché richiede l'intera riesecuzione della test suite per ogni mutante: è quindi spesso riportato a livello di sottoinsiemi.
+% E' la risposta diretta al limite appena descritto.
+% - mutation score \cite{papadakis2019mutation}: si iniettano difetti sintetici
+%   nel codice sotto test (un "+" che diventa "-", un ">" che diventa ">=") e si
+%   misura quanti di questi mutanti vengono "uccisi", cioe' fanno fallire la
+%   suite. Lo strumento usato da \cite{huang2025ult} per Python e' Cosmic Ray;
+% - la validita' dei mutanti come sostituti dei difetti reali e' argomentata in
+%   \cite{just2014mutants};
+% - e' la metrica piu' difficile da ingannare: per uccidere un mutante il test
+%   deve distinguere il codice sano da quello guasto, quindi deve possedere un
+%   oracolo corretto e non limitarsi a passare per la riga giusta;
+% - costo: richiede di rieseguire l'intera suite su ogni mutante, ed e' la
+%   ragione per cui viene spesso riportata su sottoinsiemi.
+
+\subsection{Duplicazione e ridondanza}
+La misura della copertura può essere gonfiata dal modello se produce diverse varianti per lo stesso caso: questa particolare situazione ha come effetto che i numeri salgono ma il valore diagnostico no.
+A livello operativo è quindi utile riportare in valore percentuale, così da prescindere dalla lunghezza complessiva, le righe che si ripetono fra i test della stessa suite rapportate al totale delle righe di test.
+
+La duplicazione risulta essere una metrica complementare e non sostitutiva della copertura. Questa misura non viene riportata da nessuno dei benchmark della Sezione~\ref{sec:bench}. Il lavoro che gli si avvicina di più è TestPilot \cite{schaefer2024testpilot}, che misura la distanza tra i test generati e quelli già presenti. La differenza è che in questo caso la ridondanza è misurata confrontando con i test già presenti all'esterno (per esempio quelli generati manualmente) ma non internamente alla suite.
+% - un modello puo' gonfiare la copertura producendo molte varianti dello stesso
+%   caso: i numeri salgono, il valore diagnostico no;
+% - definizione operativa: percentuale di righe duplicate sul totale delle righe
+%   di test. Riportarla in percentuale la rende indipendente dalla lunghezza dei
+%   file e quindi confrontabile fra modelli;
+% - misura complementare, non alternativa: due suite con la stessa copertura ma
+%   diversa duplicazione non hanno lo stesso valore;
+% - nessuno dei benchmark del 2.4 la riporta.
+
 \subsection{Qualità del codice di test}
+I test smell sono difetti di progettazione che non fanno fallire i test ma li rendono fragili, difficili da mantenere e riutilizzare. Sono catalogati da van Deursen et al. \cite{vandeursen2001testsmells}. L'idea dietro il lavoro è che il fatto di passare non è garanzia di qualità.
+
+Un difetto ricorrente nei test generati dai LLM è l'Assertion Roulette,
+che si verifica quando un test contiene molte asserzioni prive di messaggi esplicativi. Questo è qualcosa di altamente problematico dal punto di vista ingegneristico perché non fornisce informazioni sulla causa di un errore, solo sul fatto che è avvenuto.
+
+Alla stessa area appartengono la leggibilità e la manutenibilità del codice di test: i test generati da un modello linguistico tendono ad essere più leggibili di quelli prodotti dagli strumenti search-based, rispettano una struttura convenzionale e adottano nomi descrittivi.
+
+Nello stesso contesto si colloca l'analisi delle asserzioni banali (trivial assertions), affrontata da Schäfer et al. in TestPilot \cite{schaefer2024testpilot}. Si tratta di asserzioni che non verificano la reale correttezza del comportamento del software, poiché risultano prive di significato o tautologiche pur contribuendo nominalmente alla copertura del codice.
+
+Tutte le dimensioni sopra citate non vengono misurate in questo lavoro perché richiedono valutazione umana o strumenti dedicati, e sono riprese fra gli sviluppi futuri.
 % - test smell: difetti ricorrenti di progettazione dei test, catalogati in
 %   \cite{vandeursen2001testsmells}. Sui test generati da LLM prevalgono
-%   Assertion Roulette e Magic Number Test (opzionale: arXiv:2410.10628);
-% - leggibilita': i test da LLM sono piu' leggibili di quelli search-based ma
-%   meno curati di quelli umani;
-% - duplicazione e ridondanza: quante righe si ripetono fra i test generati;
+%   Assertion Roulette (molte assert senza messaggi, non si capisce quale abbia
+%   fallito) e Magic Number Test (opzionale: arXiv:2410.10628);
+% - leggibilita' e manutenibilita': i test da LLM sono piu' leggibili di quelli
+%   search-based, con nomi parlanti e struttura convenzionale, ma restano meno
+%   curati di quelli scritti a mano;
 % - assert non banali \cite{schaefer2024testpilot}: assert che verificano davvero
-%   il comportamento, contro assert vuote o tautologiche.
+%   il comportamento, contro assert vuote o tautologiche;
+% - queste dimensioni non vengono misurate in questo lavoro perche' richiedono
+%   valutazione umana o strumenti dedicati: vanno dichiarate qui e riprese negli
+%   sviluppi futuri.
 
 \subsection{Metriche sul comportamento del modello}
-% Non misurano i test ma il processo, e raccontano molto sui modelli piccoli:
-% aderenza al formato richiesto, troncamento della risposta per esaurimento del
-% budget di token, tempo per generazione.
-
+\label{sec:comportamento}
+Queste metriche non misurano il test ma il processo che lo produce. Sono tre:
+\begin{description}
+  \item[Aderenza al formato] ovvero il rispetto dei vincoli espressi nel prompt: import, assenza di markdown, nessuna riscrittura della funzione sotto test;
+  \item[Troncamento della risposta per esaurimento del budget di token] un file troncato può superare il controllo sintattico se il taglio cade a fine funzione: sembra sano ma è incompleto. Ecco perché va trattato come categoria a sé e non lasciato dentro "non eseguibile".
+  \item[Tempo per generazione] valutabile solo a parità di infrastruttura.
+\end{description}
+Questa famiglia è assente dai lavori della Sezione~\ref{sec:bench}, che valutano il mero output (il test).
+L'aderenza al formato e il troncamento permettono di risalire all'origine del fallimento: c'è distinzione tra non rispettare il prompt fornito e sbagliare il ragionamento.
+% Non misurano il test ma il processo che lo produce, e sui modelli piccoli sono
+% spesso piu' informative delle metriche classiche: spiegano PERCHE' un campione
+% e' finito in un certo ramo, non solo che ci e' finito.
+% - aderenza al formato richiesto: rispetto dei vincoli espressi nel prompt
+%   (import corretto, numero di test entro il range, assenza di markdown,
+%   nessuna riscrittura della funzione sotto test);
+% - troncamento della risposta per esaurimento del budget di token, segnalato
+%   dal campo finish_reason. Da trattare come categoria a se': un file troncato
+%   puo' superare il controllo sintattico se il taglio cade a fine funzione;
+% - tempo per generazione, confrontabile solo a parita' di infrastruttura;
+% - questa famiglia e' assente dai benchmark del 2.4, che valutano l'output e
+%   non il comportamento.
 
 \section{Sintesi e posizionamento del lavoro}
+\label{sec:posizionamento}
+Dai concetti sopra espressi emergono due elementi principali che lasciano spazio ad un contributo:
+\begin{enumerate}
+  \item Il primo riguarda i modelli valutati nei benchmark. Nella Sezione~\ref{sec:bench} la maggior parte delle valutazioni di letteratura si focalizza su Modelli Linguistici di Grande Taglia (LLM) o su modelli ampiamente specializzati sul codice. In ULT \cite{huang2025ult} vengono usati per esempio DeepSeekCoder, Qwen2.5-Coder e Phi-4. Restano fuori dall'esplorazione modelli di piccola taglia, comodi per poter essere fatti lavorare in locale su macchine dalle risorse computazionali limitate senza la necessità di ricorrere ad API remote.
+  \item Il secondo riguarda l'incompletezza delle metriche sulle quali sono stati valutati i suddetti modelli. Nessuno dei benchmark considerati si occupa di valutare secondo delle metriche aggiuntive come la ridondanza fra i test e quelle sul comportamento del modello spiegate nella Sezione~\ref{sec:comportamento}. Su modelli di dimensioni ridotte come quelli utilizzati i fallimenti legati al mancato rispetto del formato, al troncamento della risposta o alla ripetizione dello stesso caso avvengono con frequenza più elevata.
+\end{enumerate}
+Questo lavoro si inserisce proprio in questo contesto: valutare l'efficacia contemporaneamente alle limitazioni dei modelli di piccola taglia nell'ambito della generazione dei test.
+
+
+
 % Lacune individuate:
 % 1. i modelli valutati sono quasi sempre grandi o specializzati sul codice; ULT
 %    \cite{huang2025ult} ne valuta 12, ma i generalisti molto piccoli (1--8
