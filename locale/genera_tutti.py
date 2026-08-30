@@ -29,7 +29,10 @@ for indice in range(primo, ultimo + 1):
         ultima = [r for r in esito.stdout.splitlines() if "File generato" in r]
         print(f"[{indice:>3}] {ultima[0].strip() if ultima else 'fatto'}")
     else:
-        print(f"[{indice:>3}] FALLITO")
+        # Mostra il motivo: senza questo un fallimento resta muto e non si
+        # distingue un problema del modello da un errore dello script.
+        motivo = (esito.stderr or "").strip().splitlines()
+        print(f"[{indice:>3}] FALLITO  {motivo[-1] if motivo else 'nessun messaggio'}")
         falliti.append(indice)
 
 print(f"\nfiniti. Falliti: {falliti if falliti else 'nessuno'}")

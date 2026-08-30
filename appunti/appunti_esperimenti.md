@@ -22,7 +22,13 @@ Misurare la qualità degli unit test generati da modelli di piccola taglia (Llam
 
 **Parametri.** Temperatura 0, `max_tokens` 1024, una funzione per richiesta, output salvato in un file separato per ogni coppia (modello, campione).
 
-## 4. Risultati preliminari — modello 8B su 100 campioni
+## 4. Risultati preliminari — modello 8B su 100 campioni (NVIDIA, ARCHIVIATI)
+
+> **Attenzione.** Questa sezione riguarda l'esecuzione su NVIDIA, che non fa più
+> parte dello studio: è conservata come confronto fra piena precisione e
+> quantizzazione. I dati correnti sono quelli locali della sezione 10, e su due
+> punti **contraddicono** quanto scritto qui. Non riportare in tesi le
+> osservazioni di questa sezione senza verificarle sui dati locali.
 
 | esito della richiesta | sintassi valida | sintassi non valida |
 |---|---|---|
@@ -40,7 +46,14 @@ Osservazioni:
 
 Confronto qualitativo preliminare: sullo stesso campione, il modello 70B ha prodotto l'import corretto e nessun markdown; il modello 1B, in una prova preliminare eseguita in locale, ha ignorato l'istruzione sull'import ricadendo su `import pytest` — file che non sarebbe eseguibile. È il gradiente che lo studio intende quantificare.
 
-## 5. Esecuzione dei test e prime misure (8B, 100 campioni)
+## 5. Esecuzione dei test e prime misure (8B, 100 campioni — NVIDIA, ARCHIVIATI)
+
+> **Attenzione.** Anche questi numeri vengono dall'esecuzione su NVIDIA e non
+> sono i dati dello studio. In particolare il divario 77,4% / 23,4% fra
+> copertura e correttezza va ricalcolato in locale prima di comparire in tesi.
+> Le osservazioni di metodo (denominatore della coverage, artefatto degli
+> import mancanti, `test_list` non utilizzabile come riferimento) restano invece
+> valide, perché non dipendono dall'infrastruttura.
 
 Procedura: per ogni file generato, controllo sintattico con `ast.parse`; se supera, esecuzione con pytest in una cartella temporanea isolata, con timeout, accanto a un file `funzione.py` contenente la funzione sotto test; infine calcolo della coverage con `coverage.py` sulla sola funzione.
 
@@ -146,3 +159,88 @@ Escluse d'accordo con la relatrice: accuratezza semantica delle assert, perché 
 
 Va nella sezione dei lavori correlati (il capitolo 2, lo stato dell'arte) e ripreso negli sviluppi futuri: test smell, leggibilità, assert non banali, ridondanza misurata come riesecuzione delle righe se non si arriva a implementarla.
 
+
+## 10. Misure statiche in locale sui tre modelli (settembre 2026)
+
+Prodotte da `locale/statiche.py`, che scrive `locale/statiche.csv`: una riga per
+campione per modello, 300 righe. Nessuna esecuzione dei test: solo `ast.parse`,
+analisi dell'albero sintattico e il registro `generazioni.csv`. Cento campioni
+per ciascuno dei tre modelli, nessuno mancante.
+
+| | 1B | 3B | 8B |
+|---|---|---|---|
+| scritti | 100% | 100% | 100% |
+| sintatticamente validi | 92,0% | 99,0% | 94,0% |
+| risposte troncate | 5,0% | 0% | 6,0% |
+| import corretto | 23,9% | 100% | 100% |
+| da 3 a 8 test | 93,5% | 100% | 98,9% |
+| nomi conformi | 95,7% | 99,0% | 100% |
+| un assert per test | 89,1% | 80,8% | 97,9% |
+| un oracolo per test | 98,9% | 100% | 100% |
+| **tutti i vincoli** | **21,7%** | **79,8%** | **96,8%** |
+| test per file (media) | 7,6 | 7,1 | 7,2 |
+| tempo medio | 24,2 s | 37,2 s | 90,8 s |
+
+Le percentuali di aderenza sono calcolate sui soli file sintatticamente validi.
+
+**Nessun fallimento della pipeline.** Tutti e trecento i campioni hanno prodotto
+un file. Il primo ramo dell'albero e' quindi vuoto, ed e' un risultato da
+riportare come tale.
+
+Nella prima esecuzione otto campioni risultavano falliti (indici 44 e 99 su
+tutti e tre i modelli, 45 su 3B e 8B). La causa non era il modello ma lo script:
+quei campioni sono fra i pochi del dataset con caratteri non ASCII — giapponese
+nel 44 e nel 99, una freccia nel 45 — che il modello riproduce nelle proprie
+asserzioni. Su Windows la console usa cp1252 e il `print` della risposta
+sollevava `UnicodeEncodeError`, facendo uscire `genera.py` con codice di errore.
+Risolto forzando UTF-8 sullo standard output. Da allora `genera_tutti.py`
+stampa anche il messaggio di errore, cosi' un fallimento non resta muto.
+E' un artefatto da menzionare in tesi fra le minacce alla validita': senza la
+correzione, tre funzioni sarebbero state escluse dal confronto per una ragione
+estranea ai modelli.
+
+**L'import e' una soglia, non un gradiente.** Il 1B rispetta l'istruzione
+sull'import solo nel 23,9% dei casi e ripiega su `import pytest`; il 3B e l'8B
+la rispettano sempre. Fra uno e tre miliardi di parametri non c'e' un
+miglioramento progressivo ma un salto netto. E' anche il componente che
+determina da solo il totale del 1B: gli altri tre vincoli stanno sopra l'89%.
+
+**L'aderenza complessiva e' invece un gradiente pulito**: 21,7% -> 79,8% -> 96,8%.
+
+**Assert e oracolo vanno letti insieme.** Il valore basso del 3B sull'assert
+(80,8%) non indica test privi di verifica: i casi sono blocchi `pytest.raises`,
+che verificano il sollevamento di un'eccezione. Alla lettera violano il vincolo
+del prompt, ma un oracolo ce l'hanno — infatti la riga "un oracolo per test" da'
+100%. Le due colonne misurano cose diverse: obbedienza al prompt la prima,
+presenza di un oracolo la seconda.
+
+**Correzione rispetto alla sezione 4 (NVIDIA).** Due affermazioni riportate li'
+non valgono sui dati locali:
+
+- *"Tutti i casi di codice non valido derivano dal troncamento"*: falso in
+  locale. Il 1B produce file non validi non troncati (parentesi non chiuse, un
+  blocco markdown non terminato) e il 3B uno.
+- *"Alcuni campioni troncati superano comunque il controllo sintattico"*: in
+  locale non accade. Troncamento e invalidita' sintattica coincidono sempre.
+
+**Il troncamento non segue la taglia**: 5,0% sul 1B, 0% sul 3B, 6,0% sull'8B.
+La validita' sintattica lo rispecchia, essendo i file non validi in gran parte
+troncati. E' un'anomalia da approfondire, non un errore di misura.
+
+**I modelli scelgono sempre il massimo consentito.** La grande maggioranza dei
+file validi contiene 7 o 8 test: quasi nessuno ne scrive 3, 4 o 5, pur essendo
+ammesso dal prompt. Rispettano il vincolo scegliendone sistematicamente
+l'estremo superiore.
+
+**Vincoli non misurati come statistica**, perche' osservati in pochissimi casi;
+vanno usati come esempi nella categorizzazione dei fallimenti:
+
+- *niente classi*: violato in 2 file, entrambi del 1B (indici 32 e 52).
+- *niente markdown*: non misurabile in generale, perche' `genera.py` applica
+  `pulisci()` prima di salvare. Sopravvive solo nei blocchi malformati: un caso
+  sul 1B (indice 78), dove il blocco non era chiuso e la regex non l'ha colto.
+
+**Anomalie singole utili come esempi**: il campione 16 del 1B contiene un solo
+test seguito dalla riga `test_next_holiday_2.py`, cioe' un nome di file scritto
+come se fosse codice; il campione 95 del 1B ne contiene 25, con nomi che non
+seguono lo schema richiesto.

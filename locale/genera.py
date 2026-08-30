@@ -22,6 +22,13 @@ from pathlib import Path
 
 from openai import OpenAI
 
+# Alcune funzioni del dataset contengono caratteri non ASCII (giapponese nei
+# campioni 44 e 99, una freccia nel 45). Il modello li riproduce nelle proprie
+# asserzioni, e su Windows la console usa cp1252: senza questa riga il print
+# della risposta solleva UnicodeEncodeError e la generazione risulta fallita
+# per un motivo che non riguarda il modello.
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 MODELLI = {
     "1b": "llama3.2:1b",
     "3b": "llama3.2:3b",

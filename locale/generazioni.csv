@@ -291,3 +291,11 @@ modello,indice,func_name,finish_reason,secondi
 8b,96,coord_finder,stop,43.5
 8b,97,__transform_coors,stop,118.8
 8b,98,lumen_type,stop,148.8
+1b,44,score_calculation_base,length,75.7
+1b,99,judge_1d100_with_7_ver,stop,19.1
+3b,44,score_calculation_base,stop,55.1
+3b,45,min_edit_script,stop,28.9
+3b,99,judge_1d100_with_7_ver,stop,36.8
+8b,44,score_calculation_base,stop,138.6
+8b,45,min_edit_script,stop,62.8
+8b,99,judge_1d100_with_7_ver,stop,88.0
