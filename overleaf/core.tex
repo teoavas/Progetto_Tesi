@@ -12,30 +12,50 @@
 % Schema a blocchi suggerito:
 %   dataset (funzione) -> costruzione del prompt -> modello -> normalizzazione
 %   dell'output -> file di test -> esecuzione -> misure
+%
+% Il capitolo descrive COME si misura. I numeri stanno nel capitolo 4.
 
 
 \section{Formalizzazione}
+\label{sec:formalizzazione}
 % Notazione da introdurre, sul modello di \cite{tony2025prompt}:
-% - F = insieme delle funzioni sotto test, f in F;
-% - M = insieme dei modelli considerati, m in M;
+% - F = insieme delle funzioni sotto test, f in F, |F| = 100;
+% - M = insieme dei modelli considerati, m in M, |M| = 3;
 % - P(f) = prompt costruito a partire dalla funzione f tramite il template fisso;
 % - T(m, f) = file di test prodotto dal modello m per la funzione f;
-% - le metriche come funzioni definite su T(m, f) e f.
-% Definire qui i simboli usati nel capitolo dei risultati.
+% - t in T(m, f) = singola funzione di test contenuta nel file.
+%
+% La distinzione fra T(m,f) e t e' sostanziale e va introdotta qui: le metriche
+% di esito si definiscono sul file, quelle di correttezza sul singolo test.
+% Serve nel capitolo 4, dove i file che passano interamente sono pochissimi
+% mentre i test corretti sono abbastanza da permettere una media.
+%
+% Definire poi le metriche come funzioni su T(m,f) e f, distinguendo:
+% - misure statiche: calcolabili senza eseguire nulla;
+% - misure dinamiche: richiedono l'esecuzione dei test.
 
 
 \section{Architettura generale}
 % Il sistema e' una catena a colpo singolo: una funzione, una richiesta, un file
 % di test. Non c'e' iterazione di riparazione, per scelta: si vuole misurare la
-% capacita' dei modelli senza aiuti esterni.
+% capacita' dei modelli senza aiuti esterni. Va detto esplicitamente, perche' e'
+% cio' che distingue questo impianto da CoverUp \cite{pizzorno2024coverup} e
+% CodaMOSA \cite{lemieux2023codamosa} discussi nella Sezione~\ref{sec:llm}.
 %
 % Blocchi:
 % 1. selezione del campione dal dataset;
 % 2. costruzione del prompt secondo un template fisso;
 % 3. invocazione del modello a parametri costanti;
-% 4. normalizzazione della risposta (rimozione di eventuali blocchi markdown);
+% 4. normalizzazione della risposta;
 % 5. salvataggio in un file separato per ogni coppia (modello, funzione);
 % 6. esecuzione dei test in ambiente isolato e calcolo delle metriche.
+%
+% Sul blocco 4 va fatta una precisazione, perche' e' una scelta con un costo:
+% la normalizzazione rimuove gli eventuali blocchi markdown dalla risposta prima
+% di salvarla. Rende i file eseguibili, ma cancella la prova, e quindi impedisce
+% di misurare a posteriori quante volte il vincolo "niente markdown" e' stato
+% violato. Dichiararlo come limite noto e rimandare alla sezione sulle minacce
+% alla validita'.
 
 
 \section{Dataset e selezione dei campioni}
@@ -43,10 +63,15 @@
 % usati i primi 100 nell'ordine del file (criterio deterministico e riproducibile).
 % Ogni campione contiene nome della funzione, codice sorgente, descrizione in
 % linguaggio naturale, identificativo e una lista di assert.
-% Nota: la descrizione in linguaggio naturale non viene passata al modello, per
-% scelta sperimentale; la lista di assert non e' utilizzabile come riferimento,
-% perche' gli autori del benchmark dichiarano di non rilasciare i test di
-% verita' per non contaminare i futuri addestramenti.
+% Le funzioni vanno da 8 a 171 righe, con mediana 34.
+%
+% Due esclusioni da motivare:
+% - la descrizione in linguaggio naturale non viene passata al modello, per
+%   scelta sperimentale: si misura cosa il modello ricava dal solo codice;
+% - la lista di assert non e' utilizzabile come riferimento, perche' gli autori
+%   del benchmark dichiarano di non rilasciare i test di verita' per non
+%   contaminare i futuri addestramenti. Verificato sui dati: quegli assert
+%   passano solo nel 12% dei casi sul codice fornito.
 
 
 \section{Costruzione del prompt}
@@ -57,31 +82,156 @@
 %   markdown;
 % [data] il solo codice della funzione;
 % [format] lo scheletro atteso dell'output.
-% Riportare il template per intero: e' parte del contributo, e permette la
-% riproducibilita'.
+%
+% Riportare il template per intero in un ambiente verbatim: e' parte del
+% contributo e permette la riproducibilita'.
 % Motivazione della sezione [format]: per i modelli piccoli vedere la forma
 % attesa e' piu' efficace che leggerne la descrizione.
+%
+% Anticipare che i sei vincoli non sono decorativi: cinque di essi diventano la
+% metrica di aderenza al formato del capitolo 4, e il loro rispetto e' cio' che
+% separa nettamente il modello da 1B dagli altri due.
 
 
 \section{Modelli e parametri}
 % Tre modelli della stessa famiglia \cite{llama3herd} di dimensione crescente
 % (1B, 3B, 8B), a parita' di prompt e parametri: temperatura 0 (generazione
 % deterministica, una sola esecuzione per campione) e limite di 1024 token in
-% uscita. Il limite lascia circa il doppio dello spazio necessario a otto test:
-% chi rispetta il vincolo non viene mai troncato.
-% Discutere qui l'infrastruttura di esecuzione (servizio remoto e locale) e la
-% quantizzazione a 4 bit dei modelli eseguiti in locale.
+% uscita.
+%
+% ATTENZIONE: non scrivere che il limite di 1024 token basta sempre a chi
+% rispetta il vincolo sul numero di test. I dati lo smentiscono: fra i file
+% troncati ce ne sono con 3, 5, 6 e 7 funzioni di test, cioe' dentro il vincolo.
+% Il budget dipende anche da quanto sono verbosi i singoli test, non solo da
+% quanti sono. Il troncamento va quindi trattato come fenomeno a se'.
+%
+% Infrastruttura: esecuzione in locale con Ollama \cite{ollama} attraverso
+% un'interfaccia compatibile con la libreria openai. I pesi sono quelli
+% rilasciati da Meta, qui quantizzati a 4 bit: la quantizzazione riduce la
+% precisione numerica dei parametri e semmai penalizza il modello, non lo
+% favorisce. Va dichiarata.
+%
+% I primi 100 campioni dell'8B erano stati generati in precedenza su un servizio
+% remoto: quei dati sono archiviati e usati solo come confronto secondario fra
+% piena precisione e quantizzazione. Non fanno parte dello studio.
+
+
+\section{Classificazione degli esiti}
+\label{sec:albero}
+% Sezione nuova, ed e' la struttura portante dei capitoli 3 e 4.
+% Va accompagnata da una figura ad albero, qui vuota; il capitolo 4 la ripopola
+% con le percentuali.
+%
+% N campioni
+% |- test NON scritti .............. fallimento della pipeline (parte statica)
+% \- test SCRITTI
+%    |- sintatticamente non validi .. ast.parse fallisce (parte statica)
+%    \- sintatticamente validi
+%       |- non eseguibili ........... pytest non raccoglie test, import fallito
+%       |- timeout .................. oltre il limite di tempo
+%       |- falliti .................. almeno un test non passa
+%       \- passati .................. tutti i test passano
+%
+% Il confine fra parte statica e parte dinamica cade sotto "sintatticamente
+% validi": tutto cio' che sta sopra si stabilisce senza eseguire il codice.
+%
+% Ogni ramo si riporta in percentuale e separatamente per ogni modello.
+% Un ramo puo' risultare vuoto: va comunque riportato, perche' la classificazione
+% e' definita a priori e riportarla per intero e' cio' che la rende credibile.
 
 
 \section{Esecuzione e misura}
+\label{sec:esecuzione}
 % Per ogni file di test generato:
 % 1. controllo sintattico con il parser AST, senza eseguire il codice;
 % 2. esecuzione con pytest \cite{pytest} in una cartella temporanea isolata e con
 %    limite di tempo, accanto al file contenente la funzione sotto test;
 % 3. calcolo della copertura con coverage.py \cite{coveragepy} sulla sola
-%    funzione sotto test.
-% Classificazione dell'esito in: non eseguibile, eseguibile ma fallito, passato,
-% oltre al caso di superamento del limite di tempo.
-% Nota implementativa: il campo con il codice del dataset non include gli import
-% necessari alla funzione, che vanno anteposti ed esclusi dal calcolo della
-% copertura.
+%    funzione sotto test, di riga e di ramo.
+%
+% L'output integrale di pytest viene conservato per ogni campione: e' la base
+% dell'analisi dei fallimenti descritta piu' avanti.
+%
+% --- misure statiche ---
+% Verificate sull'albero sintattico, senza eseguire nulla: validita' sintattica,
+% numero di funzioni di test, e i cinque vincoli del prompt controllabili
+% (import corretto, numero di test nel range, nomi conformi, un assert per test,
+% assenza di classi). Va aggiunta la variante che accetta come oracolo anche i
+% blocchi pytest.raises: alla lettera violano il vincolo sull'assert, ma un
+% oracolo ce l'hanno, e le due letture misurano cose diverse.
+%
+% --- correttezza ---
+% Pass@1 definito sul SINGOLO test e non sul file, coerentemente con
+% \cite{huang2025ult}: proporzione di funzioni di test che passano sul totale
+% generato. La ragione e' anche pratica e va detta: i file in cui tutti i test
+% passano sono pochissimi, e una metrica definita su quella base non avrebbe
+% campioni sufficienti.
+%
+% --- copertura: eseguita contro verificata ---
+% E' il punto metodologicamente piu' rilevante del capitolo.
+% La copertura si calcola due volte:
+% - con tutti i test del file: dice quanto codice viene ESEGUITO. Include
+%   l'esecuzione prodotta dai test che falliscono, perche' un assert sbagliato
+%   esegue comunque la funzione prima di sollevare l'errore;
+% - con i soli test che passano, deselezionando i falliti e rieseguendo: dice
+%   quanto codice viene davvero VERIFICATO da un'asserzione corretta.
+% La differenza fra le due misura quanto la copertura sopravvaluta cio' che i
+% test garantiscono. E' la forma operativa dell'argomento di Inozemtseva e
+% Holmes \cite{inozemtseva2014coverage} discusso nella Sezione~\ref{sec:limiti}.
+%
+% Dichiarare sempre il denominatore delle medie: tutti i campioni, i soli
+% eseguibili, oppure i soli campioni che hanno importato la funzione. La terza
+% base serve a separare l'incapacita' di scrivere test dal non aver seguito
+% l'istruzione sull'import.
+%
+% --- duplicazione ---
+% Definizione operativa: quota di righe ripetute sul totale delle righe di test,
+% ignorando righe vuote e commenti; una riga presente n volte contribuisce n-1
+% ripetizioni. In percentuale, per essere indipendente dalla lunghezza della
+% suite. Calcolata su due basi: tutte le righe di test, e le sole righe dei test
+% che passano.
+%
+% --- analisi dei fallimenti ---
+% Dai report di pytest si estrae, per ogni test fallito, il tipo di eccezione e
+% il file in cui e' stata sollevata. Da qui le due famiglie:
+% - errore di oracolo: il test esegue la funzione ma sbaglia l'aspettativa
+%   (assert fallito, eccezione attesa e non arrivata, oppure eccezione sollevata
+%   dentro la funzione perche' l'input non e' accettato);
+% - errore d'uso: il test non arriva a esercitare la funzione.
+% E' la traduzione empirica della distinzione fra raggiungere il codice e sapere
+% cosa deve restituire, introdotta nella Sezione~\ref{sec:classici}.
+%
+% --- nota implementativa ---
+% Il campo con il codice del dataset non include gli import necessari alla
+% funzione, che vanno anteposti ed esclusi dal calcolo della copertura tramite
+% "pragma: no cover". Senza questa correzione alcune funzioni sollevano NameError
+% e i test risultano falliti per un motivo estraneo al modello.
+
+
+\section{Minacce alla validità}
+\label{sec:minacce}
+% Sezione nuova. Tre punti emersi durante il lavoro, tutti da dichiarare.
+%
+% 1. Codifica dei caratteri. Tre funzioni del dataset contengono caratteri non
+%    ASCII (giapponese in due casi, una freccia nel terzo). I modelli li
+%    riproducono nelle asserzioni, e la stampa della risposta sollevava
+%    UnicodeEncodeError sulla console di Windows, facendo fallire la
+%    generazione. Corretto forzando UTF-8. Senza la correzione quelle tre
+%    funzioni sarebbero state escluse dal confronto per una ragione che non
+%    riguarda i modelli: e' un esempio di come un dettaglio infrastrutturale
+%    possa falsare una misura.
+%
+% 2. Determinismo. Alcune funzioni del dataset usano numeri pseudocasuali o
+%    dipendono dall'ordine di iterazione, quindi l'esecuzione dei test non e'
+%    del tutto riproducibile: fra due esecuzioni successive le medie oscillano
+%    di circa due decimi di punto. I valori vanno riportati con una cifra
+%    decimale e non letti come esatti al decimo.
+%
+% 3. Quantizzazione. I modelli locali sono quantizzati a 4 bit. La quantizzazione
+%    tende a peggiorare leggermente le prestazioni, quindi i risultati vanno
+%    letti come una stima prudente e non ottimistica.
+%
+% 4. Generalizzabilita'. Cento funzioni di un solo benchmark, una sola famiglia
+%    di modelli, una sola formulazione del prompt. Il ruolo del prompt e' noto
+%    per essere rilevante \cite{tony2025prompt}: risultati diversi con un
+%    template diverso non sarebbero sorprendenti.
