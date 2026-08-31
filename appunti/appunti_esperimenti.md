@@ -10,13 +10,23 @@ Il risultato principale è che i modelli faticano sui progetti reali: il miglior
 
 ## 2. Oggetto di questa tesi
 
-Misurare la qualità degli unit test generati da modelli di piccola taglia (Llama 1B, 3B, 8B) su funzioni Python reali, a parità di prompt e con temperatura 0, secondo quattro dimensioni: copertura del codice, ripetizione delle righe eseguite, duplicazione fra i test prodotti, ed esito dell'esecuzione (passato / eseguibile ma fallito / non eseguibile).
+Misurare la qualità degli unit test generati da modelli di piccola taglia (Llama 1B, 3B, 8B) su funzioni Python reali, a parità di prompt e con temperatura 0.
+
+Insieme definitivo delle metriche, concordato con la relatrice (sezione 9):
+
+- **parte statica** — esito della generazione, validità sintattica, troncamento, aderenza ai vincoli del prompt, tempo di generazione;
+- **parte dinamica** — esito dell'esecuzione (passato / eseguibile ma fallito / non eseguibile / timeout), Pass@1 sul singolo test, copertura di riga e di ramo, duplicazione, mutation score;
+- **analisi dei fallimenti** — categorizzazione per causa, con esempi.
+
+La riesecuzione delle righe, presente nelle prime versioni del piano, è uscita dall'insieme definitivo: `coverage.py` non la fornisce e servirebbe `sys.monitoring`. Va negli sviluppi futuri.
 
 ## 3. Impianto sperimentale
 
 **Dataset.** UnLeakedTestBench, file `ULT_Lite.jsonl`: 200 campioni, uno per riga in formato JSON Lines. Ogni campione contiene il nome della funzione, il suo codice sorgente (funzione autonoma, eseguibile in isolamento), una descrizione in linguaggio naturale, un identificativo e una lista di assert scritti da umani. Si usano i primi 100 campioni nell'ordine del file. Le funzioni vanno da 8 a 171 righe, con mediana 34.
 
-**Modelli.** `meta/llama-3.2-1b-instruct`, `meta/llama-3.2-3b-instruct` e `meta/llama-3.1-8b-instruct`, serviti da NVIDIA build attraverso un'interfaccia compatibile con la libreria `openai`. Il modello da 70B è stato usato unicamente come controllo di funzionamento e non fa parte dello studio.
+**Modelli.** `llama3.2:1b`, `llama3.2:3b` e `llama3.1:8b`, eseguiti **in locale con Ollama** attraverso un'interfaccia compatibile con la libreria `openai`. Sono gli stessi pesi rilasciati da Meta, qui quantizzati a 4 bit: la quantizzazione va dichiarata in tesi, e semmai penalizza il modello anziché favorirlo.
+
+I primi cento campioni dell'8B erano stati generati su NVIDIA build prima del passaggio in locale (sezioni 4 e 5): quei dati restano archiviati come confronto fra piena precisione e quantizzazione, ma non fanno parte dello studio. Il modello da 70B è stato usato unicamente come controllo di funzionamento.
 
 **Prompt.** Template fisso in tre sezioni. `[instruction]` elenca i vincoli: stile pytest senza classi, import esplicito della funzione sotto test, da 3 a 8 funzioni di test con nomi numerati, almeno un assert per test, divieto di riscrivere la funzione, divieto di spiegazioni e markdown. `[data]` contiene il solo codice della funzione (la descrizione in linguaggio naturale non viene passata). `[format]` mostra lo scheletro atteso dell'output: per i modelli piccoli, vedere la forma è più efficace che leggerne la descrizione.
 
@@ -244,3 +254,129 @@ vanno usati come esempi nella categorizzazione dei fallimenti:
 test seguito dalla riga `test_next_holiday_2.py`, cioe' un nome di file scritto
 come se fosse codice; il campione 95 del 1B ne contiene 25, con nomi che non
 seguono lo schema richiesto.
+
+## 11. Misure dinamiche in locale sui tre modelli (settembre 2026)
+
+Prodotte da `locale/misura.py`, che esegue ogni file di test con pytest in una
+cartella isolata accanto alla funzione sotto test e scrive `misure_<sigla>.csv`.
+Le tabelle si ottengono con `locale/riepilogo.py`, che unisce queste misure a
+`statiche.csv` su `(modello, indice)`. L'output integrale di pytest e' salvato
+in `locale/report/<sigla>/<indice>.txt` (escluso dal versionamento perche'
+rigenerabile) ed e' la base della categorizzazione dei fallimenti.
+
+### 11.1 Esiti
+
+| esito | 1B | 3B | 8B |
+|---|---|---|---|
+| passato (tutti i test del file) | 0 | 2 | 2 |
+| fallito | 83 | 96 | 91 |
+| non eseguibile | 16 | 1 | 6 |
+| timeout | 1 | 1 | 1 |
+
+I 16 non eseguibili del 1B si scompongono in 8 errori di sintassi — gli stessi
+rilevati nella parte statica — e 8 file che vengono analizzati ma si rompono
+all'esecuzione.
+
+**Il livello del file non e' utilizzabile.** I campioni in cui *tutti* i test
+passano sono 0, 2 e 2 su cento. Qualunque metrica calcolata sui "file che hanno
+successo" avrebbe una base di due campioni. La lettura per singolo test e'
+l'unica praticabile, ed e' anche quella coerente con il Pass@k di ULT. Questo
+risolve con i dati la prima domanda aperta con la relatrice.
+
+I campioni con **almeno un** test passato sono invece 7, 45 e 56: e' questa la
+base utilizzabile per le misure che richiedono test funzionanti, mutation score
+compreso.
+
+### 11.2 Correttezza e copertura
+
+| | 1B | 3B | 8B |
+|---|---|---|---|
+| Pass@1 (sul singolo test) | 3,5% | 16,9% | 21,6% |
+| test corretti / generati | 25/709 | 118/699 | 144/667 |
+| copertura righe, tutti i campioni | 12,2% | 68,3% | 71,0% |
+| copertura righe, soli eseguibili | 14,7% | 69,7% | 76,3% |
+| copertura righe, solo con import corretto | 61,0% | 69,7% | 76,3% |
+| copertura rami, soli eseguibili | 11,2% | 59,3% | 66,4% |
+
+**Copertura alta e correttezza bassa, quantificate.** Sull'8B la copertura di
+riga e' 76,3% mentre i test corretti sono il 21,6%. E' il risultato centrale
+della tesi: i modelli raggiungono il codice e sbagliano il valore atteso.
+
+**Replica del risultato su NVIDIA.** L'8B remoto dava 77,4% di copertura e 23,4%
+di test corretti; in locale, con pesi quantizzati a 4 bit, da' 76,3% e 21,6%.
+Il fenomeno non dipende dall'infrastruttura ne' dalla quantizzazione.
+
+**Il crollo del 1B e' interamente l'import.** Sui campioni eseguibili copre il
+14,7%, ma sui soli venti campioni in cui ha importato la funzione copre il
+61,0%. Senza `from funzione import ...` la funzione non viene mai chiamata e la
+copertura e' nulla per costruzione. Non e' un modello incapace di scrivere test:
+e' un modello che non segue un'istruzione di una riga. Sul 3B e sull'8B le due
+basi coincidono, perche' l'import e' sempre corretto.
+
+**La copertura di rami sta sistematicamente sotto quella di riga**, di circa
+dieci punti. E' la misura piu' severa, come atteso su funzioni con complessita'
+ciclomatica non inferiore a dieci.
+
+### 11.3 Duplicazione
+
+| base | 1B | 3B | 8B |
+|---|---|---|---|
+| tutte le righe di test, campioni eseguibili | 13,6% | 3,7% | 25,3% |
+| soli test passati, campioni con test passati | 10,7% | 0,7% | 8,9% |
+| per confronto, tutte le righe sugli stessi campioni | 7,5% | 2,7% | 17,2% |
+
+Definizione: quota di righe ripetute sul totale delle righe di test, ignorando
+righe vuote e commenti; una riga presente n volte contribuisce n-1 ripetizioni.
+
+**L'8B e' il piu' ridondante di tutti**, con 54 file su 93 sopra il 20% contro
+5 su 98 del 3B. Il meccanismo e' la ripetizione della preparazione in ogni test:
+nel campione 27 le righe `match = [0, 1, 2]`, `i = 1`, `m = 10` compaiono otto
+volte identiche, una per funzione di test. E' il *Test Code Duplication* del
+catalogo di van Deursen, quello che una fixture eliminerebbe.
+
+**Cautela nell'interpretazione.** Il 3,7% del 3B non e' necessariamente un
+merito: duplica poco perche' scrive test piu' scarni, spesso un solo assert
+senza preparazione. La duplicazione non ordina i modelli da sola e va letta
+insieme a quanto lavoro fa ciascun test.
+
+**Attenzione al denominatore**, per lo stesso motivo visto con la copertura. La
+duplicazione sui soli test passati va mediata sui soli campioni che ne hanno
+almeno uno: includendo gli altri si sommano zeri strutturali e la media perde
+significato (sul 1B si passa da 0,9% a 10,7%).
+
+### 11.4 Categorizzazione dei fallimenti
+
+Prodotta da `locale/fallimenti.py`, che legge i blocchi FAILURES dei report,
+estrae il tipo di eccezione e il file in cui e' stata sollevata, e scrive
+`fallimenti.csv` con una riga per test fallito (1788 in tutto).
+
+| | 1B | 3B | 8B |
+|---|---|---|---|
+| test falliti analizzati | 684 | 581 | 523 |
+| `AssertionError` | 21,5% | 71,1% | 81,8% |
+| `NameError` | 72,2% | 9,0% | 4,4% |
+| `TypeError` | 5,1% | 10,0% | 3,8% |
+| **la funzione viene eseguita** (errore di oracolo) | **25,7%** | **88,6%** | **93,9%** |
+| **la funzione non si raggiunge** (errore d'uso) | **74,3%** | **11,4%** | **6,1%** |
+
+Criterio delle due famiglie: il test ha esercitato la funzione se l'assert e'
+fallito, se attendeva un'eccezione che non e' arrivata, oppure se l'eccezione e'
+nata dentro `funzione.py` — cioe' la funzione e' stata chiamata ed e' stata lei
+a rifiutare l'input. Negli altri casi il test non e' arrivato a chiamarla.
+
+**Crescendo, il modello non fallisce di meno: fallisce in modo diverso.** Il 1B
+sbaglia a livello meccanico e non tocca la funzione in tre casi su quattro. Il
+3B e l'8B seguono le istruzioni e vanno a sbattere contro l'ostacolo successivo,
+che e' l'oracolo. E' la verifica empirica della distinzione fra raggiungere il
+codice e sapere cosa deve restituire, introdotta nella sezione 2.2 della tesi.
+
+Spiega anche perche' la copertura resta alta mentre la correttezza crolla: nel
+93,9% dei fallimenti dell'8B la funzione viene comunque eseguita, e le sue righe
+risultano quindi coperte.
+
+### 11.5 Cosa manca
+
+Il mutation score e' l'unica metrica non ancora calcolata. Richiede suite che
+passino sul codice sano, quindi va calcolato restringendo ogni file ai soli test
+che passano: la base utile e' di 45 campioni sul 3B e 56 sull'8B, mentre sul 1B
+si ferma a 7 — troppo pochi, ed e' esso stesso un risultato da riportare.
