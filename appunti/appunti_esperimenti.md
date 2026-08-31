@@ -294,9 +294,9 @@ compreso.
 | Pass@1 (sul singolo test) | 3,5% | 16,9% | 21,6% |
 | test corretti / generati | 25/709 | 118/699 | 144/667 |
 | copertura righe, tutti i campioni | 12,2% | 68,3% | 71,0% |
-| copertura righe, soli eseguibili | 14,7% | 69,7% | 76,3% |
-| copertura righe, solo con import corretto | 61,0% | 69,7% | 76,3% |
-| copertura rami, soli eseguibili | 11,2% | 59,3% | 66,4% |
+| copertura righe, soli eseguibili | 14,7% | 69,7% | 76,5% |
+| copertura righe, solo con import corretto | 61,0% | 69,7% | 76,5% |
+| copertura rami, soli eseguibili | 11,2% | 59,1% | 66,6% |
 
 **Copertura alta e correttezza bassa, quantificate.** Sull'8B la copertura di
 riga e' 76,3% mentre i test corretti sono il 21,6%. E' il risultato centrale
@@ -316,6 +316,58 @@ basi coincidono, perche' l'import e' sempre corretto.
 **La copertura di rami sta sistematicamente sotto quella di riga**, di circa
 dieci punti. E' la misura piu' severa, come atteso su funzioni con complessita'
 ciclomatica non inferiore a dieci.
+
+**Nota sulla riproducibilita'.** Fra due esecuzioni successive di `misura.py`
+le medie oscillano di circa due decimi di punto (per esempio 66,4% contro 66,6%
+sui rami dell'8B). La causa e' che alcune funzioni del dataset usano `random` o
+dipendono dall'ordine di iterazione, quindi i test non sono del tutto
+deterministici. L'entita' e' trascurabile ma va dichiarata: i valori vanno
+riportati con una cifra decimale e non vanno letti come esatti al decimo.
+
+### 11.2-bis Copertura eseguita contro copertura verificata
+
+`misura.py` calcola la copertura due volte: con tutti i test, e con i soli test
+che passano, deselezionando i falliti. La prima dice quanto codice viene
+*eseguito*, la seconda quanto ne viene davvero *verificato* da un'asserzione
+corretta. Medie sui campioni con almeno un test passato (7, 45 e 56):
+
+| | 1B | 3B | 8B |
+|---|---|---|---|
+| righe eseguite | 54,7% | 73,2% | 77,1% |
+| righe verificate | 42,6% | 58,0% | 58,0% |
+| differenza | 12,1 | 15,3 | 19,1 |
+| rami eseguiti | 45,9% | 64,1% | 67,5% |
+| rami verificati | 26,1% | 45,0% | 45,8% |
+| differenza | 19,9 | 19,1 | 21,8 |
+
+**La differenza fra le due righe e' la misura di quanto la copertura
+sopravvaluta cio' che i test garantiscono.** E' l'argomento di Inozemtseva
+\cite{inozemtseva2014coverage} reso operativo sui dati di questo lavoro: la
+copertura cresce con la taglia del modello, ma la porzione di codice davvero
+verificata cresce molto meno.
+
+**Il divario e' piu' ampio sui rami che sulle righe**, di circa cinque punti su
+tutti e tre i modelli. I test corretti tendono a esercitare il cammino
+principale, mentre quelli che falliscono si spingono sui rami secondari e li
+"coprono" senza verificarli.
+
+**Confronto a parita' di campioni.** Le medie sopra poggiano su insiemi diversi,
+quindi 3B e 8B non sono direttamente confrontabili. Sui **30 campioni in cui
+entrambi hanno almeno un test passato**:
+
+| | 3B | 8B |
+|---|---|---|
+| righe eseguite | 72,4% | 75,5% |
+| righe verificate | 57,4% | 58,2% |
+| rami eseguiti | 62,1% | 67,9% |
+| rami verificati | 44,5% | 48,1% |
+| test passati / generati | 86/212 | 85/210 |
+
+Il vantaggio dell'8B sulla copertura eseguita e' di 3,1 punti, ma su quella
+verificata si riduce a 0,8. Sugli stessi campioni i due modelli fanno passare
+praticamente lo stesso numero di test. **Il codice in piu' che l'8B raggiunge
+lo raggiunge con test che falliscono.** E' l'esempio piu' netto del perche' la
+copertura da sola non ordini i modelli.
 
 ### 11.3 Duplicazione
 
