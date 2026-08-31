@@ -80,6 +80,18 @@ for sigla in (sys.argv[1:] or ["1b", "3b", "8b"]):
         print(f"    {nome:<14}{len(base):>5}{media(base, 'cov_righe'):>9.1f}%"
               f"{media(base, 'cov_rami'):>8.1f}%")
 
+    # dup_passati va mediata sui soli file che hanno almeno un test passato:
+    # dove non ne hanno, non ci sono righe da confrontare e il valore e' zero
+    # per costruzione, il che schiaccerebbe la media senza dire nulla.
+    con_passati = [r for r in eseguibili if int(r["passati"]) > 0]
     if eseguibili:
-        print(f"\n  duplicazione   tutti i test {media(eseguibili, 'dup_tutti'):.1f}%"
-              f"   solo test passati {media(eseguibili, 'dup_passati'):.1f}%")
+        print(f"\n  duplicazione:")
+        print(f"    tutti i test        {media(eseguibili, 'dup_tutti'):5.1f}%"
+              f"   (su {len(eseguibili)} campioni eseguibili)")
+        if con_passati:
+            print(f"    solo test passati   {media(con_passati, 'dup_passati'):5.1f}%"
+                  f"   (su {len(con_passati)} campioni con almeno un test passato)")
+            print(f"    per confronto, tutti i test sugli stessi {len(con_passati)} campioni: "
+                  f"{media(con_passati, 'dup_tutti'):.1f}%")
+        else:
+            print("    solo test passati      --   (nessun campione con test passati)")

@@ -1,0 +1,1789 @@
+modello,indice,test,categoria,origine,messaggio
+1b,0,test_is_degree_in_degree_range_1,NameError,test,name 'is_degree_in_degree_range' is not defined
+1b,0,test_is_degree_in_degree_range_2,NameError,test,name 'is_degree_in_degree_range' is not defined
+1b,0,test_is_degree_in_degree_range_3,NameError,test,name 'is_degree_in_degree_range' is not defined
+1b,0,test_is_degree_in_degree_range_4,NameError,test,name 'is_degree_in_degree_range' is not defined
+1b,0,test_is_degree_in_degree_range_5,NameError,test,name 'is_degree_in_degree_range' is not defined
+1b,0,test_is_degree_in_degree_range_6,NameError,test,name 'is_degree_in_degree_range' is not defined
+1b,0,test_is_degree_in_degree_range_7,NameError,test,name 'is_degree_in_degree_range' is not defined
+1b,2,test_fix_labels_1,NameError,test,name 'fix_labels' is not defined
+1b,2,test_fix_labels_2,NameError,test,name 'fix_labels' is not defined
+1b,2,test_fix_labels_3,NameError,test,name 'fix_labels' is not defined
+1b,2,test_fix_labels_4,NameError,test,name 'fix_labels' is not defined
+1b,2,test_fix_labels_5,NameError,test,name 'fix_labels' is not defined
+1b,2,test_fix_labels_6[4],IndexError,test,list index out of range
+1b,2,test_fix_labels_6[5],IndexError,test,list index out of range
+1b,3,test_x0x1_after_extraction_1,NameError,test,name 'x0x1_after_extraction' is not defined
+1b,3,test_x0x1_after_extraction_2,NameError,test,name 'x0x1_after_extraction' is not defined
+1b,3,test_x0x1_after_extraction_3,NameError,test,name 'x0x1_after_extraction' is not defined
+1b,3,test_x0x1_after_extraction_4,NameError,test,name 'x0x1_after_extraction' is not defined
+1b,3,test_x0x1_after_extraction_5,NameError,test,name 'x0x1_after_extraction' is not defined
+1b,3,test_x0x1_after_extraction_6,NameError,test,name 'x0x1_after_extraction' is not defined
+1b,3,test_x0x1_after_extraction_7,NameError,test,name 'x0x1_after_extraction' is not defined
+1b,4,test__remove_strings_1,NameError,test,name '_remove_strings' is not defined
+1b,4,test__remove_strings_2,NameError,test,name '_remove_strings' is not defined
+1b,4,test__remove_strings_3,NameError,test,name '_remove_strings' is not defined
+1b,4,test__remove_strings_4,NameError,test,name '_remove_strings' is not defined
+1b,4,test__remove_strings_5,NameError,test,name '_remove_strings' is not defined
+1b,4,test__remove_strings_6,NameError,test,name '_remove_strings' is not defined
+1b,4,test__remove_strings_7,NameError,test,name '_remove_strings' is not defined
+1b,4,test__remove_strings_8,NameError,test,name '_remove_strings' is not defined
+1b,5,test_can_blas_1,NameError,test,name 'can_blas' is not defined
+1b,5,test_can_blas_2,NameError,test,name 'can_blas' is not defined
+1b,5,test_can_blas_3,NameError,test,name 'can_blas' is not defined
+1b,5,test_can_blas_4,NameError,test,name 'can_blas' is not defined
+1b,5,test_can_blas_5,NameError,test,name 'can_blas' is not defined
+1b,5,test_can_blas_6,NameError,test,name 'can_blas' is not defined
+1b,5,test_can_blas_7,NameError,test,name 'can_blas' is not defined
+1b,5,test_can_blas_8,NameError,test,name 'can_blas' is not defined
+1b,6,test_deg2HMS_1,AssertionError,test,"assert ('0 0 0.0', '-90 0 0') == '00:00 -90'"
+1b,6,test_deg2HMS_2,AssertionError,test,"assert ('0 48 0.0', '30 0 0') == '12:30 0'"
+1b,6,test_deg2HMS_3,AssertionError,test,"assert ('1 34 0.0', '45 0 0') == '23:45 45'"
+1b,6,test_deg2HMS_4,AssertionError,test,"assert ('-0 40 0.0', '60 0 0') == '-10:00 60'"
+1b,6,test_deg2HMS_5,AssertionError,test,"assert ('0 0 0', '-90 0 0') == '00:00 -90'"
+1b,6,test_deg2HMS_6,AssertionError,test,"assert ('0 48 0.0', '30 0 0') == '12:30 0'"
+1b,7,test_single_defcom_extract_1,NameError,test,name 'single_defcom_extract' is not defined
+1b,7,test_single_defcom_extract_2,NameError,test,name 'single_defcom_extract' is not defined
+1b,7,test_single_defcom_extract_3,NameError,test,name 'single_defcom_extract' is not defined
+1b,7,test_single_defcom_extract_4,NameError,test,name 'single_defcom_extract' is not defined
+1b,7,test_single_defcom_extract_5,NameError,test,name 'single_defcom_extract' is not defined
+1b,7,test_single_defcom_extract_6,NameError,test,name 'single_defcom_extract' is not defined
+1b,7,test_single_defcom_extract_7,NameError,test,name 'single_defcom_extract' is not defined
+1b,7,test_single_defcom_extract_8,NameError,test,name 'single_defcom_extract' is not defined
+1b,8,test_get_allen_relation_1,NameError,test,name 'get_allen_relation' is not defined
+1b,8,test_get_allen_relation_2,NameError,test,name 'get_allen_relation' is not defined
+1b,8,test_get_allen_relation_3,NameError,test,name 'get_allen_relation' is not defined
+1b,8,test_get_allen_relation_4,NameError,test,name 'get_allen_relation' is not defined
+1b,8,test_get_allen_relation_5,NameError,test,name 'get_allen_relation' is not defined
+1b,8,test_get_allen_relation_6,NameError,test,name 'get_allen_relation' is not defined
+1b,8,test_get_allen_relation_7,NameError,test,name 'get_allen_relation' is not defined
+1b,8,test_get_allen_relation_8,NameError,test,name 'get_allen_relation' is not defined
+1b,9,test_point_box_relation_1,NameError,test,name 'point_box_relation' is not defined
+1b,9,test_point_box_relation_2,NameError,test,name 'point_box_relation' is not defined
+1b,9,test_point_box_relation_3,NameError,test,name 'point_box_relation' is not defined
+1b,9,test_point_box_relation_4,NameError,test,name 'point_box_relation' is not defined
+1b,9,test_point_box_relation_5,NameError,test,name 'point_box_relation' is not defined
+1b,9,test_point_box_relation_6,NameError,test,name 'point_box_relation' is not defined
+1b,9,test_point_box_relation_7,NameError,test,name 'point_box_relation' is not defined
+1b,11,test_create_three_random_v_indices_1,AssertionError,test,"assert (4, 8, 2) == (0, 9, 8)"
+1b,11,test_create_three_random_v_indices_2,AssertionError,test,"assert (2, 20, 12) == (4, 3, 2)"
+1b,11,test_create_three_random_v_indices_3,AssertionError,test,"assert (3, 14, 22) == (0, 29, 28)"
+1b,11,test_create_three_random_v_indices_4,AssertionError,test,"assert (22, 19, 12) == (5, 4, 3)"
+1b,11,test_create_three_random_v_indices_5,AssertionError,test,"assert (38, 41, 33) == (1, 0, -1)"
+1b,11,test_create_three_random_v_indices_6,AssertionError,test,"assert (36, 27, 11) == (-1, -2, -3)"
+1b,11,test_create_three_random_v_indices_7,AssertionError,test,"assert (22, 4, 67) == (-2, -3, -4)"
+1b,12,test_diffsents_1,NameError,test,name 'diffsents' is not defined
+1b,12,test_diffsents_2,NameError,test,name 'diffsents' is not defined
+1b,12,test_diffsents_3,NameError,test,name 'diffsents' is not defined
+1b,12,test_diffsents_4,NameError,test,name 'diffsents' is not defined
+1b,12,test_diffsents_5,NameError,test,name 'diffsents' is not defined
+1b,12,test_diffsents_6,NameError,test,name 'diffsents' is not defined
+1b,13,test_replacement_template_1,NameError,test,name 'replacement_template' is not defined
+1b,13,test_replacement_template_2,NameError,test,name 'replacement_template' is not defined
+1b,13,test_replacement_template_3,NameError,test,name 'replacement_template' is not defined
+1b,13,test_replacement_template_4,NameError,test,name 'replacement_template' is not defined
+1b,13,test_replacement_template_5,NameError,test,name 'replacement_template' is not defined
+1b,13,test_replacement_template_6,NameError,test,name 'replacement_template' is not defined
+1b,13,test_replacement_template_7,NameError,test,name 'replacement_template' is not defined
+1b,13,test_replacement_template_8,NameError,test,name 'replacement_template' is not defined
+1b,17,test_calc_query_pos_from_cigar_1,NameError,test,name 'calc_query_pos_from_cigar' is not defined
+1b,17,test_calc_query_pos_from_cigar_2,NameError,test,name 'calc_query_pos_from_cigar' is not defined
+1b,17,test_calc_query_pos_from_cigar_3,NameError,test,name 'calc_query_pos_from_cigar' is not defined
+1b,17,test_calc_query_pos_from_cigar_4,NameError,test,name 'calc_query_pos_from_cigar' is not defined
+1b,17,test_calc_query_pos_from_cigar_5,NameError,test,name 'calc_query_pos_from_cigar' is not defined
+1b,17,test_calc_query_pos_from_cigar_6,NameError,test,name 'calc_query_pos_from_cigar' is not defined
+1b,17,test_calc_query_pos_from_cigar_7,NameError,test,name 'calc_query_pos_from_cigar' is not defined
+1b,17,test_calc_query_pos_from_cigar_8,NameError,test,name 'calc_query_pos_from_cigar' is not defined
+1b,18,test_get_processor_types_from_config_class_2[BertConfig],AssertionError,test,assert 13 == 1
+1b,18,test_get_processor_types_from_config_class_2[DistilBertConfig],AssertionError,test,assert 19 == 1
+1b,18,test_get_processor_types_from_config_class_4[BertConfig],AssertionError,test,assert 13 == 2
+1b,18,test_get_processor_types_from_config_class_4[RobertaConfig],AssertionError,test,assert 16 == 2
+1b,18,test_get_processor_types_from_config_class_6[XLNetConfig],AssertionError,test,assert 14 == 2
+1b,18,test_get_processor_types_from_config_class_6[RobertaConfig],AssertionError,test,assert 16 == 2
+1b,18,test_get_processor_types_from_config_class_8[RobertaConfig],AssertionError,test,assert 16 == 2
+1b,18,test_get_processor_types_from_config_class_8[XLNetConfig],AssertionError,test,assert 14 == 2
+1b,18,test_get_processor_types_from_config_class_no_mappings,AssertionError,test,assert () is None
+1b,19,test_maximal_matching_pairs_1,NameError,test,name 'maximal_matching_pairs' is not defined
+1b,19,test_maximal_matching_pairs_2,NameError,test,name 'maximal_matching_pairs' is not defined
+1b,19,test_maximal_matching_pairs_3,NameError,test,name 'maximal_matching_pairs' is not defined
+1b,19,test_maximal_matching_pairs_4,NameError,test,name 'maximal_matching_pairs' is not defined
+1b,19,test_maximal_matching_pairs_5,NameError,test,name 'maximal_matching_pairs' is not defined
+1b,19,test_maximal_matching_pairs_6,NameError,test,name 'maximal_matching_pairs' is not defined
+1b,19,test_maximal_matching_pairs_7,NameError,test,name 'maximal_matching_pairs' is not defined
+1b,19,test_maximal_matching_pairs_8,NameError,test,name 'maximal_matching_pairs' is not defined
+1b,20,test_lflverify_1,TypeError,funzione,'int' object is not subscriptable
+1b,20,test_lflverify_2,NameError,funzione,name 'logging' is not defined. Did you forget to import 'logging'
+1b,20,test_lflverify_3,NameError,funzione,name 'logging' is not defined. Did you forget to import 'logging'
+1b,20,test_lflverify_4,TypeError,funzione,'int' object is not subscriptable
+1b,20,test_lflverify_5,NameError,funzione,name 'logging' is not defined. Did you forget to import 'logging'
+1b,20,test_lflverify_6,NameError,funzione,name 'logging' is not defined. Did you forget to import 'logging'
+1b,20,test_lflverify_7,TypeError,funzione,'int' object is not subscriptable
+1b,21,test_longestNonWildcardSubsequence_1,NameError,test,name 'longestNonWildcardSubsequence' is not defined
+1b,21,test_longestNonWildcardSubsequence_2,NameError,test,name 'longestNonWildcardSubsequence' is not defined
+1b,21,test_longestNonWildcardSubsequence_3,NameError,test,name 'longestNonWildcardSubsequence' is not defined
+1b,21,test_longestNonWildcardSubsequence_4,NameError,test,name 'longestNonWildcardSubsequence' is not defined
+1b,21,test_longestNonWildcardSubsequence_5,NameError,test,name 'longestNonWildcardSubsequence' is not defined
+1b,21,test_longestNonWildcardSubsequence_6,NameError,test,name 'longestNonWildcardSubsequence' is not defined
+1b,21,test_longestNonWildcardSubsequence_7,NameError,test,name 'longestNonWildcardSubsequence' is not defined
+1b,21,test_longestNonWildcardSubsequence_8,NameError,test,name 'longestNonWildcardSubsequence' is not defined
+1b,21,test_longestNonWildcardSubsequence_9,NameError,test,name 'longestNonWildcardSubsequence' is not defined
+1b,22,test_windows_k_distinct_1,NameError,test,name 'windows_k_distinct' is not defined
+1b,22,test_windows_k_distinct_2,NameError,test,name 'windows_k_distinct' is not defined
+1b,22,test_windows_k_distinct_3,NameError,test,name 'windows_k_distinct' is not defined
+1b,22,test_windows_k_distinct_4,NameError,test,name 'windows_k_distinct' is not defined
+1b,22,test_windows_k_distinct_5,NameError,test,name 'windows_k_distinct' is not defined
+1b,22,test_windows_k_distinct_6,NameError,test,name 'windows_k_distinct' is not defined
+1b,22,test_windows_k_distinct_7,NameError,test,name 'windows_k_distinct' is not defined
+1b,22,test_windows_k_distinct_8,NameError,test,name 'windows_k_distinct' is not defined
+1b,23,test_string_contrast_1,NameError,test,name 'string_contrast' is not defined
+1b,23,test_string_contrast_2,NameError,test,name 'string_contrast' is not defined
+1b,23,test_string_contrast_3,NameError,test,name 'string_contrast' is not defined
+1b,23,test_string_contrast_4,NameError,test,name 'string_contrast' is not defined
+1b,23,test_string_contrast_5,NameError,test,name 'string_contrast' is not defined
+1b,23,test_string_contrast_6,NameError,test,name 'string_contrast' is not defined
+1b,23,test_string_contrast_7,NameError,test,name 'string_contrast' is not defined
+1b,24,test_max_rewards_1,NameError,test,name 'max_rewards' is not defined
+1b,24,test_max_rewards_2,NameError,test,name 'max_rewards' is not defined
+1b,24,test_max_rewards_3,NameError,test,name 'max_rewards' is not defined
+1b,24,test_max_rewards_4,NameError,test,name 'max_rewards' is not defined
+1b,24,test_max_rewards_5,NameError,test,name 'max_rewards' is not defined
+1b,24,test_max_rewards_6,NameError,test,name 'max_rewards' is not defined
+1b,24,test_max_rewards_7,NameError,test,name 'max_rewards' is not defined
+1b,24,test_max_rewards_8,NameError,test,name 'max_rewards' is not defined
+1b,25,test_circle_line_segment_intersection_1,AssertionError,test,assert [(-2.77350098...251471689219)] == [(2.236067977...606797749979)]
+1b,25,test_circle_line_segment_intersection_2,AssertionError,test,assert [(-2.77350098...251471689219)] == []
+1b,25,test_circle_line_segment_intersection_3,AssertionError,test,assert [(-3.53553390...339059327373)] == [(1.236067977...606797749979)]
+1b,25,test_circle_line_segment_intersection_4,AssertionError,test,assert [(-2.93286969...094401862465)] == []
+1b,25,test_circle_line_segment_intersection_5,TypeError,test,circle_line_segment_intersection() missing 1 required positional argument: 'pt2'
+1b,25,test_circle_line_segment_intersection_6,AssertionError,test,assert [(-2.91227176...111775263645)] == []
+1b,25,test_circle_line_segment_intersection_7,AssertionError,test,assert [(-3.53553390...533905932738)] == [(1.236067977...606797749979)]
+1b,25,test_circle_line_segment_intersection_8,AssertionError,test,assert [(-2.91227176...111775263645)] == [(1.236067977...606797749979)]
+1b,27,test_move_gain_1,NameError,test,name 'move_gain' is not defined
+1b,27,test_move_gain_2,NameError,test,name 'move_gain' is not defined
+1b,27,test_move_gain_3,NameError,test,name 'move_gain' is not defined
+1b,27,test_move_gain_4,NameError,test,name 'move_gain' is not defined
+1b,27,test_move_gain_5,NameError,test,name 'move_gain' is not defined
+1b,27,test_move_gain_6,NameError,test,name 'move_gain' is not defined
+1b,27,test_move_gain_7,NameError,test,name 'move_gain' is not defined
+1b,28,test_time_in_swiss_german_1,NameError,test,name 'time_in_swiss_german' is not defined
+1b,28,test_time_in_swiss_german_2,NameError,test,name 'time_in_swiss_german' is not defined
+1b,28,test_time_in_swiss_german_3,NameError,test,name 'time_in_swiss_german' is not defined
+1b,28,test_time_in_swiss_german_4,NameError,test,name 'time_in_swiss_german' is not defined
+1b,28,test_time_in_swiss_german_5,NameError,test,name 'time_in_swiss_german' is not defined
+1b,28,test_time_in_swiss_german_6,NameError,test,name 'time_in_swiss_german' is not defined
+1b,28,test_time_in_swiss_german_7,NameError,test,name 'time_in_swiss_german' is not defined
+1b,28,test_time_in_swiss_german_8,NameError,test,name 'time_in_swiss_german' is not defined
+1b,29,test_columnTransCipher_1,TypeError,funzione,'NoneType' object is not iterable
+1b,29,test_columnTransCipher_2,TypeError,funzione,'NoneType' object is not iterable
+1b,29,test_columnTransCipher_3,TypeError,funzione,'NoneType' object is not iterable
+1b,29,test_columnTransCipher_4,TypeError,funzione,'NoneType' object is not iterable
+1b,29,test_columnTransCipher_5,TypeError,funzione,'NoneType' object is not iterable
+1b,29,test_columnTransCipher_6,TypeError,funzione,'NoneType' object is not iterable
+1b,29,test_columnTransCipher_7,TypeError,funzione,'NoneType' object is not iterable
+1b,29,test_columnTransCipher_8,TypeError,funzione,'NoneType' object is not iterable
+1b,31,test_get_trackletpair_t_range_1,NameError,test,name 'get_trackletpair_t_range' is not defined
+1b,31,test_get_trackletpair_t_range_2,NameError,test,name 'get_trackletpair_t_range' is not defined
+1b,31,test_get_trackletpair_t_range_3,NameError,test,name 'get_trackletpair_t_range' is not defined
+1b,31,test_get_trackletpair_t_range_4,NameError,test,name 'get_trackletpair_t_range' is not defined
+1b,31,test_get_trackletpair_t_range_5,NameError,test,name 'get_trackletpair_t_range' is not defined
+1b,31,test_get_trackletpair_t_range_6,NameError,test,name 'get_trackletpair_t_range' is not defined
+1b,31,test_get_trackletpair_t_range_7,NameError,test,name 'get_trackletpair_t_range' is not defined
+1b,31,test_get_trackletpair_t_range_8,NameError,test,name 'get_trackletpair_t_range' is not defined
+1b,32,TestGetBwWeight.test_g_weight,NameError,test,name 'get_bw_weight' is not defined
+1b,32,TestGetBwWeight.test_m_weight,NameError,test,name 'get_bw_weight' is not defined
+1b,32,TestGetBwWeight.test_e_weight,NameError,test,name 'get_bw_weight' is not defined
+1b,32,TestGetBwWeight.test_h2_weight,NameError,test,name 'get_bw_weight' is not defined
+1b,32,TestGetBwWeight.test_h3_weight,NameError,test,name 'get_bw_weight' is not defined
+1b,32,TestGetBwWeight.test_stable_weight,NameError,test,name 'get_bw_weight' is not defined
+1b,32,TestGetBwWeight.test_exit_flagged_nodes,NameError,test,name 'get_bw_weight' is not defined
+1b,32,TestGetBwWeight.test_position_not_supported,NameError,test,name 'get_bw_weight' is not defined
+1b,33,test_coordinate_sorter_1,NameError,test,name 'coordinate_sorter' is not defined
+1b,33,test_coordinate_sorter_2,NameError,test,name 'coordinate_sorter' is not defined
+1b,33,test_coordinate_sorter_3,NameError,test,name 'coordinate_sorter' is not defined
+1b,33,test_coordinate_sorter_4,NameError,test,name 'coordinate_sorter' is not defined
+1b,33,test_coordinate_sorter_5,NameError,test,name 'coordinate_sorter' is not defined
+1b,33,test_coordinate_sorter_6,NameError,test,name 'coordinate_sorter' is not defined
+1b,33,test_coordinate_sorter_7,NameError,test,name 'coordinate_sorter' is not defined
+1b,34,test_get_past_goal_indices_1,AssertionError,test,assert 2 == 3
+1b,34,test_get_past_goal_indices_2,AssertionError,test,"assert [0, 1] == []"
+1b,34,test_get_past_goal_indices_3,AssertionError,test,assert 2 == 4
+1b,34,test_get_past_goal_indices_4,DID NOT RAISE,test,eccezione attesa e non sollevata
+1b,34,test_get_past_goal_indices_6,AssertionError,test,assert [0] == []
+1b,34,test_get_past_goal_indices_7,DID NOT RAISE,test,eccezione attesa e non sollevata
+1b,35,test__normalized_vcf_1,NameError,test,name '_normalized_vcf' is not defined
+1b,35,test__normalized_vcf_2,NameError,test,name '_normalized_vcf' is not defined
+1b,35,test__normalized_vcf_3,NameError,test,name '_normalized_vcf' is not defined
+1b,35,test__normalized_vcf_4,NameError,test,name '_normalized_vcf' is not defined
+1b,35,test__normalized_vcf_5,NameError,test,name '_normalized_vcf' is not defined
+1b,35,test__normalized_vcf_6,NameError,test,name '_normalized_vcf' is not defined
+1b,35,test__normalized_vcf_7,NameError,test,name '_normalized_vcf' is not defined
+1b,35,test__normalized_vcf_8,NameError,test,name '_normalized_vcf' is not defined
+1b,36,test_categorizeSentimentcomplex_1,AssertionError,test,assert 'astonished' == 'pleased'
+1b,36,test_categorizeSentimentcomplex_2,AssertionError,test,assert '' == 'mad'
+1b,36,test_categorizeSentimentcomplex_3,AssertionError,test,assert 'alarmed' == 'angry'
+1b,36,test_categorizeSentimentcomplex_4,AssertionError,test,assert 'alarmed' == 'tired'
+1b,36,test_categorizeSentimentcomplex_5,AssertionError,test,assert 'angry' == 'content'
+1b,36,test_categorizeSentimentcomplex_6,AssertionError,test,assert 'mad' == 'astonished'
+1b,36,test_categorizeSentimentcomplex_7,AssertionError,test,assert 'angry' == 'mad'
+1b,36,test_categorizeSentimentcomplex_8,AssertionError,test,assert 'annoyed' == 'relaxed'
+1b,37,test_uniformate2_1[FATHA],AssertionError,test,"assert ('', '') in ('FATHA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_1[DAMMA],AssertionError,test,"assert ('', '') in ('DAMMA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_1[KASRA],AssertionError,test,"assert ('', '') in ('KASRA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_1[SUKUN],AssertionError,test,"assert ('', '') in ('SUKUN', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_2[FATHA_FATHA],AssertionError,test,"assert ('', '') in ('FATHA_FATHA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_2[WAW_HARAKA],AssertionError,test,"assert ('', '') in ('WAW_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_2[YEH_HARAKA],AssertionError,test,"assert ('', '') in ('YEH_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_2[DAMMA],AssertionError,test,"assert ('', '') in ('DAMMA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_2[SUKUN],AssertionError,test,"assert ('', '') in ('SUKUN', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_3[FATHA_FATHA],AssertionError,test,"assert ('', '') in ('FATHA_FATHA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_3[WAW_HARAKA],AssertionError,test,"assert ('', '') in ('WAW_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_3[YEH_HARAKA],AssertionError,test,"assert ('', '') in ('YEH_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_3[DAMMA],AssertionError,test,"assert ('', '') in ('DAMMA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_3[SUKUN],AssertionError,test,"assert ('', '') in ('SUKUN', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_4[FATHA_FATHA],AssertionError,test,"assert ('', '') in ('FATHA_FATHA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_4[WAW_HARAKA],AssertionError,test,"assert ('', '') in ('WAW_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_4[YEH_HARAKA],AssertionError,test,"assert ('', '') in ('YEH_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_4[DAMMA],AssertionError,test,"assert ('', '') in ('DAMMA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_4[SUKUN],AssertionError,test,"assert ('', '') in ('SUKUN', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_5[FATHA_FATHA],AssertionError,test,"assert ('', '') in ('FATHA_FATHA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_5[WAW_HARAKA],AssertionError,test,"assert ('', '') in ('WAW_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_5[YEH_HARAKA],AssertionError,test,"assert ('', '') in ('YEH_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_5[DAMMA],AssertionError,test,"assert ('', '') in ('DAMMA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_5[SUKUN],AssertionError,test,"assert ('', '') in ('SUKUN', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_6[FATHA_FATHA],AssertionError,test,"assert ('', '') in ('FATHA_FATHA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_6[WAW_HARAKA],AssertionError,test,"assert ('', '') in ('WAW_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_6[YEH_HARAKA],AssertionError,test,"assert ('', '') in ('YEH_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_6[DAMMA],AssertionError,test,"assert ('', '') in ('DAMMA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_6[SUKUN],AssertionError,test,"assert ('', '') in ('SUKUN', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_7[FATHA_FATHA],AssertionError,test,"assert ('', '') in ('FATHA_FATHA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_7[WAW_HARAKA],AssertionError,test,"assert ('', '') in ('WAW_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_7[YEH_HARAKA],AssertionError,test,"assert ('', '') in ('YEH_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_7[DAMMA],AssertionError,test,"assert ('', '') in ('DAMMA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_7[SUKUN],AssertionError,test,"assert ('', '') in ('SUKUN', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_8[FATHA_FATHA],AssertionError,test,"assert ('', '') in ('FATHA_FATHA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_8[WAW_HARAKA],AssertionError,test,"assert ('', '') in ('WAW_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_8[YEH_HARAKA],AssertionError,test,"assert ('', '') in ('YEH_HARAKA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_8[DAMMA],AssertionError,test,"assert ('', '') in ('DAMMA', 'NOT_DEF_HARAKA')"
+1b,37,test_uniformate2_8[SUKUN],AssertionError,test,"assert ('', '') in ('SUKUN', 'NOT_DEF_HARAKA')"
+1b,38,test_wordparamcheck_1,NameError,test,name 'wordparamcheck' is not defined
+1b,38,test_wordparamcheck_2,NameError,test,name 'wordparamcheck' is not defined
+1b,38,test_wordparamcheck_3,NameError,test,name 'wordparamcheck' is not defined
+1b,38,test_wordparamcheck_4,NameError,test,name 'wordparamcheck' is not defined
+1b,38,test_wordparamcheck_5,NameError,test,name 'wordparamcheck' is not defined
+1b,38,test_wordparamcheck_6,NameError,test,name 'wordparamcheck' is not defined
+1b,38,test_wordparamcheck_7,NameError,test,name 'wordparamcheck' is not defined
+1b,38,test_wordparamcheck_8,NameError,test,name 'wordparamcheck' is not defined
+1b,39,test_splitIA2Attribs_1,NameError,test,name 'splitIA2Attribs' is not defined
+1b,39,test_splitIA2Attribs_2,NameError,test,name 'splitIA2Attribs' is not defined
+1b,39,test_splitIA2Attribs_3,NameError,test,name 'splitIA2Attribs' is not defined
+1b,39,test_splitIA2Attribs_4,NameError,test,name 'splitIA2Attribs' is not defined
+1b,39,test_splitIA2Attribs_5,NameError,test,name 'splitIA2Attribs' is not defined
+1b,39,test_splitIA2Attribs_6,NameError,test,name 'splitIA2Attribs' is not defined
+1b,39,test_splitIA2Attribs_7,NameError,test,name 'splitIA2Attribs' is not defined
+1b,39,test_splitIA2Attribs_8,NameError,test,name 'splitIA2Attribs' is not defined
+1b,40,test_decode_address_entry_1,NameError,test,name 'decode_address_entry' is not defined
+1b,40,test_decode_address_entry_2,NameError,test,name 'decode_address_entry' is not defined
+1b,40,test_decode_address_entry_3,NameError,test,name 'decode_address_entry' is not defined
+1b,40,test_decode_address_entry_4,NameError,test,name 'decode_address_entry' is not defined
+1b,40,test_decode_address_entry_5,NameError,test,name 'decode_address_entry' is not defined
+1b,40,test_decode_address_entry_6,NameError,test,name 'decode_address_entry' is not defined
+1b,40,test_decode_address_entry_7,NameError,test,name 'decode_address_entry' is not defined
+1b,40,test_decode_address_entry_8,NameError,test,name 'decode_address_entry' is not defined
+1b,41,test_make_similar_1,NameError,test,name 'make_similar' is not defined
+1b,41,test_make_similar_2,NameError,test,name 'make_similar' is not defined
+1b,41,test_make_similar_3,NameError,test,name 'make_similar' is not defined
+1b,41,test_make_similar_4,NameError,test,name 'make_similar' is not defined
+1b,41,test_make_similar_5,NameError,test,name 'make_similar' is not defined
+1b,41,test_make_similar_6,NameError,test,name 'make_similar' is not defined
+1b,41,test_make_similar_7,NameError,test,name 'make_similar' is not defined
+1b,41,test_make_similar_8,NameError,test,name 'make_similar' is not defined
+1b,42,test_generateResultTree_1,NameError,test,name 'generateResultTree' is not defined
+1b,42,test_generateResultTree_2,NameError,test,name 'generateResultTree' is not defined
+1b,42,test_generateResultTree_3,NameError,test,name 'generateResultTree' is not defined
+1b,42,test_generateResultTree_4,NameError,test,name 'generateResultTree' is not defined
+1b,42,test_generateResultTree_5,NameError,test,name 'generateResultTree' is not defined
+1b,42,test_generateResultTree_6,NameError,test,name 'generateResultTree' is not defined
+1b,42,test_generateResultTree_7,NameError,test,name 'generateResultTree' is not defined
+1b,42,test_generateResultTree_8,NameError,test,name 'generateResultTree' is not defined
+1b,43,test_identify_distance_type_1,AssertionError,test,assert 'ins' is False
+1b,43,test_identify_distance_type_2,AssertionError,test,assert 'ins' is False
+1b,43,test_identify_distance_type_3,AssertionError,test,assert 'ins' is False
+1b,43,test_identify_distance_type_4,AssertionError,test,assert 'ins' is False
+1b,43,test_identify_distance_type_5,AssertionError,test,assert 'ins' is False
+1b,43,test_identify_distance_type_6,AssertionError,test,assert 'ins' is False
+1b,43,test_identify_distance_type_7,AssertionError,test,assert 'ins' is False
+1b,43,test_identify_distance_type_8,AssertionError,test,assert 'ins' is False
+1b,45,test_min_edit_script_1,NameError,test,name 'min_edit_script' is not defined
+1b,45,test_min_edit_script_2,NameError,test,name 'min_edit_script' is not defined
+1b,45,test_min_edit_script_3,NameError,test,name 'min_edit_script' is not defined
+1b,45,test_min_edit_script_4,NameError,test,name 'min_edit_script' is not defined
+1b,45,test_min_edit_script_5,NameError,test,name 'min_edit_script' is not defined
+1b,45,test_min_edit_script_6,NameError,test,name 'min_edit_script' is not defined
+1b,45,test_min_edit_script_7,NameError,test,name 'min_edit_script' is not defined
+1b,45,test_min_edit_script_8,NameError,test,name 'min_edit_script' is not defined
+1b,46,test_common_conv2d_pool_output_shape_1,TypeError,funzione,object of type 'int' has no len()
+1b,46,test_common_conv2d_pool_output_shape_2,TypeError,funzione,object of type 'int' has no len()
+1b,46,test_common_conv2d_pool_output_shape_3,TypeError,funzione,object of type 'int' has no len()
+1b,46,test_common_conv2d_pool_output_shape_4,TypeError,funzione,object of type 'int' has no len()
+1b,46,test_common_conv2d_pool_output_shape_5,TypeError,funzione,object of type 'int' has no len()
+1b,46,test_common_conv2d_pool_output_shape_6,NameError,test,name 'pytest' is not defined
+1b,46,test_common_conv2d_pool_output_shape_7,NameError,test,name 'pytest' is not defined
+1b,46,test_common_conv2d_pool_output_shape_8,NameError,test,name 'pytest' is not defined
+1b,47,test_featurize_finance_1,NameError,test,name 'featurize_finance' is not defined
+1b,47,test_featurize_finance_2,NameError,test,name 'featurize_finance' is not defined
+1b,47,test_featurize_finance_3,NameError,test,name 'featurize_finance' is not defined
+1b,47,test_featurize_finance_4,NameError,test,name 'featurize_finance' is not defined
+1b,47,test_featurize_finance_5,NameError,test,name 'featurize_finance' is not defined
+1b,47,test_featurize_finance_6,NameError,test,name 'featurize_finance' is not defined
+1b,47,test_featurize_finance_7,NameError,test,name 'featurize_finance' is not defined
+1b,48,test_tmux_format_1,AssertionError,test,"assert '#[reverse,fg...  KW: 1 min  ' == '#[colour4,fg=white] KW'"
+1b,48,test_tmux_format_2,AssertionError,test,"assert '#[reverse,fg...  KW: 1 min  ' == '#[reverse,fg...hite]  20 min'"
+1b,48,test_tmux_format_3,AssertionError,test,"assert '#[reverse,fg...  KW: 1 min  ' == '#[colour1,fg...ite]  30 mins'"
+1b,48,test_tmux_format_4,DID NOT RAISE,test,eccezione attesa e non sollevata
+1b,48,test_tmux_format_5,AssertionError,test,"assert '#[noreverse,...  EB: 1 min  ' == 'KW'"
+1b,49,test_next_point_in_8_neigh_1,NameError,test,name 'next_point_in_8_neigh' is not defined
+1b,49,test_next_point_in_8_neigh_2,NameError,test,name 'next_point_in_8_neigh' is not defined
+1b,49,test_next_point_in_8_neigh_3,NameError,test,name 'next_point_in_8_neigh' is not defined
+1b,49,test_next_point_in_8_neigh_4,NameError,test,name 'next_point_in_8_neigh' is not defined
+1b,49,test_next_point_in_8_neigh_5,NameError,test,name 'next_point_in_8_neigh' is not defined
+1b,49,test_next_point_in_8_neigh_6,NameError,test,name 'next_point_in_8_neigh' is not defined
+1b,49,test_next_point_in_8_neigh_7,NameError,test,name 'next_point_in_8_neigh' is not defined
+1b,49,test_next_point_in_8_neigh_8,NameError,test,name 'next_point_in_8_neigh' is not defined
+1b,50,test_cal_overlap_neg_strand_1[0-10--5-15],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_1[20-30--3-25],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_2[0-10--5-15],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_2[-20-30--3-25],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_3[0-10--5-15],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_3[-20-30--3-25],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_4[0-10--5-15],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_4[-20-30--3-25],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_5[0-10--5-15],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_5[-20-30--3-25],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_6[0-10--5-15],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_6[-20-30--3-25],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_7[0-10--5-15],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_7[-20-30--3-25],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_8[0-10--5-15],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,50,test_cal_overlap_neg_strand_8[-20-30--3-25],NameError,test,name 'cal_overlap_neg_strand' is not defined
+1b,51,test_find_repeat_1,NameError,test,name 'find_repeat' is not defined
+1b,51,test_find_repeat_2,NameError,test,name 'find_repeat' is not defined
+1b,51,test_find_repeat_3,NameError,test,name 'find_repeat' is not defined
+1b,51,test_find_repeat_4,NameError,test,name 'find_repeat' is not defined
+1b,51,test_find_repeat_5,NameError,test,name 'find_repeat' is not defined
+1b,51,test_find_repeat_6,NameError,test,name 'find_repeat' is not defined
+1b,51,test_find_repeat_7,NameError,test,name 'find_repeat' is not defined
+1b,51,test_find_repeat_8,NameError,test,name 'find_repeat' is not defined
+1b,52,test_get_next_queen_recursion_coordinates_1,AssertionError,test,"assert (4, 2) == (6, 7)"
+1b,52,test_get_next_queen_recursion_coordinates_2,AssertionError,test,"assert (3, 0) == (2, 1)"
+1b,52,test_get_next_queen_recursion_coordinates_3,AssertionError,test,"assert (6, 5) == (6, 8)"
+1b,52,test_get_next_queen_recursion_coordinates_4,AssertionError,test,"assert (1, 2) == (4, 3)"
+1b,52,test_get_next_queen_recursion_coordinates_5,AssertionError,test,"assert (5, 2) == (3, 2)"
+1b,52,test_get_next_queen_recursion_coordinates_6,AssertionError,test,"assert (7, 3) == (5, 4)"
+1b,52,test_get_next_queen_recursion_coordinates_7,AssertionError,test,"assert (1, 1) == (2, 1)"
+1b,52,test_get_next_queen_recursion_coordinates_8,AssertionError,test,"assert (6, 4) == (6, 6)"
+1b,53,test_calc_num_weights3_1,NameError,test,name 'calc_num_weights3' is not defined
+1b,53,test_calc_num_weights3_2,NameError,test,name 'calc_num_weights3' is not defined
+1b,53,test_calc_num_weights3_3,NameError,test,name 'calc_num_weights3' is not defined
+1b,53,test_calc_num_weights3_4,NameError,test,name 'calc_num_weights3' is not defined
+1b,53,test_calc_num_weights3_5,NameError,test,name 'calc_num_weights3' is not defined
+1b,53,test_calc_num_weights3_6,NameError,test,name 'calc_num_weights3' is not defined
+1b,53,test_calc_num_weights3_7,NameError,test,name 'calc_num_weights3' is not defined
+1b,53,test_calc_num_weights3_8,NameError,test,name 'calc_num_weights3' is not defined
+1b,54,test_get_intersect_point_1,NameError,test,name 'get_intersect_point' is not defined
+1b,54,test_get_intersect_point_2,NameError,test,name 'get_intersect_point' is not defined
+1b,54,test_get_intersect_point_3,NameError,test,name 'get_intersect_point' is not defined
+1b,54,test_get_intersect_point_4,NameError,test,name 'get_intersect_point' is not defined
+1b,54,test_get_intersect_point_5,NameError,test,name 'get_intersect_point' is not defined
+1b,54,test_get_intersect_point_6,NameError,test,name 'get_intersect_point' is not defined
+1b,54,test_get_intersect_point_7,NameError,test,name 'get_intersect_point' is not defined
+1b,54,test_get_intersect_point_8,NameError,test,name 'get_intersect_point' is not defined
+1b,55,test_check_dead_corner_1,NameError,test,name 'check_dead_corner' is not defined
+1b,55,test_check_dead_corner_2,NameError,test,name 'check_dead_corner' is not defined
+1b,55,test_check_dead_corner_3,NameError,test,name 'check_dead_corner' is not defined
+1b,55,test_check_dead_corner_4,NameError,test,name 'check_dead_corner' is not defined
+1b,55,test_check_dead_corner_5,NameError,test,name 'check_dead_corner' is not defined
+1b,55,test_check_dead_corner_6,NameError,test,name 'check_dead_corner' is not defined
+1b,56,test_formatTime_1,NameError,test,name 'formatTime' is not defined
+1b,56,test_formatTime_2,NameError,test,name 'formatTime' is not defined
+1b,56,test_formatTime_3,NameError,test,name 'formatTime' is not defined
+1b,56,test_formatTime_4,NameError,test,name 'formatTime' is not defined
+1b,56,test_formatTime_5,NameError,test,name 'formatTime' is not defined
+1b,56,test_formatTime_6,NameError,test,name 'formatTime' is not defined
+1b,57,test_fileNamer_1,AssertionError,test,assert 'EdgeModel_dataset' == 'dataset_NodeModel'
+1b,57,test_fileNamer_4,TypeError,funzione,"can only concatenate str (not ""bool"") to str"
+1b,57,test_fileNamer_5,TypeError,funzione,"can only concatenate str (not ""float"") to str"
+1b,57,test_fileNamer_6,AssertionError,test,assert '' == 'dataset'
+1b,57,test_fileNamer_7,TypeError,funzione,"can only concatenate str (not ""int"") to str"
+1b,58,test_detect_side_1,NameError,test,name 'detect_side' is not defined
+1b,58,test_detect_side_2,NameError,test,name 'detect_side' is not defined
+1b,58,test_detect_side_3,NameError,test,name 'detect_side' is not defined
+1b,58,test_detect_side_4,NameError,test,name 'detect_side' is not defined
+1b,58,test_detect_side_5,NameError,test,name 'detect_side' is not defined
+1b,58,test_detect_side_6,NameError,test,name 'detect_side' is not defined
+1b,58,test_detect_side_7,NameError,test,name 'detect_side' is not defined
+1b,58,test_detect_side_8,NameError,test,name 'detect_side' is not defined
+1b,59,test_circle_line_intersection_1,AssertionError,test,assert [(-2.77350098...251471689219)] == [(2.236067977...606797749979)]
+1b,59,test_circle_line_intersection_2,AssertionError,test,assert [(-3.53553390...339059327373)] == []
+1b,59,test_circle_line_intersection_3,AssertionError,test,assert [] == [(4.236067977...606797749979)]
+1b,59,test_circle_line_intersection_4,AssertionError,test,assert [(-1.82710574...211490264018)] == []
+1b,59,test_circle_line_intersection_5,AssertionError,test,assert [] == [(4.236067977...606797749979)]
+1b,59,test_circle_line_intersection_6,AssertionError,test,assert [(-2.39116499...164991562634)] == []
+1b,59,test_circle_line_intersection_7,AssertionError,test,assert [(-3.60135104...468057360981)] == [(6.236067977...606797749979)]
+1b,59,test_circle_line_intersection_8,AssertionError,test,assert [(4.391164991...164991562634)] == []
+1b,60,test_fire_gun_1,NameError,test,name 'fire_gun' is not defined
+1b,60,test_fire_gun_2,NameError,test,name 'fire_gun' is not defined
+1b,60,test_fire_gun_3,NameError,test,name 'fire_gun' is not defined
+1b,60,test_fire_gun_4,NameError,test,name 'fire_gun' is not defined
+1b,60,test_fire_gun_5,NameError,test,name 'fire_gun' is not defined
+1b,60,test_fire_gun_6,NameError,test,name 'fire_gun' is not defined
+1b,60,test_fire_gun_7,NameError,test,name 'fire_gun' is not defined
+1b,60,test_fire_gun_8,NameError,test,name 'fire_gun' is not defined
+1b,61,test_rollDie_1,NameError,test,name 'RED' is not defined
+1b,61,test_rollDie_2,NameError,test,name 'YELLOW' is not defined
+1b,61,test_rollDie_3,NameError,test,name 'GREEN' is not defined
+1b,61,test_rollDie_4,NameError,test,name 'RED' is not defined
+1b,61,test_rollDie_5,NameError,test,name 'YELLOW' is not defined
+1b,61,test_rollDie_6,NameError,test,name 'GREEN' is not defined
+1b,64,test_remove_chars_1,NameError,test,name 'remove_chars' is not defined
+1b,64,test_remove_chars_2,NameError,test,name 'remove_chars' is not defined
+1b,64,test_remove_chars_3,NameError,test,name 'remove_chars' is not defined
+1b,64,test_remove_chars_4,NameError,test,name 'remove_chars' is not defined
+1b,64,test_remove_chars_5,NameError,test,name 'remove_chars' is not defined
+1b,64,test_remove_chars_6,NameError,test,name 'remove_chars' is not defined
+1b,64,test_remove_chars_7,NameError,test,name 'remove_chars' is not defined
+1b,64,test_remove_chars_8,NameError,test,name 'remove_chars' is not defined
+1b,65,test_cigar_prefix_length_1,NameError,test,name 'cigar_prefix_length' is not defined
+1b,65,test_cigar_prefix_length_2,NameError,test,name 'cigar_prefix_length' is not defined
+1b,65,test_cigar_prefix_length_3,NameError,test,name 'cigar_prefix_length' is not defined
+1b,65,test_cigar_prefix_length_4,NameError,test,name 'cigar_prefix_length' is not defined
+1b,65,test_cigar_prefix_length_5,NameError,test,name 'cigar_prefix_length' is not defined
+1b,65,test_cigar_prefix_length_6,NameError,test,name 'cigar_prefix_length' is not defined
+1b,66,test_get_segment_directions_1,NameError,test,name 'get_segment_directions' is not defined
+1b,66,test_get_segment_directions_3,NameError,test,name 'get_segment_directions' is not defined
+1b,66,test_get_segment_directions_5,NameError,test,name 'get_segment_directions' is not defined
+1b,66,test_get_segment_directions_7,NameError,test,name 'get_segment_directions' is not defined
+1b,67,test_max2GetIdx_1,NameError,test,name 'max2GetIdx' is not defined
+1b,67,test_max2GetIdx_2,NameError,test,name 'max2GetIdx' is not defined
+1b,67,test_max2GetIdx_3,NameError,test,name 'max2GetIdx' is not defined
+1b,67,test_max2GetIdx_4,NameError,test,name 'max2GetIdx' is not defined
+1b,67,test_max2GetIdx_5,NameError,test,name 'max2GetIdx' is not defined
+1b,67,test_max2GetIdx_6,NameError,test,name 'max2GetIdx' is not defined
+1b,67,test_max2GetIdx_7,NameError,test,name 'max2GetIdx' is not defined
+1b,67,test_max2GetIdx_8,NameError,test,name 'max2GetIdx' is not defined
+1b,68,test_getYAxisMinMaxGC_1,NameError,test,name 'getYAxisMinMaxGC' is not defined
+1b,68,test_getYAxisMinMaxGC_2,NameError,test,name 'getYAxisMinMaxGC' is not defined
+1b,68,test_getYAxisMinMaxGC_3,NameError,test,name 'getYAxisMinMaxGC' is not defined
+1b,68,test_getYAxisMinMaxGC_4,NameError,test,name 'getYAxisMinMaxGC' is not defined
+1b,68,test_getYAxisMinMaxGC_5,NameError,test,name 'getYAxisMinMaxGC' is not defined
+1b,68,test_getYAxisMinMaxGC_6,NameError,test,name 'getYAxisMinMaxGC' is not defined
+1b,68,test_getYAxisMinMaxGC_7,NameError,test,name 'getYAxisMinMaxGC' is not defined
+1b,70,test_iterative_levenshtein_1,NameError,test,name 'iterative_levenshtein' is not defined
+1b,70,test_iterative_levenshtein_2,NameError,test,name 'iterative_levenshtein' is not defined
+1b,70,test_iterative_levenshtein_3,NameError,test,name 'iterative_levenshtein' is not defined
+1b,70,test_iterative_levenshtein_4,NameError,test,name 'iterative_levenshtein' is not defined
+1b,70,test_iterative_levenshtein_5,NameError,test,name 'iterative_levenshtein' is not defined
+1b,70,test_iterative_levenshtein_6,NameError,test,name 'iterative_levenshtein' is not defined
+1b,70,test_iterative_levenshtein_7,NameError,test,name 'iterative_levenshtein' is not defined
+1b,70,test_iterative_levenshtein_8,NameError,test,name 'iterative_levenshtein' is not defined
+1b,71,test_centre_on_peak_1,NameError,test,name 'centre_on_peak' is not defined
+1b,71,test_centre_on_peak_2,NameError,test,name 'centre_on_peak' is not defined
+1b,71,test_centre_on_peak_3,NameError,test,name 'centre_on_peak' is not defined
+1b,71,test_centre_on_peak_4,NameError,test,name 'centre_on_peak' is not defined
+1b,71,test_centre_on_peak_5,NameError,test,name 'centre_on_peak' is not defined
+1b,71,test_centre_on_peak_6,NameError,test,name 'centre_on_peak' is not defined
+1b,71,test_centre_on_peak_7,NameError,test,name 'centre_on_peak' is not defined
+1b,72,test_locate_alignment_1,NameError,test,name 'locate_alignment' is not defined
+1b,72,test_locate_alignment_2,NameError,test,name 'locate_alignment' is not defined
+1b,72,test_locate_alignment_3,NameError,test,name 'locate_alignment' is not defined
+1b,72,test_locate_alignment_4,NameError,test,name 'locate_alignment' is not defined
+1b,72,test_locate_alignment_5,NameError,test,name 'locate_alignment' is not defined
+1b,72,test_locate_alignment_6,NameError,test,name 'locate_alignment' is not defined
+1b,74,test_look_up_latest_epoch_2,AssertionError,test,"assert (-1, 0) == (1, 0)"
+1b,74,test_look_up_latest_epoch_3,AssertionError,test,"assert (-1, 0) == (2, 0)"
+1b,74,test_look_up_latest_epoch_4,AssertionError,test,"assert (-1, 0) == (3, 0)"
+1b,74,test_look_up_latest_epoch_5,AssertionError,test,"assert (-2, 0) == (1, 0)"
+1b,74,test_look_up_latest_epoch_6,AssertionError,test,"assert (-2, 0) == (2, 0)"
+1b,74,test_look_up_latest_epoch_7,AssertionError,test,"assert (-2, 0) == (3, 0)"
+1b,75,test_find_adjacent_product_1,NameError,test,name 'find_adjacent_product' is not defined
+1b,75,test_find_adjacent_product_2,NameError,test,name 'find_adjacent_product' is not defined
+1b,75,test_find_adjacent_product_3,NameError,test,name 'find_adjacent_product' is not defined
+1b,75,test_find_adjacent_product_4,NameError,test,name 'find_adjacent_product' is not defined
+1b,75,test_find_adjacent_product_5,NameError,test,name 'find_adjacent_product' is not defined
+1b,75,test_find_adjacent_product_6,NameError,test,name 'find_adjacent_product' is not defined
+1b,75,test_find_adjacent_product_7,NameError,test,name 'find_adjacent_product' is not defined
+1b,75,test_find_adjacent_product_8,NameError,test,name 'find_adjacent_product' is not defined
+1b,76,test_convert_location_to_pitch_1[clef-G2],AssertionError,test,"assert 'note-B2' in ['rest', 'note-0 note-1']"
+1b,76,test_convert_location_to_pitch_1[clef-F4],AssertionError,test,"assert 'note-D0' in ['rest', 'note-0 note-1']"
+1b,76,test_convert_location_to_pitch_2[clef-C3],AssertionError,test,assert 'note-E1' == 'note-4 note-5'
+1b,76,test_convert_location_to_pitch_2[clef-C5],AssertionError,test,assert 'note-A0' == 'note-4 note-5'
+1b,76,test_convert_location_to_pitch_3[clef-G2],AssertionError,test,"assert 'note-B2' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_3[clef-F4],AssertionError,test,"assert 'note-D0' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_3[clef-C3],AssertionError,test,"assert 'note-C1' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_4[clef-G2],AssertionError,test,assert 'note-C2' == 'note-3 note-4'
+1b,76,test_convert_location_to_pitch_4[clef-F4],AssertionError,test,assert 'note-E0' == 'note-3 note-4'
+1b,76,test_convert_location_to_pitch_4[clef-C5],AssertionError,test,assert 'note-G0' == 'note-3 note-4'
+1b,76,test_convert_location_to_pitch_5[clef-G1],AssertionError,test,"assert 'note-D2' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_5[clef-F3],AssertionError,test,"assert 'note-F0' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_5[clef-C2],AssertionError,test,"assert 'note-E1' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_6[clef-G2],AssertionError,test,"assert 'note-B2' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_6[clef-F4],AssertionError,test,"assert 'note-D0' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_6[clef-C3],AssertionError,test,"assert 'note-C1' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_6[clef-C5],AssertionError,test,"assert 'note-F0' in ['rest', 'note-1 note-2']"
+1b,76,test_convert_location_to_pitch_7[clef-G2],AssertionError,test,"assert 'note-E2' in ['rest', 'note-0 note-1']"
+1b,76,test_convert_location_to_pitch_7[clef-F4],AssertionError,test,"assert 'note-G0' in ['rest', 'note-0 note-1']"
+1b,76,test_convert_location_to_pitch_7[clef-C3],AssertionError,test,"assert 'note-F1' in ['rest', 'note-0 note-1']"
+1b,76,test_convert_location_to_pitch_7[clef-C5],AssertionError,test,"assert 'note-B0' in ['rest', 'note-0 note-1']"
+1b,77,test_oracle2numpy_1,NameError,test,name 'oracle2numpy' is not defined
+1b,77,test_oracle2numpy_2,NameError,test,name 'oracle2numpy' is not defined
+1b,77,test_oracle2numpy_3,NameError,test,name 'oracle2numpy' is not defined
+1b,77,test_oracle2numpy_4,NameError,test,name 'oracle2numpy' is not defined
+1b,77,test_oracle2numpy_5,NameError,test,name 'oracle2numpy' is not defined
+1b,77,test_oracle2numpy_6,NameError,test,name 'oracle2numpy' is not defined
+1b,79,test_count_leading_digits_var2_1,NameError,test,name 'count_leading_digits_var2' is not defined
+1b,79,test_count_leading_digits_var2_2,NameError,test,name 'count_leading_digits_var2' is not defined
+1b,79,test_count_leading_digits_var2_3,NameError,test,name 'count_leading_digits_var2' is not defined
+1b,79,test_count_leading_digits_var2_4,NameError,test,name 'count_leading_digits_var2' is not defined
+1b,79,test_count_leading_digits_var2_5,NameError,test,name 'count_leading_digits_var2' is not defined
+1b,79,test_count_leading_digits_var2_6,NameError,test,name 'count_leading_digits_var2' is not defined
+1b,79,test_count_leading_digits_var2_7,NameError,test,name 'count_leading_digits_var2' is not defined
+1b,79,test_count_leading_digits_var2_8,NameError,test,name 'count_leading_digits_var2' is not defined
+1b,81,test_maximal_mesh_pattern_of_occurrence_1,NameError,test,name 'maximal_mesh_pattern_of_occurrence' is not defined
+1b,81,test_maximal_mesh_pattern_of_occurrence_2,NameError,test,name 'maximal_mesh_pattern_of_occurrence' is not defined
+1b,81,test_maximal_mesh_pattern_of_occurrence_3,NameError,test,name 'maximal_mesh_pattern_of_occurrence' is not defined
+1b,81,test_maximal_mesh_pattern_of_occurrence_4,NameError,test,name 'maximal_mesh_pattern_of_occurrence' is not defined
+1b,81,test_maximal_mesh_pattern_of_occurrence_5,NameError,test,name 'maximal_mesh_pattern_of_occurrence' is not defined
+1b,81,test_maximal_mesh_pattern_of_occurrence_6,NameError,test,name 'maximal_mesh_pattern_of_occurrence' is not defined
+1b,81,test_maximal_mesh_pattern_of_occurrence_7,NameError,test,name 'maximal_mesh_pattern_of_occurrence' is not defined
+1b,81,test_maximal_mesh_pattern_of_occurrence_8,NameError,test,name 'maximal_mesh_pattern_of_occurrence' is not defined
+1b,83,test_crosscount_1,TypeError,test,crosscount() takes 1 positional argument but 2 were given
+1b,83,test_crosscount_2,TypeError,test,crosscount() takes 1 positional argument but 2 were given
+1b,83,test_crosscount_3,TypeError,test,crosscount() takes 1 positional argument but 2 were given
+1b,83,test_crosscount_4,TypeError,test,crosscount() takes 1 positional argument but 2 were given
+1b,83,test_crosscount_5,TypeError,test,crosscount() takes 1 positional argument but 2 were given
+1b,83,test_crosscount_6,TypeError,test,crosscount() takes 1 positional argument but 2 were given
+1b,83,test_crosscount_7,TypeError,test,crosscount() takes 1 positional argument but 2 were given
+1b,83,test_crosscount_8,TypeError,test,crosscount() takes 1 positional argument but 2 were given
+1b,84,test_checkFormulas_1,NameError,test,name 'checkFormulas' is not defined
+1b,84,test_checkFormulas_2,NameError,test,name 'checkFormulas' is not defined
+1b,84,test_checkFormulas_3,NameError,test,name 'checkFormulas' is not defined
+1b,84,test_checkFormulas_4,NameError,test,name 'checkFormulas' is not defined
+1b,84,test_checkFormulas_5,NameError,test,name 'checkFormulas' is not defined
+1b,84,test_checkFormulas_6,NameError,test,name 'checkFormulas' is not defined
+1b,84,test_checkFormulas_7,NameError,test,name 'checkFormulas' is not defined
+1b,84,test_checkFormulas_8,NameError,test,name 'checkFormulas' is not defined
+1b,85,test_bound_line_in_box_1,TypeError,test,bound_line_in_box() missing 1 required positional argument: 'length_margin'
+1b,85,test_bound_line_in_box_2,TypeError,test,bound_line_in_box() missing 1 required positional argument: 'length_margin'
+1b,85,test_bound_line_in_box_3,TypeError,test,bound_line_in_box() missing 1 required positional argument: 'length_margin'
+1b,85,test_bound_line_in_box_4,TypeError,test,bound_line_in_box() missing 1 required positional argument: 'length_margin'
+1b,85,test_bound_line_in_box_5,TypeError,test,bound_line_in_box() missing 1 required positional argument: 'length_margin'
+1b,85,test_bound_line_in_box_6,TypeError,test,bound_line_in_box() missing 1 required positional argument: 'length_margin'
+1b,85,test_bound_line_in_box_7,TypeError,test,bound_line_in_box() missing 1 required positional argument: 'length_margin'
+1b,86,test_change_display_1,NameError,test,name 'change_display' is not defined
+1b,86,test_change_display_2,NameError,test,name 'change_display' is not defined
+1b,86,test_change_display_3,NameError,test,name 'change_display' is not defined
+1b,86,test_change_display_4,NameError,test,name 'change_display' is not defined
+1b,86,test_change_display_5,NameError,test,name 'change_display' is not defined
+1b,86,test_change_display_6,NameError,test,name 'change_display' is not defined
+1b,86,test_change_display_7,NameError,test,name 'change_display' is not defined
+1b,86,test_change_display_8,NameError,test,name 'change_display' is not defined
+1b,87,test_oligo_complements_1,NameError,test,name 'oligo_complements' is not defined
+1b,87,test_oligo_complements_2,NameError,test,name 'oligo_complements' is not defined
+1b,87,test_oligo_complements_3,NameError,test,name 'oligo_complements' is not defined
+1b,87,test_oligo_complements_4,NameError,test,name 'oligo_complements' is not defined
+1b,87,test_oligo_complements_5,NameError,test,name 'oligo_complements' is not defined
+1b,87,test_oligo_complements_6,NameError,test,name 'oligo_complements' is not defined
+1b,87,test_oligo_complements_7,NameError,test,name 'oligo_complements' is not defined
+1b,88,test_get_text_point_at_line_1,NameError,test,name 'get_text_point_at_line' is not defined
+1b,88,test_get_text_point_at_line_2,NameError,test,name 'get_text_point_at_line' is not defined
+1b,88,test_get_text_point_at_line_3,NameError,test,name 'get_text_point_at_line' is not defined
+1b,88,test_get_text_point_at_line_4,NameError,test,name 'get_text_point_at_line' is not defined
+1b,88,test_get_text_point_at_line_5,NameError,test,name 'get_text_point_at_line' is not defined
+1b,88,test_get_text_point_at_line_6,NameError,test,name 'get_text_point_at_line' is not defined
+1b,89,test_bin_search_range_1,AssertionError,test,assert 5 == 3
+1b,89,test_bin_search_range_2,AssertionError,test,assert 4 == 5
+1b,89,test_bin_search_range_3,AssertionError,test,assert 4 == 5
+1b,89,test_bin_search_range_4,AssertionError,test,assert 4 == 5
+1b,89,test_bin_search_range_5,AssertionError,test,assert 4 == 5
+1b,89,test_bin_search_range_6,AssertionError,test,assert 4 == 5
+1b,89,test_bin_search_range_7,AssertionError,test,assert 4 == 5
+1b,89,test_bin_search_range_8,AssertionError,test,assert 4 == 5
+1b,91,test_row_revile_indexes_1,NameError,test,name 'row_revile_indexes' is not defined
+1b,91,test_row_revile_indexes_2,NameError,test,name 'row_revile_indexes' is not defined
+1b,91,test_row_revile_indexes_3,NameError,test,name 'row_revile_indexes' is not defined
+1b,91,test_row_revile_indexes_4,NameError,test,name 'row_revile_indexes' is not defined
+1b,91,test_row_revile_indexes_5,NameError,test,name 'row_revile_indexes' is not defined
+1b,91,test_row_revile_indexes_6,NameError,test,name 'row_revile_indexes' is not defined
+1b,91,test_row_revile_indexes_7,NameError,test,name 'row_revile_indexes' is not defined
+1b,92,test_usage_bound_2,AssertionError,test,assert 1800.0 == 250
+1b,92,test_usage_bound_3,AssertionError,test,assert 1350.0 == 400
+1b,92,test_usage_bound_4,IndexError,funzione,list index out of range
+1b,92,test_usage_bound_5,IndexError,funzione,list index out of range
+1b,92,test_usage_bound_6,IndexError,funzione,list index out of range
+1b,93,test_define_neighbours_1,NameError,test,name 'define_neighbours' is not defined
+1b,93,test_define_neighbours_2,NameError,test,name 'define_neighbours' is not defined
+1b,93,test_define_neighbours_3,NameError,test,name 'define_neighbours' is not defined
+1b,93,test_define_neighbours_4,NameError,test,name 'define_neighbours' is not defined
+1b,93,test_define_neighbours_5,NameError,test,name 'define_neighbours' is not defined
+1b,93,test_define_neighbours_6,NameError,test,name 'define_neighbours' is not defined
+1b,93,test_define_neighbours_7,NameError,test,name 'define_neighbours' is not defined
+1b,93,test_define_neighbours_8,NameError,test,name 'define_neighbours' is not defined
+1b,95,test_flag_meaning_a0,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_a1,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_a2,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_a3,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_an,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_df,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_dr,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_ed,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_ee,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_es,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_fe,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_fr,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_fs,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_gd,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_ge,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_gs,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_mr,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_ns,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_pe,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_ps,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_pn,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_qn,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_sd,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_se,NameError,test,name 'flag_meaning' is not defined
+1b,95,test_flag_meaning_ss,NameError,test,name 'flag_meaning' is not defined
+1b,96,test_coord_finder_1,NameError,test,name 'coord_finder' is not defined
+1b,96,test_coord_finder_2,NameError,test,name 'coord_finder' is not defined
+1b,96,test_coord_finder_3,NameError,test,name 'coord_finder' is not defined
+1b,96,test_coord_finder_4,NameError,test,name 'coord_finder' is not defined
+1b,96,test_coord_finder_5,NameError,test,name 'coord_finder' is not defined
+1b,96,test_coord_finder_6,NameError,test,name 'coord_finder' is not defined
+1b,96,test_coord_finder_7,NameError,test,name 'coord_finder' is not defined
+1b,96,test_coord_finder_8,NameError,test,name 'coord_finder' is not defined
+1b,97,test___transform_coors_1,NameError,test,name '__transform_coors' is not defined
+1b,97,test___transform_coors_2,NameError,test,name '__transform_coors' is not defined
+1b,97,test___transform_coors_3,NameError,test,name '__transform_coors' is not defined
+1b,97,test___transform_coors_4,NameError,test,name '__transform_coors' is not defined
+1b,97,test___transform_coors_5,NameError,test,name '__transform_coors' is not defined
+1b,97,test___transform_coors_6,NameError,test,name '__transform_coors' is not defined
+1b,97,test___transform_coors_7,NameError,test,name '__transform_coors' is not defined
+1b,97,test___transform_coors_8,NameError,test,name '__transform_coors' is not defined
+1b,98,test_lumen_type_1,NameError,test,name 'lumen_type' is not defined
+1b,98,test_lumen_type_2,NameError,test,name 'lumen_type' is not defined
+1b,98,test_lumen_type_3,NameError,test,name 'lumen_type' is not defined
+1b,98,test_lumen_type_4,NameError,test,name 'lumen_type' is not defined
+1b,98,test_lumen_type_5,NameError,test,name 'lumen_type' is not defined
+1b,98,test_lumen_type_6,NameError,test,name 'lumen_type' is not defined
+1b,98,test_lumen_type_7,NameError,test,name 'lumen_type' is not defined
+1b,98,test_lumen_type_8,NameError,test,name 'lumen_type' is not defined
+1b,99,test_judge_1d100_with_7_ver_1,NameError,test,name 'judge_1d100_with_7_ver' is not defined
+1b,99,test_judge_1d100_with_7_ver_2,NameError,test,name 'judge_1d100_with_7_ver' is not defined
+1b,99,test_judge_1d100_with_7_ver_3,NameError,test,name 'judge_1d100_with_7_ver' is not defined
+1b,99,test_judge_1d100_with_7_ver_4,NameError,test,name 'judge_1d100_with_7_ver' is not defined
+1b,99,test_judge_1d100_with_7_ver_5,NameError,test,name 'judge_1d100_with_7_ver' is not defined
+1b,99,test_judge_1d100_with_7_ver_6,NameError,test,name 'judge_1d100_with_7_ver' is not defined
+1b,99,test_judge_1d100_with_7_ver_7,NameError,test,name 'judge_1d100_with_7_ver' is not defined
+3b,0,test_is_degree_in_degree_range_3,AssertionError,test,assert False == True
+3b,3,test_x0x1_after_extraction_1,AssertionError,test,"assert (5, 10) == (5, 5)"
+3b,3,test_x0x1_after_extraction_2,AssertionError,test,None
+3b,3,test_x0x1_after_extraction_3,AssertionError,test,None
+3b,3,test_x0x1_after_extraction_4,AssertionError,test,None
+3b,3,test_x0x1_after_extraction_5,AssertionError,test,"assert (None, None) == (10, 10)"
+3b,3,test_x0x1_after_extraction_6,NameError,test,name 'pytest' is not defined
+3b,3,test_x0x1_after_extraction_7,AssertionError,test,"assert (0, 5) == (5, 5)"
+3b,4,test__remove_strings_1,AssertionError,test,"assert ""Hello '"" == 'Hello world'"
+3b,4,test__remove_strings_2,AssertionError,test,"assert 'Hello ""' == 'Hello world'"
+3b,4,test__remove_strings_3,AssertionError,test,"assert 'Hello \'\' and ""' == 'Hello world and foo bar'"
+3b,4,test__remove_strings_4,AssertionError,test,"assert ""Hello '' with \\backslas"" == 'Hello world with \\\x08'"
+3b,4,test__remove_strings_5,AssertionError,test,"assert 'Hello """" with \\backslas' == 'Hello world with \\\x08'"
+3b,4,test__remove_strings_6,AssertionError,test,"assert ""Hello '' and...th \\backslas"" == 'Hello world ...r with \\\x08'"
+3b,4,test__remove_strings_7,AssertionError,test,"assert 'Hello \'\' w...ckslash and ""' == 'Hello world ...8 and foo bar'"
+3b,5,test_can_blas_1,AssertionError,test,assert False == 'GEMM'
+3b,6,test_deg2HMS_1,AssertionError,test,assert '6 0 0.0' == '0h 0m 0s'
+3b,6,test_deg2HMS_2,AssertionError,test,assert '-6 0 0.0' == '-0h 0m 0s'
+3b,6,test_deg2HMS_3,AssertionError,test,"assert ('3 0 0.0', '30 0 0') == ('0h 0m 45s', '0h 30m 0s')"
+3b,6,test_deg2HMS_4,AssertionError,test,"assert ('-3 0 0.0', '-30 0 0') == ('-0h 0m 45s', '-0h 30m 0s')"
+3b,6,test_deg2HMS_5,AssertionError,test,assert '6 0 0' == '0h 0m 0s'
+3b,6,test_deg2HMS_6,AssertionError,test,assert '-6 0 0.0' == '-0h 0m 0s'
+3b,7,test_single_defcom_extract_1,AssertionError,test,assert '' == 'def comment body'
+3b,7,test_single_defcom_extract_2,AssertionError,test,assert '' == 'def comment body'
+3b,7,test_single_defcom_extract_4,AssertionError,test,"assert '' == '""""""comment body""""""'"
+3b,7,test_single_defcom_extract_6,AssertionError,test,"assert '' == ""'comment body'"""
+3b,8,test_get_allen_relation_1,AssertionError,test,assert 'before' == 'meets'
+3b,8,test_get_allen_relation_2,AssertionError,test,assert 'before' == 'overlaps'
+3b,8,test_get_allen_relation_3,AssertionError,test,assert 'before' == 'after'
+3b,8,test_get_allen_relation_4,AssertionError,test,assert 'meets' == 'before'
+3b,8,test_get_allen_relation_7,AssertionError,test,assert 'before' == 'during'
+3b,9,test_point_box_relation_1,AssertionError,test,assert 0 == 3
+3b,9,test_point_box_relation_2,AssertionError,test,assert 0 == 7
+3b,9,test_point_box_relation_5,AssertionError,test,assert 0 == None
+3b,9,test_point_box_relation_7,AssertionError,test,assert 9 == None
+3b,10,test_uoc_railfence_encrypt_1,TypeError,funzione,object of type 'int' has no len()
+3b,10,test_uoc_railfence_encrypt_2,TypeError,funzione,object of type 'int' has no len()
+3b,10,test_uoc_railfence_encrypt_3,TypeError,funzione,object of type 'int' has no len()
+3b,10,test_uoc_railfence_encrypt_4,TypeError,funzione,object of type 'int' has no len()
+3b,10,test_uoc_railfence_encrypt_5,TypeError,funzione,object of type 'int' has no len()
+3b,10,test_uoc_railfence_encrypt_6,TypeError,funzione,object of type 'int' has no len()
+3b,10,test_uoc_railfence_encrypt_7,TypeError,funzione,object of type 'int' has no len()
+3b,11,test_create_three_random_v_indices_3,AssertionError,test,assert 22 < 1
+3b,11,test_create_three_random_v_indices_4,AssertionError,test,assert False
+3b,11,test_create_three_random_v_indices_6,NameError,test,name 'pytest' is not defined
+3b,11,test_create_three_random_v_indices_7,NameError,test,name 'pytest' is not defined
+3b,12,test_diffsents_1,AssertionError,test,"assert (2, 2, 2, 3) == (0, 2, 0, 3)"
+3b,12,test_diffsents_2,AssertionError,funzione,0	-1	-1
+3b,12,test_diffsents_4,AssertionError,funzione,3	-1	2	abc
+3b,12,test_diffsents_5,AssertionError,funzione,0	-1	-1		abc
+3b,12,test_diffsents_6,AssertionError,test,"assert (0, 1, 0, 1) == (1, 1, 1, 1)"
+3b,12,test_diffsents_7,AssertionError,test,"assert (3, 3, 3, 3) == (-1, -1, -1, -1)"
+3b,13,test_replacement_template_1,AssertionError,test,assert '$' == '$12'
+3b,13,test_replacement_template_2,AssertionError,test,assert '&' == 'ab'
+3b,13,test_replacement_template_3,AssertionError,test,assert '`' == 'helo'
+3b,13,test_replacement_template_4,AssertionError,test,"assert ""'"" == 'world'"
+3b,13,test_replacement_template_6,AssertionError,test,assert 'abc$123' == 'ab12'
+3b,14,test_needleman_wunsch0_1,AssertionError,test,"assert ('ATCG_', 'A_CGT', 1) == ('ATCG', 'ACGT', 0)"
+3b,14,test_needleman_wunsch0_2,AssertionError,test,"assert ('ATC__G', 'A_CGTG', 0) == ('ATCG_', 'ACGTG', -1)"
+3b,14,test_needleman_wunsch0_3,AssertionError,test,"assert ('ATCG', '____', -4) == ('ATCG', '', 0)"
+3b,14,test_needleman_wunsch0_4,AssertionError,test,"assert ('_____', 'ACGTG', -5) == ('', 'ACGTG', -1)"
+3b,14,test_needleman_wunsch0_5,AssertionError,test,"assert ('ATCG_____', '____ACGTG', 27) == ('ATCG', 'ACGTG', -1)"
+3b,14,test_needleman_wunsch0_6,AssertionError,test,"assert ('ATCG_', 'A_CGT', 1) == ('A_A_T_C_G', 'A_A_C_G_T', 0)"
+3b,14,test_needleman_wunsch0_7,AssertionError,test,"assert ('ATCGATCG', 'ACGTACGTG', -2) == ('ATCG_ATCG',...GT_ACGTG', -1)"
+3b,15,test_knapsack_indv_1,AssertionError,test,"assert [2, 3] == [2]"
+3b,15,test_knapsack_indv_2,AssertionError,test,"assert [2, 4] == [3, 0]"
+3b,15,test_knapsack_indv_3,NameError,test,name 'pytest' is not defined
+3b,15,test_knapsack_indv_4,AssertionError,test,"assert [1, 2] == []"
+3b,15,test_knapsack_indv_6,NameError,test,name 'pytest' is not defined
+3b,15,test_knapsack_indv_7,AssertionError,test,"assert [2, 5] == [4]"
+3b,16,test_next_holiday_1,AssertionError,test,"assert ['boxing day', 1] == [""new year's day"", 0]"
+3b,16,test_next_holiday_2,AssertionError,test,"assert [""new year's day"", 6] == ['boxing day', 1]"
+3b,16,test_next_holiday_3,AssertionError,test,"assert ['christmas day', 30] == ['christmas day', 0]"
+3b,16,test_next_holiday_4,AssertionError,test,"assert ['christmas day', 74] == ['thanksgiving day', 0]"
+3b,16,test_next_holiday_5,AssertionError,test,"assert ['thanksgiving day', 35] == ['labour day', 0]"
+3b,16,test_next_holiday_6,AssertionError,test,"assert ['labour day', 35] == ['civic holiday', 0]"
+3b,16,test_next_holiday_7,AssertionError,test,"assert ['civic holiday', 33] == ['civic holiday', 2]"
+3b,17,test_calc_query_pos_from_cigar_2,AssertionError,test,"assert (20, 30) == (10, 20)"
+3b,17,test_calc_query_pos_from_cigar_3,AssertionError,test,"assert (0, 55) == (0, 25)"
+3b,17,test_calc_query_pos_from_cigar_4,AssertionError,test,"assert (40, 40) == (15, 40)"
+3b,17,test_calc_query_pos_from_cigar_5,AssertionError,test,"assert (0, 80) == (0, 30)"
+3b,17,test_calc_query_pos_from_cigar_6,AssertionError,test,"assert (60, 75) == (15, 75)"
+3b,17,test_calc_query_pos_from_cigar_7,AssertionError,test,"assert (0, 100) == (0, 30)"
+3b,18,test_get_processor_types_from_config_class_1,AssertionError,test,"assert ('B', 'e', 'r...'P', 'r', ...) == ('BertProcessor',)"
+3b,18,test_get_processor_types_from_config_class_2,AssertionError,test,"assert ('G', 'P', 'T...'r', 'o', ...) == ('GPTTokenize...ureExtractor')"
+3b,18,test_get_processor_types_from_config_class_3,AssertionError,test,"assert ('R', 'o', 'b...'r', 't', ...) == ('RobertaImageProcessor',)"
+3b,18,test_get_processor_types_from_config_class_4,AssertionError,test,"assert ('X', 'L', 'N...'t', 'P', ...) == ('XLNetTokeni...ureExtractor')"
+3b,18,test_get_processor_types_from_config_class_5,AssertionError,test,"assert ('D', 'i', 's...'i', 'l', ...) == ('DistilBertProcessor',)"
+3b,19,test_maximal_matching_pairs_1,TypeError,test,object of type 'generator' has no len()
+3b,19,test_maximal_matching_pairs_2,TypeError,funzione,'float' object cannot be interpreted as an integer
+3b,19,test_maximal_matching_pairs_3,TypeError,test,object of type 'generator' has no len()
+3b,19,test_maximal_matching_pairs_4,TypeError,funzione,'float' object cannot be interpreted as an integer
+3b,19,test_maximal_matching_pairs_5,TypeError,test,object of type 'generator' has no len()
+3b,19,test_maximal_matching_pairs_6,TypeError,funzione,'float' object cannot be interpreted as an integer
+3b,19,test_maximal_matching_pairs_7,TypeError,test,object of type 'generator' has no len()
+3b,20,test_lflverify_1,TypeError,funzione,'int' object is not subscriptable
+3b,20,test_lflverify_3,NameError,funzione,name 'logging' is not defined. Did you forget to import 'logging'
+3b,20,test_lflverify_4,TypeError,funzione,'int' object is not subscriptable
+3b,20,test_lflverify_6,NameError,funzione,name 'logging' is not defined. Did you forget to import 'logging'
+3b,21,test_longestNonWildcardSubsequence_1,IndexError,funzione,string index out of range
+3b,21,test_longestNonWildcardSubsequence_2,IndexError,funzione,string index out of range
+3b,21,test_longestNonWildcardSubsequence_3,IndexError,funzione,string index out of range
+3b,21,test_longestNonWildcardSubsequence_4,IndexError,funzione,string index out of range
+3b,21,test_longestNonWildcardSubsequence_5,AssertionError,test,"assert (1, 0, '1') == (0, 2, '')"
+3b,21,test_longestNonWildcardSubsequence_6,IndexError,funzione,string index out of range
+3b,21,test_longestNonWildcardSubsequence_7,IndexError,funzione,string index out of range
+3b,22,test_windows_k_distinct_1,AssertionError,test,"assert [(0, 2), (1, ...2, 4), (3, 5)] == [(0, 1)]"
+3b,22,test_windows_k_distinct_3,AssertionError,test,"assert [(0, 3), (1, 4), (3, 5)] == [(0, 1)]"
+3b,22,test_windows_k_distinct_4,AssertionError,test,"assert [(0, 5)] == []"
+3b,22,test_windows_k_distinct_7,IndexError,funzione,list index out of range
+3b,23,test_string_contrast_1,AssertionError,test,"assert ('', '', ['a', 'b', '']) == ('aq', '', ['aq'])"
+3b,23,test_string_contrast_2,AssertionError,test,"assert ('', '', ['a', 'b', 'c']) == ('', '', ['ab', 'bc'])"
+3b,23,test_string_contrast_3,AssertionError,test,"assert ('', '', ['a', '', 'c']) == ('a', 'c', ['a', 'c'])"
+3b,23,test_string_contrast_4,ValueError,funzione,min() iterable argument is empty
+3b,23,test_string_contrast_5,ValueError,funzione,min() iterable argument is empty
+3b,23,test_string_contrast_6,AssertionError,test,"assert ('', 'a', ['']) == ('a', '', [''])"
+3b,23,test_string_contrast_7,NameError,test,name 'pytest' is not defined
+3b,24,test_max_rewards_2,AssertionError,test,assert 0 == 3
+3b,24,test_max_rewards_3,AssertionError,test,assert 0 == 11
+3b,24,test_max_rewards_4,AssertionError,test,assert 0 == 19
+3b,24,test_max_rewards_5,AssertionError,test,assert 0 == 67
+3b,24,test_max_rewards_6,AssertionError,test,assert 0 == 163
+3b,24,test_max_rewards_7,AssertionError,test,assert 0 == 291
+3b,25,test_circle_line_segment_intersection_2,AssertionError,test,"assert [(-5.0, 0.0), (5.0, 0.0)] in [(10.0, 0.0), (14.666666666666668, 0.0)]"
+3b,25,test_circle_line_segment_intersection_3,ZeroDivisionError,funzione,float division by zero
+3b,25,test_circle_line_segment_intersection_4,AssertionError,test,"assert [] in [(10.0, 0.0)]"
+3b,25,test_circle_line_segment_intersection_5,ZeroDivisionError,funzione,float division by zero
+3b,25,test_circle_line_segment_intersection_7,ZeroDivisionError,funzione,float division by zero
+3b,26,test_initiate_board_3,AssertionError,test,"assert 'red' in {(-3, 0): 'red', (-3, 1): 'red', (-3, 2): 'red', (-3, 3): 'red', ...}"
+3b,26,test_initiate_board_4,AssertionError,test,"assert 'green' in {(-3, 0): 'red', (-3, 1): 'red', (-3, 2): 'red', (-3, 3): 'red', ...}"
+3b,26,test_initiate_board_5,AssertionError,test,"assert 'blue' in {(-3, 0): 'red', (-3, 1): 'red', (-3, 2): 'red', (-3, 3): 'red', ...}"
+3b,27,test_move_gain_1,TypeError,funzione,'tuple' object does not support item assignment
+3b,27,test_move_gain_2,TypeError,funzione,'tuple' object does not support item assignment
+3b,27,test_move_gain_3,TypeError,funzione,'tuple' object does not support item assignment
+3b,27,test_move_gain_4,TypeError,funzione,'tuple' object does not support item assignment
+3b,27,test_move_gain_5,TypeError,funzione,'tuple' object does not support item assignment
+3b,27,test_move_gain_6,TypeError,funzione,'tuple' object does not support item assignment
+3b,27,test_move_gain_7,TypeError,funzione,'tuple' object does not support item assignment
+3b,28,test_time_in_swiss_german_1,AssertionError,test,assert '6i am morge' == 'am morge'
+3b,28,test_time_in_swiss_german_2,AssertionError,test,assert '12i am mittag' == 'am mittag'
+3b,28,test_time_in_swiss_german_3,AssertionError,test,assert 'halbi 7i am abig' == 'am abig halbi'
+3b,28,test_time_in_swiss_german_4,AssertionError,test,assert 'viertel ab 12i znacht' == '12i znacht viertel ab'
+3b,28,test_time_in_swiss_german_5,AssertionError,test,assert 'viertel vor 12i znacht' == 'znacht viertel vor'
+3b,28,test_time_in_swiss_german_6,AssertionError,test,assert 'viertel ab 12i am mittag' == 'am mittag viertel ab'
+3b,29,test_columnTransCipher_1,TypeError,funzione,'NoneType' object is not iterable
+3b,29,test_columnTransCipher_2,AssertionError,test,assert 'agmsybhntzciouPdjpvGekqwKflrxH' == Ellipsis
+3b,29,test_columnTransCipher_4,ZeroDivisionError,funzione,division by zero
+3b,29,test_columnTransCipher_5,TypeError,funzione,'NoneType' object is not iterable
+3b,29,test_columnTransCipher_6,TypeError,funzione,object of type 'NoneType' has no len()
+3b,29,test_columnTransCipher_7,AssertionError,test,"assert 'Hoo!e,rLl lLlWdD' == Ellipsis"
+3b,29,test_columnTransCipher_8,AssertionError,test,assert 'afkpuzbglqvOchmrwGdinsxWejotyX' == Ellipsis
+3b,30,test_compute_convolution_output_dimensions_1,AssertionError,test,assert [-1] == [2]
+3b,30,test_compute_convolution_output_dimensions_2,AssertionError,test,assert [-1] == [3]
+3b,30,test_compute_convolution_output_dimensions_3,AssertionError,test,assert [0] == [5]
+3b,30,test_compute_convolution_output_dimensions_4,AssertionError,test,assert [18] == [7]
+3b,30,test_compute_convolution_output_dimensions_5,AssertionError,test,assert [1] == [3]
+3b,30,test_compute_convolution_output_dimensions_6,AssertionError,test,assert [0] == [4]
+3b,30,test_compute_convolution_output_dimensions_7,AssertionError,test,assert [11] == [8]
+3b,31,test_get_trackletpair_t_range_1,AssertionError,test,"assert (14, 10, 20, 18) == (0, 10, 20, 30)"
+3b,31,test_get_trackletpair_t_range_2,AssertionError,test,"assert (30, 25, 35, 32) == (15, 25, 35, 45)"
+3b,31,test_get_trackletpair_t_range_3,AssertionError,test,"assert (25, 20, 30, 26) == (11, 21, 31, 41)"
+3b,31,test_get_trackletpair_t_range_4,NameError,test,name 'pytest' is not defined
+3b,31,test_get_trackletpair_t_range_5,AssertionError,test,"assert (25, 20, 30, 27) == (11, 21, 31, 41)"
+3b,31,test_get_trackletpair_t_range_6,NameError,test,name 'pytest' is not defined
+3b,31,test_get_trackletpair_t_range_7,AssertionError,test,"assert (25, 20, 30, 26) == (11, 21, 31, 41)"
+3b,32,test_get_bw_weight_1,NameError,test,name 'Flag' is not defined
+3b,32,test_get_bw_weight_2,NameError,test,name 'Flag' is not defined
+3b,32,test_get_bw_weight_3,NameError,test,name 'Flag' is not defined
+3b,32,test_get_bw_weight_4,KeyError,funzione,'Wgm'
+3b,32,test_get_bw_weight_5,NameError,test,name 'Flag' is not defined
+3b,32,test_get_bw_weight_6,NameError,test,name 'Flag' is not defined
+3b,32,test_get_bw_weight_7,NameError,test,name 'Flag' is not defined
+3b,33,test_coordinate_sorter_1,ValueError,funzione,invalid literal for int() with base 10: 'b'
+3b,33,test_coordinate_sorter_2,ValueError,funzione,invalid literal for int() with base 10: 'd'
+3b,33,test_coordinate_sorter_3,ValueError,funzione,invalid literal for int() with base 10: 'f'
+3b,33,test_coordinate_sorter_4,ValueError,funzione,invalid literal for int() with base 10: 'j'
+3b,33,test_coordinate_sorter_6,ValueError,funzione,invalid literal for int() with base 10: 'l'
+3b,33,test_coordinate_sorter_7,ValueError,funzione,invalid literal for int() with base 10: 'p'
+3b,34,test_get_past_goal_indices_1,AssertionError,test,"assert [0] == [5, 7]"
+3b,34,test_get_past_goal_indices_2,AssertionError,test,assert [0] == []
+3b,34,test_get_past_goal_indices_3,AssertionError,test,assert [0] == [1]
+3b,34,test_get_past_goal_indices_4,AssertionError,test,"assert [0] == [10, 15, 20]"
+3b,34,test_get_past_goal_indices_6,AssertionError,test,assert [0] == []
+3b,34,test_get_past_goal_indices_7,NameError,test,name 'pytest' is not defined
+3b,35,test__normalized_vcf_1,ValueError,funzione,invalid literal for int() with base 10: '10:20'
+3b,35,test__normalized_vcf_2,NameError,test,name 'pytest' is not defined
+3b,35,test__normalized_vcf_3,ValueError,funzione,invalid literal for int() with base 10: '10:20'
+3b,35,test__normalized_vcf_4,NameError,test,name 'pytest' is not defined
+3b,35,test__normalized_vcf_5,TypeError,funzione,object of type 'NoneType' has no len()
+3b,35,test__normalized_vcf_6,ValueError,funzione,invalid literal for int() with base 10: '10:20'
+3b,35,test__normalized_vcf_7,NameError,test,name 'pytest' is not defined
+3b,36,test_categorizeSentimentComplex_2,AssertionError,test,assert '' == 'alarmed'
+3b,36,test_categorizeSentimentComplex_3,AssertionError,test,assert 'delighted' == 'happy'
+3b,36,test_categorizeSentimentComplex_4,AssertionError,test,assert 'annoyed' == 'excited'
+3b,36,test_categorizeSentimentComplex_5,AssertionError,test,assert '' == 'mad'
+3b,36,test_categorizeSentimentComplex_6,AssertionError,test,assert 'delighted' == 'astonished'
+3b,37,test_uniformate2_4,AssertionError,test,"assert ('', '') == ('YEH', 'ALEF_HARAKA')"
+3b,37,test_uniformate2_5,AssertionError,test,"assert ('', '') == ('WAW', 'WAW_HARAKA')"
+3b,37,test_uniformate2_6,AssertionError,test,"assert ('', '') == ('YEH', 'YEH_HARAKA')"
+3b,37,test_uniformate2_7,AssertionError,test,"assert ('', '') == ('WAW', 'FATHA_FATHA')"
+3b,38,test_wordparamcheck_1,TypeError,funzione,'int' object is not subscriptable
+3b,38,test_wordparamcheck_2,TypeError,funzione,'int' object is not subscriptable
+3b,38,test_wordparamcheck_3,TypeError,funzione,'int' object is not subscriptable
+3b,38,test_wordparamcheck_4,TypeError,funzione,'int' object is not subscriptable
+3b,38,test_wordparamcheck_5,AssertionError,test,"assert [False, -1, '...False, -2, []] == (True, -1, 'N..., 0, ['NULL'])"
+3b,38,test_wordparamcheck_6,AssertionError,test,"assert [False, -1, '...False, -1, []] == (False, -1, '..., 0, ['NULL'])"
+3b,38,test_wordparamcheck_7,TypeError,funzione,'int' object is not subscriptable
+3b,39,test_splitIA2Attribs_1,AssertionError,test,assert {'': {'key': 'value'}} == {'key': 'value'}
+3b,39,test_splitIA2Attribs_2,AssertionError,test,assert {'': {'subkey': 'subvalue'}} == {'key': 'valu...': 'subvalue'}
+3b,39,test_splitIA2Attribs_3,AssertionError,test,assert {'': {'subkey2': 'subvalue2'}} == {'key': 'valu...: 'subvalue2'}
+3b,39,test_splitIA2Attribs_4,AssertionError,test,assert {'': {'subkey2': 'value2'}} == {'key': 'valu...y2': 'value2'}
+3b,39,test_splitIA2Attribs_5,AssertionError,test,assert {'': {'subkey3': 'value3'}} == {'key': 'valu...y3': 'value3'}
+3b,39,test_splitIA2Attribs_6,AssertionError,test,"assert {'': {'subkey4': 'value4'}} == {'key': 'valu...'value3', ...}"
+3b,39,test_splitIA2Attribs_7,AssertionError,test,"assert {'': {'subkey5': 'value5'}} == {'key': 'valu...'value3', ...}"
+3b,39,test_splitIA2Attribs_8,AssertionError,test,"assert {'': {'subkey6': 'value6'}} == {'key': 'valu...'value3', ...}"
+3b,40,test_decode_address_entry_1,AssertionError,test,"assert [['0x1234', 0...x1234', 2, 1]] == [[4660], [1, 2, 3]]"
+3b,40,test_decode_address_entry_2,AssertionError,test,"assert [['0x1234', 0...x1234', 2, 1]] == [[4660, 1, 2, 3]]"
+3b,40,test_decode_address_entry_3,AssertionError,test,"assert [['0x1234', 0...x1234', 2, 1]] == [[4660], [1, 2, 3]]"
+3b,40,test_decode_address_entry_4,AssertionError,test,"assert [['0x1234', 0...x1234', 2, 1]] == [[4660, 1, 2, 3]]"
+3b,40,test_decode_address_entry_5,AssertionError,test,"assert [['0x1234', 0...x1234', 2, 1]] == [[4660], [1, 2, 3]]"
+3b,40,test_decode_address_entry_6,AssertionError,test,"assert [['0x1234', 0...x1234', 2, 1]] == [[4660, 1, 2, 3]]"
+3b,40,test_decode_address_entry_7,AssertionError,test,"assert [['0x1234', 0...x1234', 2, 1]] == [[4660], [1, 2, 3]]"
+3b,40,test_decode_address_entry_8,AssertionError,test,"assert [['0x1234', 0...x1234', 2, 1]] == [[4660, 1, 2, 3]]"
+3b,41,test_make_similar_1,AssertionError,test,assert 0 == Ellipsis
+3b,41,test_make_similar_2,AssertionError,test,assert 0 == Ellipsis
+3b,41,test_make_similar_3,AssertionError,test,assert 0 == Ellipsis
+3b,41,test_make_similar_4,AssertionError,test,assert 0 == Ellipsis
+3b,41,test_make_similar_5,NameError,test,name 'pytest' is not defined
+3b,41,test_make_similar_6,NameError,test,name 'pytest' is not defined
+3b,42,test_generateResultTree_1,TypeError,funzione,'int' object is not subscriptable
+3b,42,test_generateResultTree_2,TypeError,funzione,'int' object is not subscriptable
+3b,42,test_generateResultTree_3,TypeError,funzione,'int' object is not subscriptable
+3b,42,test_generateResultTree_4,TypeError,funzione,'int' object is not subscriptable
+3b,42,test_generateResultTree_5,TypeError,funzione,'int' object is not subscriptable
+3b,42,test_generateResultTree_6,TypeError,funzione,'int' object is not subscriptable
+3b,42,test_generateResultTree_7,TypeError,funzione,'int' object is not subscriptable
+3b,42,test_generateResultTree_8,TypeError,funzione,'int' object is not subscriptable
+3b,43,test_identify_distance_type_1,AssertionError,test,"assert None == ('trans', '', '', '', '')"
+3b,43,test_identify_distance_type_3,AssertionError,test,"assert None == ('sub', 'a', 'b', '', '')"
+3b,43,test_identify_distance_type_4,AssertionError,test,"assert None == ('trans', 'ac', '', '', '')"
+3b,43,test_identify_distance_type_5,AssertionError,test,"assert None == ('ins', '', 'c', '', '')"
+3b,43,test_identify_distance_type_6,AssertionError,test,"assert None == ('ins', 'a', '', 'b', '')"
+3b,43,test_identify_distance_type_7,AssertionError,test,"assert None == ('trans', 'ad', 'bc', '', '')"
+3b,44,test_score_calculation_base_2,AssertionError,test,"assert (8000, '\u6e80\u8cab8000\u70b9') == (8000, '\u6e80\u8cab2000-4000\u70b9')"
+3b,44,test_score_calculation_base_3,AssertionError,test,"assert (8000, '\u6e80\u8cab8000\u70b9') == (12000, '\u6e80\u8cab4000\u70b9\u2200')"
+3b,44,test_score_calculation_base_4,AssertionError,test,"assert (18000, '\u8df3\u6ee118000\u70b9') == (18000, '\u8df3\u6ee16000\u70b9\u2200')"
+3b,44,test_score_calculation_base_7,AssertionError,test,"assert (24000, '\u4e09\u500d\u6ee16000-12000\u70b9') == (32000, '\u5f79\u6ee18000-16000\u70b9')"
+3b,45,test_min_edit_script_1,AssertionError,test,assert '------+s+i+t+t+i+n+g' == 'kitten\u2192sitting'
+3b,45,test_min_edit_script_2,AssertionError,test,assert '---+d+e+f' == 'abc-d+def'
+3b,45,test_min_edit_script_3,AssertionError,test,assert '+h+e+l+l+o' == 'hello+'
+3b,45,test_min_edit_script_4,AssertionError,test,assert '-----' == ''
+3b,45,test_min_edit_script_5,AssertionError,test,assert '---' == 'abc-'
+3b,45,test_min_edit_script_6,AssertionError,test,assert '---+a+b+c' == ''
+3b,45,test_min_edit_script_7,AssertionError,test,assert '---+a+b+c+d' == 'abc-d+abcd'
+3b,45,test_min_edit_script_8,AssertionError,test,assert '------+z+b+c+d+f+g' == 'abcdef\u2192zbcdfg'
+3b,46,test_common_conv2d_pool_output_shape_1,AssertionError,test,"assert (1, 32, 32, 64) == (1, 16, 16, 64)"
+3b,46,test_common_conv2d_pool_output_shape_2,AssertionError,test,"assert (1, 16, 16, 64) == (1, 16, 14, 64)"
+3b,46,test_common_conv2d_pool_output_shape_3,AssertionError,test,"assert (1, 32, 30, 64) == (1, 31, 31, 64)"
+3b,46,test_common_conv2d_pool_output_shape_4,AssertionError,test,"assert (1, 16, 15, 64) == (1, 30, 29, 64)"
+3b,46,test_common_conv2d_pool_output_shape_5,NotImplementedError,funzione,Strides on batch axis (N) and channel axis (C) must be 1 for importer.
+3b,46,test_common_conv2d_pool_output_shape_6,NotImplementedError,funzione,Strides on batch axis (N) and channel axis (C) must be 1 for importer.
+3b,46,test_common_conv2d_pool_output_shape_7,AssertionError,test,"assert (1, 32, 30, 64) == (1, 31, 31, 64)"
+3b,47,test_featurize_finance_1,AssertionError,test,"assert [1, 0, 0, 0, 0, 0, ...] == [1]"
+3b,47,test_featurize_finance_2,AssertionError,test,"assert [1, 0, 0, 0, 0, 0, ...] == [1, 1]"
+3b,47,test_featurize_finance_3,AssertionError,test,"assert [0, 1, 0, 0, 0, 0, ...] == [1, 1, 1]"
+3b,47,test_featurize_finance_4,AssertionError,test,"assert [0, 0, 1, 0, 0, 0, ...] == [1, 1, 1, 1]"
+3b,47,test_featurize_finance_5,AssertionError,test,"assert [0, 0, 0, 1, 0, 0, ...] == [1, 1, 1, 1, 1]"
+3b,47,test_featurize_finance_6,AssertionError,test,"assert [0, 0, 0, 0, 1, 0, ...] == [1, 1, 1, 1, 1, 1]"
+3b,47,test_featurize_finance_7,AssertionError,test,"assert [0, 0, 0, 0, 0, 1, ...] == [1, 1, 1, 1, 1, 1, ...]"
+3b,48,test_tmux_format_1,AssertionError,test,"assert '#[reverse,fg...  KW: 1 min  ' == '#[noreverse,...g=yellow]  HB'"
+3b,48,test_tmux_format_2,AssertionError,test,"assert '#[reverse,fg...=white]  GW  ' == '#[reverse,fg...bg=white]  KW'"
+3b,48,test_tmux_format_3,AssertionError,test,"assert '#[reverse,fg...  KW: 1 min  ' == '#[noreverse,...bg=green]  EB'"
+3b,48,test_tmux_format_4,AssertionError,test,"assert '#[reverse,fg...=white]  GW  ' == '#[reverse,fg...bg=white]  GW'"
+3b,48,test_tmux_format_5,AssertionError,test,"assert '#[reverse,fg... KW: 2 mins  ' == '#[noreverse,...g=yellow]  HB'"
+3b,48,test_tmux_format_6,AssertionError,test,"assert '#[noreverse,... EB: 2 mins  ' == '#[reverse,fg...]  KW : 1 min'"
+3b,48,test_tmux_format_7,AssertionError,test,"assert '#[noreverse,...yellow]  HB  ' == '#[noreverse,...bg=green]  EB'"
+3b,49,test_next_point_in_8_neigh_1,AssertionError,test,"assert None == (0, -1)"
+3b,49,test_next_point_in_8_neigh_2,AssertionError,test,"assert (1, -1) == (-1, 0)"
+3b,49,test_next_point_in_8_neigh_3,AssertionError,test,"assert (1, 1) == (0, -1)"
+3b,49,test_next_point_in_8_neigh_4,AssertionError,test,"assert None == (-1, 1)"
+3b,49,test_next_point_in_8_neigh_5,AssertionError,test,"assert (1, 0) == (-1, 1)"
+3b,49,test_next_point_in_8_neigh_6,AssertionError,test,"assert None == (-1, -1)"
+3b,49,test_next_point_in_8_neigh_7,AssertionError,test,"assert None == (-1, -1)"
+3b,49,test_next_point_in_8_neigh_8,AssertionError,test,"assert None == (-1, -1)"
+3b,50,test_cal_overlap_neg_strand_1,NameError,test,name 'COMP_OVL' is not defined
+3b,50,test_cal_overlap_neg_strand_2,NameError,test,name 'NO_OVL' is not defined
+3b,50,test_cal_overlap_neg_strand_3,TypeError,test,type str doesn't define __round__ method
+3b,50,test_cal_overlap_neg_strand_4,NameError,test,name 'COMP_OVL' is not defined
+3b,50,test_cal_overlap_neg_strand_5,TypeError,test,type str doesn't define __round__ method
+3b,50,test_cal_overlap_neg_strand_6,NameError,test,name 'NO_OVL' is not defined
+3b,50,test_cal_overlap_neg_strand_7,TypeError,test,type str doesn't define __round__ method
+3b,51,test_find_repeat_5,AssertionError,test,assert ['right'] == []
+3b,51,test_find_repeat_7,AssertionError,test,assert ['a'] == []
+3b,52,test_get_next_queen_recursion_coordinates_1,NameError,test,name 'Square' is not defined
+3b,52,test_get_next_queen_recursion_coordinates_2,NameError,test,name 'Square' is not defined
+3b,52,test_get_next_queen_recursion_coordinates_3,NameError,test,name 'Square' is not defined
+3b,52,test_get_next_queen_recursion_coordinates_4,NameError,test,name 'Square' is not defined
+3b,52,test_get_next_queen_recursion_coordinates_5,NameError,test,name 'Square' is not defined
+3b,52,test_get_next_queen_recursion_coordinates_6,NameError,test,name 'Square' is not defined
+3b,52,test_get_next_queen_recursion_coordinates_7,NameError,test,name 'Square' is not defined
+3b,52,test_get_next_queen_recursion_coordinates_8,NameError,test,name 'Square' is not defined
+3b,53,test_calc_num_weights3_1,AssertionError,test,assert 50 == 15
+3b,53,test_calc_num_weights3_2,AssertionError,test,assert 300 == 50
+3b,53,test_calc_num_weights3_3,AssertionError,test,assert 950 == 150
+3b,53,test_calc_num_weights3_4,AssertionError,test,assert 800 == 350
+3b,53,test_calc_num_weights3_5,AssertionError,test,assert 150 == 25
+3b,53,test_calc_num_weights3_6,AssertionError,test,assert 500 == 50
+3b,53,test_calc_num_weights3_7,AssertionError,test,assert 1250 == 150
+3b,54,test_get_intersect_point_1,TypeError,test,get_intersect_point() missing 2 required positional arguments: 'width' and 'height'
+3b,54,test_get_intersect_point_2,TypeError,test,get_intersect_point() missing 2 required positional arguments: 'width' and 'height'
+3b,54,test_get_intersect_point_3,TypeError,test,get_intersect_point() missing 2 required positional arguments: 'width' and 'height'
+3b,54,test_get_intersect_point_4,TypeError,test,get_intersect_point() missing 2 required positional arguments: 'width' and 'height'
+3b,54,test_get_intersect_point_5,TypeError,test,get_intersect_point() missing 2 required positional arguments: 'width' and 'height'
+3b,54,test_get_intersect_point_6,TypeError,test,get_intersect_point() missing 2 required positional arguments: 'width' and 'height'
+3b,54,test_get_intersect_point_7,TypeError,test,get_intersect_point() missing 2 required positional arguments: 'width' and 'height'
+3b,55,test_check_dead_corner_1,AssertionError,test,assert True == False
+3b,55,test_check_dead_corner_3,AssertionError,test,assert True == False
+3b,55,test_check_dead_corner_5,AssertionError,test,assert True == False
+3b,55,test_check_dead_corner_7,AssertionError,test,assert True == False
+3b,57,test_fileNamer_1,AssertionError,test,assert 'EdgeModel_dataset1' == 'NodeModel_dataset1'
+3b,57,test_fileNamer_2,AssertionError,test,assert 'model2' == ''
+3b,57,test_fileNamer_3,AssertionError,test,assert 'EdgeModel_dataset1_model2' == 'NodeModel_dataset1_model2'
+3b,57,test_fileNamer_4,AssertionError,test,assert 'EdgeModel_dataset1_model2' == 'NodeModel_dataset1_model2'
+3b,57,test_fileNamer_5,AssertionError,test,assert 'model2_Linf10' == 'Linf10_model2'
+3b,57,test_fileNamer_6,AssertionError,test,assert 'EdgeModel_da...model2_Linf10' == 'NodeModel_da...Linf10_model2'
+3b,57,test_fileNamer_7,AssertionError,test,assert 'EdgeModel_da...el2_Linf10_5K' == 'NodeModel_da...f10_model2_K5'
+3b,58,test_detect_side_4,AssertionError,test,assert '90 degrees right' == '90 degrees left'
+3b,58,test_detect_side_6,AssertionError,test,assert '90 degress left' == '180 degrees right'
+3b,59,test_circle_line_intersection_1,AssertionError,test,"assert [(-5.0, 0.0), (5.0, 0.0)] == [(12.5, 0)]"
+3b,59,test_circle_line_intersection_2,AssertionError,test,assert [(-3.53553390...339059327373)] == []
+3b,59,test_circle_line_intersection_3,AssertionError,test,"assert [] == [(12.5, 0)]"
+3b,59,test_circle_line_intersection_4,AssertionError,test,assert [(-3.53553390...339059327373)] == []
+3b,59,test_circle_line_intersection_5,AssertionError,test,"assert [(-5.0, 0.0), (5.0, 0.0)] == [(12.5, 0)]"
+3b,59,test_circle_line_intersection_6,AssertionError,test,"assert [(-5.0, -4.0)...000000000004)] == []"
+3b,59,test_circle_line_intersection_7,AssertionError,test,"assert [(2.999999999...01772928e-16)] == [(12.5, 12.5)]"
+3b,60,test_fire_gun_1,AssertionError,test,"assert (0, 0, True, False, False) == (0, 0, False, False, False)"
+3b,60,test_fire_gun_2,AssertionError,test,"assert (150, 150, True, False, False) == (105, 105, True, False, False)"
+3b,60,test_fire_gun_3,AssertionError,test,"assert (-150, -150, ... False, False) == (-95, -95, True, False, False)"
+3b,60,test_fire_gun_5,AssertionError,test,"assert (100, 0, True, False, False) == (105, 0, True, False, False)"
+3b,60,test_fire_gun_6,AssertionError,test,"assert (-150, -850, ... False, False) == (-95, -795, T... False, False)"
+3b,60,test_fire_gun_7,AssertionError,test,"assert (0, 0, True, False, False) == (0, 0, False, False, False)"
+3b,60,test_fire_gun_8,AssertionError,test,"assert (150, 150, True, False, False) == (105, 105, True, True, False)"
+3b,61,test_rollDie_1,NameError,test,name 'RED' is not defined
+3b,61,test_rollDie_2,NameError,test,name 'YELLOW' is not defined
+3b,61,test_rollDie_3,NameError,test,name 'GREEN' is not defined
+3b,61,test_rollDie_4,NameError,test,name 'RED' is not defined
+3b,61,test_rollDie_5,NameError,test,name 'RED' is not defined
+3b,61,test_rollDie_6,NameError,test,name 'RED' is not defined
+3b,61,test_rollDie_7,NameError,test,name 'pytest' is not defined
+3b,62,test_idx_for_diag_se_from_tr_1,AssertionError,test,"assert [(0, 2), (0, ...1, 1), (1, 0)] == [(0, 2), (1, 2)]"
+3b,62,test_idx_for_diag_se_from_tr_2,AssertionError,test,"assert [(0, 3), (0, ..., (2, 3), ...] == [(0, 3), (1, 3), (2, 3)]"
+3b,62,test_idx_for_diag_se_from_tr_3,AssertionError,test,"assert [(0, 4), (0, ..., (2, 4), ...] == [(0, 4), (1, ...2, 4), (3, 4)]"
+3b,62,test_idx_for_diag_se_from_tr_4,AssertionError,test,"assert [(0, 5), (0, ..., (2, 5), ...] == [(0, 5), (1, ...3, 5), (4, 5)]"
+3b,62,test_idx_for_diag_se_from_tr_5,AssertionError,test,"assert [(0, 1), (0, ...1, 1), (1, 0)] == []"
+3b,62,test_idx_for_diag_se_from_tr_6,AssertionError,test,"assert [(0, 2), (0, 1), (0, 0)] == [(0, 2), (1, 2)]"
+3b,62,test_idx_for_diag_se_from_tr_7,AssertionError,test,"assert [(0, 0), (1, 0), (2, 0)] == []"
+3b,63,test_idx_for_diag_se_from_bl_1,AssertionError,test,"assert [(1, 0), (0, ...1, 2), (0, 2)] == [(0, 0), (0, 1), (0, 2)]"
+3b,63,test_idx_for_diag_se_from_bl_2,AssertionError,test,"assert [(2, 0), (1, ..., (2, 2), ...] == [(0, 0), (0, ..., (1, 2), ...]"
+3b,63,test_idx_for_diag_se_from_bl_3,AssertionError,test,"assert [(3, 0), (2, ..., (3, 2), ...] == [(0, 0), (0, ..., (1, 1), ...]"
+3b,63,test_idx_for_diag_se_from_bl_4,AssertionError,test,"assert [(4, 0), (3, ..., (4, 2), ...] == [(0, 0), (0, ..., (0, 5), ...]"
+3b,63,test_idx_for_diag_se_from_bl_5,AssertionError,test,"assert [(5, 0), (4, ..., (5, 2), ...] == [(0, 0), (0, ..., (0, 5), ...]"
+3b,63,test_idx_for_diag_se_from_bl_6,AssertionError,test,"assert [(6, 0), (5, ..., (6, 2), ...] == [(0, 0), (0, ..., (0, 5), ...]"
+3b,63,test_idx_for_diag_se_from_bl_7,AssertionError,test,"assert [(7, 0), (6, ..., (7, 2), ...] == [(0, 0), (0, ..., (0, 5), ...]"
+3b,64,test_remove_chars_1,AssertionError,test,assert 'Hello World!' == 'HelloWorld!'
+3b,64,test_remove_chars_3,AssertionError,test,assert 'This is a quoted string' == 'Thisisaquotedstring'
+3b,64,test_remove_chars_4,AssertionError,test,assert 'Thisisalinewithtabsandspaces' == 'Thisisanlinespaces'
+3b,64,test_remove_chars_5,AssertionError,test,assert 'This is a line with comments' == 'Thisisalinewithcomments'
+3b,64,test_remove_chars_7,AssertionError,test,assert 'This is a li...ltiple quotes' == 'Thisisalinen...ultiplequotes'
+3b,65,test_cigar_prefix_length_1,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+3b,65,test_cigar_prefix_length_2,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+3b,65,test_cigar_prefix_length_3,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+3b,65,test_cigar_prefix_length_4,NameError,test,name 'pytest' is not defined
+3b,65,test_cigar_prefix_length_5,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+3b,65,test_cigar_prefix_length_6,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+3b,65,test_cigar_prefix_length_7,NameError,test,name 'pytest' is not defined
+3b,66,test_get_segment_directions_1,AssertionError,test,"assert ['E', 'S', 'SE'] == ['N', 'W']"
+3b,66,test_get_segment_directions_2,AssertionError,test,"assert ['NW', 'N', '...E', 'SW', ...] == ['NW', 'NE', 'E']"
+3b,66,test_get_segment_directions_3,Exception,funzione,"The point (-1, -1) doesn't belong into the matrix"
+3b,66,test_get_segment_directions_4,AssertionError,test,"assert ['W', 'SW', 'S'] == ['N']"
+3b,66,test_get_segment_directions_5,AssertionError,test,"assert ['NW', 'N', '...E', 'SW', ...] == ['W']"
+3b,66,test_get_segment_directions_6,AssertionError,test,"assert ['NW', 'N', '...E', 'SW', ...] == ['NW', 'NE']"
+3b,66,test_get_segment_directions_7,NameError,test,name 'pytest' is not defined
+3b,67,test_max2GetIdx_1,AssertionError,test,"assert (3, 2) == (0, 4)"
+3b,67,test_max2GetIdx_2,AssertionError,test,"assert (0, 1) == (0, 0)"
+3b,67,test_max2GetIdx_3,AssertionError,test,"assert (3, 2) == (0, 4)"
+3b,67,test_max2GetIdx_4,AssertionError,test,"assert (3, 1) == (1, 4)"
+3b,67,test_max2GetIdx_5,AssertionError,test,"assert (1, 0) == (0, 2)"
+3b,67,test_max2GetIdx_6,AssertionError,test,"assert (3, 2) == (2, 4)"
+3b,67,test_max2GetIdx_7,NameError,test,name 'pytest' is not defined
+3b,68,test_getYAxisMinMaxGC_1,AssertionError,test,"assert (0, 50) == (-50, 50)"
+3b,68,test_getYAxisMinMaxGC_2,AssertionError,test,"assert (0, 4000) == (0, 400)"
+3b,68,test_getYAxisMinMaxGC_3,AssertionError,test,"assert (-50, -10) == (-50, 50)"
+3b,68,test_getYAxisMinMaxGC_4,AssertionError,test,"assert (0, 50) == (0, 400)"
+3b,68,test_getYAxisMinMaxGC_5,AssertionError,test,"assert (0, 200) == (-50, 150)"
+3b,68,test_getYAxisMinMaxGC_6,AssertionError,test,"assert (-50, -10) == (0, 400)"
+3b,68,test_getYAxisMinMaxGC_7,AssertionError,test,"assert (0, 50) == (-50, 150)"
+3b,69,test_calculate_possibility_2,AssertionError,test,assert 1 == 0.4
+3b,69,test_calculate_possibility_3,AssertionError,test,assert 1 == 0.01
+3b,69,test_calculate_possibility_4,AssertionError,test,assert 1 == 0.4
+3b,69,test_calculate_possibility_6,AssertionError,test,assert 1 == 0.01
+3b,69,test_calculate_possibility_7,AssertionError,test,assert 1 == 0.4
+3b,70,test_iterative_levenshtein_1,AssertionError,test,"assert (0, 0, 3, 0) == (0, 3, 1, 2)"
+3b,70,test_iterative_levenshtein_2,AssertionError,test,"assert (0, 3, 0, 0) == (0, 3, 0, 3)"
+3b,70,test_iterative_levenshtein_3,AssertionError,test,"assert (3, 0, 0, 0) == (0, 0, 0, 0)"
+3b,70,test_iterative_levenshtein_4,AssertionError,test,"assert (2, 0, 1, 1) == (1, 2, 1, 2)"
+3b,70,test_iterative_levenshtein_5,AssertionError,test,"assert (3, 1, 0, 0) == (0, 3, 1, 4)"
+3b,70,test_iterative_levenshtein_6,AssertionError,test,"assert (0, 0, 1, 5) == (7, 0, 7, 0)"
+3b,71,test_centre_on_peak_4,AssertionError,test,"assert [3, 4, 5, 1, 2] == [3, 4, 5, 4, 3]"
+3b,71,test_centre_on_peak_6,AssertionError,test,"assert [4, 5, 6, 7, 1, 2, ...] == [4, 5, 6, 7, 6, 5, ...]"
+3b,71,test_centre_on_peak_7,AssertionError,test,"assert [50, 60, 70, 80, 10, 20, ...] == [40, 50, 60, 70, 80, 70, ...]"
+3b,72,test_locate_alignment_1,AssertionError,test,"assert [0, 1, 2, 3] == [0]"
+3b,72,test_locate_alignment_2,AssertionError,test,"assert [1, 2] == []"
+3b,72,test_locate_alignment_3,AssertionError,test,"assert [0, 1, 2, 3] == [0]"
+3b,72,test_locate_alignment_4,AssertionError,test,"assert [2, 3, 4, 5] == [2]"
+3b,72,test_locate_alignment_5,AssertionError,test,"assert [3, 4, 5, 6] == []"
+3b,72,test_locate_alignment_6,AssertionError,test,"assert [0, 1] == [0]"
+3b,72,test_locate_alignment_7,AssertionError,test,"assert [1, 2] == []"
+3b,72,test_locate_alignment_8,AssertionError,test,"assert [2, 3] == []"
+3b,73,test_smooth_param_1,AssertionError,test,"assert [1, 6, 0, 0, 'interp'] == [181, 6, 0, 0, 'interp']"
+3b,73,test_smooth_param_2,AssertionError,test,"assert [3, 5, 0, 0, 'interp'] == [90, 5, 0, 0, 'interp']"
+3b,73,test_smooth_param_3,AssertionError,test,"assert [5, 3, 0, 0, 'interp'] == [40, 3, 0, 0, 'interp']"
+3b,73,test_smooth_param_4,AssertionError,test,"assert [11, 2, 0, 0, 'interp'] == [15, 2, 0, 0, 'interp']"
+3b,73,test_smooth_param_5,AssertionError,test,"assert [25, 1, 0, 0, 'interp'] == [6, 1, 0, 0, 'interp']"
+3b,73,test_smooth_param_6,NameError,test,name 'pytest' is not defined
+3b,73,test_smooth_param_7,AssertionError,test,"assert [1, 6, 0, 0, 'interp'] == [150, 6, 0, 0, 'interp']"
+3b,74,test_look_up_latest_epoch_2,AssertionError,test,"assert (-1, 0) == (0, 0)"
+3b,74,test_look_up_latest_epoch_3,AssertionError,test,"assert (-1, 0) == (0, 0)"
+3b,74,test_look_up_latest_epoch_4,AssertionError,test,"assert (-1, 0) == (0, 0)"
+3b,74,test_look_up_latest_epoch_5,AssertionError,test,"assert (0, 0) == (1, 0)"
+3b,74,test_look_up_latest_epoch_6,FileExistsError,test,"[WinError 183] Impossibile creare un file, se il file esiste già: '/path/to/model/folder/trained_modeltag_autoencoder_ep"
+3b,74,test_look_up_latest_epoch_7,FileExistsError,test,"[WinError 183] Impossibile creare un file, se il file esiste già: '/path/to/model/folder/trained_modeltag_autoencoder_ep"
+3b,75,test_find_adjacent_product_1,AssertionError,test,assert 16 == 12
+3b,75,test_find_adjacent_product_4,AssertionError,test,assert 1 == 12
+3b,75,test_find_adjacent_product_5,AssertionError,test,assert 81 == 14580
+3b,75,test_find_adjacent_product_7,AssertionError,test,assert 1 == 14580
+3b,76,test_convert_location_to_pitch_1,AssertionError,test,assert 'note-B2' == 'note-D-2'
+3b,76,test_convert_location_to_pitch_2,AssertionError,test,assert 'note-E2' == 'note-F-2'
+3b,76,test_convert_location_to_pitch_3,AssertionError,test,assert 'note-F0' == 'note-A-0'
+3b,76,test_convert_location_to_pitch_4,AssertionError,test,assert 'note-C1' == 'note-E-1'
+3b,76,test_convert_location_to_pitch_5,AssertionError,test,assert 'note-B1' == 'note-G-1'
+3b,76,test_convert_location_to_pitch_6,AssertionError,test,assert 'note-B0' == 'note-D-0'
+3b,76,test_convert_location_to_pitch_7,AssertionError,test,assert 'note-B1' == 'note-B-1'
+3b,77,test_oracle2numpy_1,IndexError,funzione,tuple index out of range
+3b,77,test_oracle2numpy_2,IndexError,funzione,tuple index out of range
+3b,77,test_oracle2numpy_3,IndexError,funzione,tuple index out of range
+3b,77,test_oracle2numpy_4,IndexError,funzione,tuple index out of range
+3b,77,test_oracle2numpy_5,IndexError,funzione,tuple index out of range
+3b,77,test_oracle2numpy_6,IndexError,funzione,tuple index out of range
+3b,77,test_oracle2numpy_7,IndexError,funzione,tuple index out of range
+3b,78,test_turn_sequence_1,AssertionError,test,assert 's' == ''
+3b,78,test_turn_sequence_2,AssertionError,test,assert '' == 'r'
+3b,78,test_turn_sequence_3,AssertionError,test,assert '' == 'l'
+3b,78,test_turn_sequence_4,AssertionError,test,assert '' == 's'
+3b,78,test_turn_sequence_5,AssertionError,test,assert '' == 's'
+3b,78,test_turn_sequence_7,AssertionError,test,assert 's' == 'r'
+3b,79,test_count_leading_digits_var2_1,TypeError,funzione,'int' object is not iterable
+3b,79,test_count_leading_digits_var2_2,TypeError,funzione,'int' object is not iterable
+3b,79,test_count_leading_digits_var2_3,TypeError,funzione,'int' object is not iterable
+3b,79,test_count_leading_digits_var2_4,TypeError,funzione,'int' object is not iterable
+3b,79,test_count_leading_digits_var2_5,TypeError,funzione,'int' object is not iterable
+3b,79,test_count_leading_digits_var2_6,TypeError,funzione,'int' object is not iterable
+3b,79,test_count_leading_digits_var2_7,TypeError,funzione,'int' object is not iterable
+3b,80,test_calculate_circular_pile_set_positions_1,AssertionError,test,"assert (1, 0) == (1, 2)"
+3b,80,test_calculate_circular_pile_set_positions_2,AssertionError,test,"assert (5, 5) == (6, 6)"
+3b,80,test_calculate_circular_pile_set_positions_3,AssertionError,test,"assert (12, 10) == (12, 13)"
+3b,80,test_calculate_circular_pile_set_positions_5,AssertionError,test,"assert (1, 0) == (1, 2)"
+3b,80,test_calculate_circular_pile_set_positions_6,NameError,test,name 'pytest' is not defined
+3b,80,test_calculate_circular_pile_set_positions_7,AssertionError,test,"assert (12, 10) == (12, 13)"
+3b,81,test_maximal_mesh_pattern_of_occurrence_1,IndexError,funzione,list assignment index out of range
+3b,81,test_maximal_mesh_pattern_of_occurrence_2,IndexError,funzione,list assignment index out of range
+3b,81,test_maximal_mesh_pattern_of_occurrence_3,AssertionError,test,"assert {(0, 0), (0, ...1, 0), (1, 1)} == set()"
+3b,81,test_maximal_mesh_pattern_of_occurrence_5,IndexError,funzione,list assignment index out of range
+3b,81,test_maximal_mesh_pattern_of_occurrence_6,AssertionError,test,assert 9 == 8
+3b,81,test_maximal_mesh_pattern_of_occurrence_7,IndexError,funzione,list assignment index out of range
+3b,82,test_process_lines_for_spell_1,AssertionError,test,"assert (2, 2, 2, 2, 13.75, 33.75, ...) == Ellipsis"
+3b,82,test_process_lines_for_spell_2,AssertionError,test,"assert (1, 1, 1, 1, 9.25, 19.25, ...) == Ellipsis"
+3b,82,test_process_lines_for_spell_3,AssertionError,test,"assert (1, 1, 1, 1, 9.25, 19.25, ...) == Ellipsis"
+3b,82,test_process_lines_for_spell_4,AssertionError,test,assert 10.666666666666668 < 2
+3b,82,test_process_lines_for_spell_5,AssertionError,test,assert 9.25 == 10
+3b,82,test_process_lines_for_spell_6,AssertionError,test,assert 16.166666666666668 < 1
+3b,82,test_process_lines_for_spell_7,AssertionError,test,"assert (1, 1, 1, 1, 9.25, 19.25, ...) == Ellipsis"
+3b,83,test_crosscount_1,IndexError,funzione,list index out of range
+3b,83,test_crosscount_2,IndexError,funzione,list index out of range
+3b,83,test_crosscount_3,IndexError,funzione,list index out of range
+3b,83,test_crosscount_4,IndexError,funzione,list index out of range
+3b,83,test_crosscount_5,IndexError,funzione,list index out of range
+3b,83,test_crosscount_6,IndexError,funzione,list index out of range
+3b,83,test_crosscount_7,IndexError,funzione,list index out of range
+3b,84,test_checkFormulas_2,AssertionError,test,assert True == False
+3b,84,test_checkFormulas_4,AssertionError,test,assert False == True
+3b,84,test_checkFormulas_6,KeyError,funzione,'b'
+3b,84,test_checkFormulas_7,AssertionError,test,assert True == False
+3b,85,test_bound_line_in_box_1,AssertionError,test,"assert (False, 8.055...3974852831076) == (False, 4.25, 16.75)"
+3b,85,test_bound_line_in_box_2,AssertionError,test,"assert (False, 0.353...5339059327373) == (True, 5.0, 5.0)"
+3b,85,test_bound_line_in_box_3,AssertionError,test,"assert (False, 9.722...3974852831078) == (False, 9.5, 12.75)"
+3b,85,test_bound_line_in_box_4,AssertionError,funzione,
+3b,85,test_bound_line_in_box_5,NameError,test,name 'pytest' is not defined
+3b,85,test_bound_line_in_box_6,AssertionError,test,"assert (False, 8.333...3333332, 20.0) == (True, 5.0, 15.0)"
+3b,85,test_bound_line_in_box_7,AssertionError,test,assert False is None
+3b,86,test_change_display_1,IndexError,funzione,list index out of range
+3b,86,test_change_display_2,IndexError,funzione,list index out of range
+3b,86,test_change_display_3,IndexError,funzione,list index out of range
+3b,86,test_change_display_4,AssertionError,test,"assert [1, 2, 3] == [32, 64, 96]"
+3b,86,test_change_display_8,TypeError,funzione,'float' object cannot be interpreted as an integer
+3b,87,test_oligo_complements_1,AssertionError,test,"assert ['ATCG', 'TAG...GCTA', 'CGAT'] == ['ATGC', 'TAG...GCTA', 'GTCA']"
+3b,87,test_oligo_complements_2,AssertionError,test,"assert ['TACG', 'ATG...GCAU', 'CGTA'] == ['TUGA', 'TAU...GUAU', 'GUAC']"
+3b,87,test_oligo_complements_3,AssertionError,test,"assert ['', '', '', ''] == []"
+3b,87,test_oligo_complements_4,AssertionError,test,"assert ['AAAA', 'TTT...AAAA', 'TTTT'] == ['TTTT', 'TTT...TTTT', 'TTTT']"
+3b,87,test_oligo_complements_5,AssertionError,test,"assert ['ATGC', 'TAC...CGTA', 'GCAT'] == ['TAGC', 'GCT...TCAg', 'GTCA']"
+3b,87,test_oligo_complements_6,NameError,test,name 'pytest' is not defined
+3b,87,test_oligo_complements_7,NameError,test,name 'pytest' is not defined
+3b,88,test_get_text_point_at_line_1,AssertionError,test,"assert (5, -205) == (5.0, 5.0)"
+3b,88,test_get_text_point_at_line_2,AssertionError,test,"assert (5, -205) == (15.0, 5.0)"
+3b,88,test_get_text_point_at_line_3,AssertionError,test,"assert (5, -205) == (7.5, 5.0)"
+3b,88,test_get_text_point_at_line_4,AssertionError,test,"assert (5, -205) == (5.0, 15.0)"
+3b,88,test_get_text_point_at_line_5,AssertionError,test,"assert (5, -205) == (5.0, -5.0)"
+3b,88,test_get_text_point_at_line_6,AssertionError,test,"assert (5, -205) == (0.0, 5.0)"
+3b,88,test_get_text_point_at_line_7,AssertionError,test,"assert (5, -205) == (10.0, 5.0)"
+3b,88,test_get_text_point_at_line_8,AssertionError,test,"assert (5, -205) == (5.0, 5.0)"
+3b,89,test_bin_search_range_1,AssertionError,test,assert 5 == 6
+3b,89,test_bin_search_range_3,AssertionError,test,assert 2 == 6
+3b,89,test_bin_search_range_4,AssertionError,test,assert 2 == 6
+3b,89,test_bin_search_range_5,AssertionError,test,assert 2 == 6
+3b,89,test_bin_search_range_6,AssertionError,test,assert 2 == 6
+3b,89,test_bin_search_range_7,AssertionError,test,assert 2 == 6
+3b,89,test_bin_search_range_8,AssertionError,test,assert 2 == 6
+3b,90,test_descartes_1,AssertionError,test,"assert [[2, 0, 0], [0, 0, 2]] == [[0, 0, 2], [1, 0, 1]]"
+3b,90,test_descartes_2,AssertionError,test,"assert [[2, 0, 0], [0, 0, 2]] == [[0, 0, 2], [1, 0, 1]]"
+3b,90,test_descartes_3,AssertionError,test,"assert [[2, 0, 0], [0, 0, 2]] == [[0, 0, 1], [1, 0, 0]]"
+3b,90,test_descartes_4,AssertionError,test,"assert [[2, 0, 0], [0, 0, 2]] == [[0, 0, 2], [1, 0, 1]]"
+3b,90,test_descartes_5,AssertionError,test,"assert [[1, 1, 0]] == []"
+3b,90,test_descartes_6,AssertionError,test,"assert [[0, 2, 0], [0, 0, 2]] == [[0, 0, 3], [1, 0, 2]]"
+3b,90,test_descartes_7,AssertionError,test,"assert [[0, 2, 0], [0, 0, 2]] == []"
+3b,91,test_row_revile_indexes_5,AssertionError,test,"assert (-1, -1, -1, -1) == (0, 1, 2, -1)"
+3b,91,test_row_revile_indexes_6,AssertionError,test,"assert (-1, -1, -1, -1) == (0, 1, 2, 3)"
+3b,92,test_usage_bound_1,AssertionError,test,assert 60.0 == Ellipsis
+3b,92,test_usage_bound_2,IndexError,funzione,list index out of range
+3b,92,test_usage_bound_3,AssertionError,test,assert 6.0 == Ellipsis
+3b,92,test_usage_bound_4,IndexError,funzione,list index out of range
+3b,92,test_usage_bound_5,AssertionError,test,assert 22.0 == Ellipsis
+3b,92,test_usage_bound_6,IndexError,funzione,list index out of range
+3b,92,test_usage_bound_7,AssertionError,test,assert 27.0 == Ellipsis
+3b,93,test_define_neighbours_1,AssertionError,test,assert 8 == 6
+3b,93,test_define_neighbours_2,AssertionError,test,"assert [[1, 1], [1, ..., [1, 0], ...] == [[-1, 1], [-1, 0], [0, 1]]"
+3b,93,test_define_neighbours_3,AssertionError,test,assert 8 == 6
+3b,93,test_define_neighbours_4,AssertionError,test,"assert [[1, 2], [1, ..., [1, 1], ...] == [[-1, 2], [-1, 1], [0, 2]]"
+3b,93,test_define_neighbours_5,AssertionError,test,assert 8 == 6
+3b,93,test_define_neighbours_6,AssertionError,test,"assert [[0, 0], [0, ..., [0, 1], ...] == [[-1, 0], [-1, -1]]"
+3b,93,test_define_neighbours_7,AssertionError,test,assert 8 == 6
+3b,94,test__get_barchart_sizings_1,AssertionError,test,"assert (1905, 10, 10, 'false', 35) == (300, 10, 9, 'true', 25)"
+3b,94,test__get_barchart_sizings_2,AssertionError,test,"assert (635, 20, 10, 'false', 25) == (120, 20, 10, 'false', 35)"
+3b,94,test__get_barchart_sizings_3,AssertionError,test,"assert (6175, 10, 10, 'false', 35) == (300, 8, 9, 'true', 25)"
+3b,94,test__get_barchart_sizings_4,AssertionError,test,"assert (15350, 6, 9, 'true', 35) == (450, 6, 8, 'true', 35)"
+3b,94,test__get_barchart_sizings_5,AssertionError,test,"assert (29360, 5, 8, 'true', 35) == (400, 4, 9, 'true', 25)"
+3b,94,test__get_barchart_sizings_6,NameError,test,name 'pytest' is not defined
+3b,94,test__get_barchart_sizings_7,AssertionError,test,"assert (1905, 10, 10, 'false', 35) == (120, 20, 10, 'false', 35)"
+3b,94,test__get_barchart_sizings_8,NameError,test,name 'pytest' is not defined
+3b,96,test_coord_finder_1,AssertionError,test,"assert (2, 0) == (1, 0)"
+3b,96,test_coord_finder_2,AssertionError,test,"assert (1, 3) == (-1, -1)"
+3b,96,test_coord_finder_3,AssertionError,test,"assert (0, 3) == (0, -1)"
+3b,96,test_coord_finder_4,AssertionError,test,"assert (-1, -1) == (0, 0)"
+3b,96,test_coord_finder_5,AssertionError,test,"assert (-1, 4) == (-2, -1)"
+3b,96,test_coord_finder_6,AssertionError,test,"assert (-2, 2) == (-1, -1)"
+3b,96,test_coord_finder_7,AssertionError,test,"assert (4, 0) == (0, 0)"
+3b,97,test___transform_coors_1,AssertionError,test,"assert None == (0, 0, 5, 7)"
+3b,97,test___transform_coors_2,AssertionError,test,"assert None == (10, 10, 16, 18)"
+3b,97,test___transform_coors_3,AssertionError,test,"assert None == (-5, -5, 0, 0)"
+3b,97,test___transform_coors_4,AssertionError,test,"assert None == (10, 10, 15, 17)"
+3b,97,test___transform_coors_5,AssertionError,test,"assert None == (-10, -10, 0, 0)"
+3b,97,test___transform_coors_6,AssertionError,test,"assert None == (0, 0, 5, 7)"
+3b,97,test___transform_coors_7,AssertionError,test,"assert None == (-5, -5, 15, 17)"
+3b,98,test_lumen_type_2,AssertionError,test,"assert {0: 'ICM', 1: 'ICM'} == {0: 'mutantsmi'}"
+3b,98,test_lumen_type_4,AssertionError,test,"assert {0: 'ICM', 1: 'ICM'} == {0: 'TEmi'}"
+3b,98,test_lumen_type_6,AssertionError,test,"assert {0: 'ICM', 1: 'ICM'} == {0: 'mutantsmi'}"
+3b,99,test_judge_1d100_with_7_ver_1,AssertionError,test,COLOR_SUCCESS
+3b,99,test_judge_1d100_with_7_ver_2,AssertionError,test,COLOR_CRITICAL
+3b,99,test_judge_1d100_with_7_ver_3,AssertionError,test,COLOR_FAILURE
+3b,99,test_judge_1d100_with_7_ver_4,AssertionError,test,COLOR_FAILURE
+3b,99,test_judge_1d100_with_7_ver_5,AssertionError,test,COLOR_NORMAL_SUCCESS
+3b,99,test_judge_1d100_with_7_ver_6,AssertionError,test,COLOR_NORMAL_SUCCESS
+3b,99,test_judge_1d100_with_7_ver_7,AssertionError,test,COLOR_FUMBLE
+8b,0,test_is_degree_in_degree_range_1,AssertionError,test,assert False == True
+8b,0,test_is_degree_in_degree_range_2,AssertionError,test,assert True == False
+8b,0,test_is_degree_in_degree_range_3,AssertionError,test,assert False == True
+8b,0,test_is_degree_in_degree_range_4,AssertionError,test,assert False == True
+8b,0,test_is_degree_in_degree_range_6,AssertionError,test,assert False == True
+8b,2,test_fix_labels_7,AssertionError,test,"assert ['Invalid_Lab...erature', ...] == ['Unix', 'Tim...erature', ...]"
+8b,3,test_x0x1_after_extraction_2,AssertionError,test,"assert (None, None) is None"
+8b,3,test_x0x1_after_extraction_4,AssertionError,test,"assert (None, None) == (0, 10)"
+8b,3,test_x0x1_after_extraction_5,AssertionError,test,"assert (15, 20) == (None, None)"
+8b,4,test__remove_strings_1,AssertionError,test,"assert ""Hello ''"" == 'Helloworld!'"
+8b,4,test__remove_strings_2,AssertionError,test,"assert 'This is a ""' == 'This is a string'"
+8b,4,test__remove_strings_3,AssertionError,test,"assert '""""string""' == 'This is another string'"
+8b,4,test__remove_strings_4,AssertionError,test,assert 'No strings her' == 'No strings here'
+8b,4,test__remove_strings_5,AssertionError,test,"assert '\'\' and ""' == ""'Single quot... double quote"""
+8b,4,test__remove_strings_6,AssertionError,test,assert 'No string' == 'No strings'
+8b,4,test__remove_strings_7,AssertionError,test,"assert '"""" with """" string' == '""String"" with more strings'"
+8b,5,test_can_blas_1,AssertionError,test,assert False == True
+8b,5,test_can_blas_4,AssertionError,test,assert False == True
+8b,5,test_can_blas_6,AssertionError,test,assert False == True
+8b,6,test_deg2HMS_1,AssertionError,test,assert '0 50 0.0' == '- 00 45 00'
+8b,6,test_deg2HMS_2,AssertionError,test,assert '-23 23 59' == '+ 03 25 24'
+8b,6,test_deg2HMS_3,AssertionError,test,"assert ('5 2 24.0000...87363607e-12') == ('+ 05 01 36', '- 00 48 00')"
+8b,6,test_deg2HMS_4,AssertionError,test,assert '0 0 0.0' == ''
+8b,6,test_deg2HMS_5,AssertionError,test,assert '90 0 0' == '+ 00 00 00'
+8b,6,test_deg2HMS_6,AssertionError,test,"assert ('-12 0 0.0', '0 0 0') == '- 12 00 00'"
+8b,6,test_deg2HMS_7,AssertionError,test,"assert ('24 0 0', '90 0 0') == ('+ 24 00 00', '+ 00 00 00')"
+8b,7,test_single_defcom_extract_3,AssertionError,test,"assert '' == '""""""This is a docstring.""""""'"
+8b,7,test_single_defcom_extract_4,AssertionError,test,"assert '' == ""'''This is a...docstring.'''"""
+8b,8,test_get_allen_relation_4,AssertionError,test,assert 'overlapped_by' == 'during'
+8b,8,test_get_allen_relation_5,AssertionError,test,assert 'overlaps' == 'contains'
+8b,8,test_get_allen_relation_6,AssertionError,test,assert 'before' == 'after'
+8b,8,test_get_allen_relation_7,AssertionError,test,assert 'equal' == 'starts'
+8b,9,test_point_box_relation_1,AssertionError,test,assert 0 is None
+8b,9,test_point_box_relation_2,AssertionError,test,assert 3 == 4
+8b,9,test_point_box_relation_3,AssertionError,test,assert 4 == 7
+8b,9,test_point_box_relation_4,AssertionError,test,assert 9 == 2
+8b,9,test_point_box_relation_5,AssertionError,test,assert 4 == 7
+8b,9,test_point_box_relation_6,AssertionError,test,assert 4 is None
+8b,10,test_uoc_railfence_encrypt_1,AssertionError,test,assert 'hoell' == 'hloel'
+8b,10,test_uoc_railfence_encrypt_2,AssertionError,test,assert 'pyntoh' == 'pythno'
+8b,10,test_uoc_railfence_encrypt_3,AssertionError,test,assert 'reacinlef' == 'rfliecaen'
+8b,10,test_uoc_railfence_encrypt_6,AssertionError,test,assert 'aebdc' == 'abced'
+8b,11,test_create_three_random_v_indices_8,TypeError,test,object of type 'int' has no len()
+8b,12,test_diffsents_1,AssertionError,test,"assert (0, 4, 0, 4) == (0, 4, 0, 5)"
+8b,12,test_diffsents_2,AssertionError,test,"assert (5, 6, 5, 7) == (1, 6, 1, 7)"
+8b,12,test_diffsents_3,AssertionError,test,"assert (3, 7, 3, 3) == (0, 4, 0, 4)"
+8b,12,test_diffsents_4,AssertionError,funzione,0	-1	-1		hello
+8b,12,test_diffsents_5,AssertionError,funzione,5	-1	4	hello
+8b,12,test_diffsents_6,AssertionError,test,"assert (5, 6, 5, 7) == (1, 6, 1, 7)"
+8b,13,test_replacement_template_1,AssertionError,test,assert 'Hello Hello' == 'Hello world'
+8b,13,test_replacement_template_3,AssertionError,test,assert 'Hello  world' == 'Hello world'
+8b,13,test_replacement_template_5,AssertionError,test,assert 'Hello $10' == 'Hello world'
+8b,14,test_needleman_wunsch0_1,AssertionError,test,"assert ('ATCG_', 'A_CGT', 1) == ('ATCG', '_ACGT', 2)"
+8b,14,test_needleman_wunsch0_2,AssertionError,test,"assert ('ATC_G', '_GCTA', -3) == ('ATCG', '_GCTA', 2)"
+8b,14,test_needleman_wunsch0_3,AssertionError,test,"assert ('____', 'ACGT', -4) == ('', 'ACGT', 4)"
+8b,14,test_needleman_wunsch0_4,AssertionError,test,"assert ('ATCG', '____', -4) == ('ATCG', '', 4)"
+8b,14,test_needleman_wunsch0_5,AssertionError,test,"assert ('ATCG', 'ACGT', 7) == ('ATCG', '_ACGT', 3)"
+8b,14,test_needleman_wunsch0_6,AssertionError,test,"assert ('ATCG', 'GCTA', 8) == ('ATCG', '_GCTA', 3)"
+8b,14,test_needleman_wunsch0_7,AssertionError,test,"assert ('____', 'ACGT', -4) == ('', 'ACGT', 4)"
+8b,15,test_knapsack_indv_1,ValueError,funzione,invalid literal for int() with base 10: 'a'
+8b,15,test_knapsack_indv_2,ValueError,funzione,invalid literal for int() with base 10: 'a'
+8b,15,test_knapsack_indv_3,ValueError,funzione,invalid literal for int() with base 10: 'a'
+8b,15,test_knapsack_indv_4,ValueError,funzione,invalid literal for int() with base 10: 'c'
+8b,15,test_knapsack_indv_5,ValueError,funzione,invalid literal for int() with base 10: 'a'
+8b,15,test_knapsack_indv_6,ValueError,funzione,invalid literal for int() with base 10: 'c'
+8b,15,test_knapsack_indv_8,TypeError,funzione,'float' object cannot be interpreted as an integer
+8b,16,test_next_holiday_1,AssertionError,test,assert 31 == 3
+8b,16,test_next_holiday_3,AssertionError,test,assert 31 == 10
+8b,16,test_next_holiday_4,AssertionError,test,assert 'good friday' == 'victoria day'
+8b,16,test_next_holiday_5,AssertionError,test,assert 'victoria day' == 'canada day'
+8b,17,test_calc_query_pos_from_cigar_1,AssertionError,test,"assert (0, 10) == (0, 15)"
+8b,17,test_calc_query_pos_from_cigar_2,AssertionError,test,"assert (10, 10) == (10, 15)"
+8b,17,test_calc_query_pos_from_cigar_4,AssertionError,test,"assert (0, 10) == (10, 15)"
+8b,17,test_calc_query_pos_from_cigar_6,AssertionError,test,"assert (0, 10) == (10, 10)"
+8b,17,test_calc_query_pos_from_cigar_7,AssertionError,test,"assert (0, 10) == (0, 15)"
+8b,18,test_get_processor_types_from_config_class_1,AssertionError,test,"assert ('B', 'e', 'r...'P', 'r', ...) == ('BertProcessor',)"
+8b,18,test_get_processor_types_from_config_class_2,AssertionError,test,"assert ('G', 'P', 'T...'r', 'o', ...) == ('GPTProcesso...GPTTokenizer')"
+8b,18,test_get_processor_types_from_config_class_3,AssertionError,test,"assert ('R', 'o', 'b...'r', 't', ...) == ('BertProcess...ageProcessor')"
+8b,18,test_get_processor_types_from_config_class_4,AssertionError,test,"assert ('X', 'L', 'N...'t', 'P', ...) == ('GPTProcesso...NetTokenizer')"
+8b,18,test_get_processor_types_from_config_class_5,AssertionError,test,"assert ('D', 'i', 's...'i', 'l', ...) == ('BertProcess...ertTokenizer')"
+8b,18,test_get_processor_types_from_config_class_7,AssertionError,test,"assert ('G', 'P', 'T...'o', 'k', ...) == ('GPTTokenizer',)"
+8b,18,test_get_processor_types_from_config_class_8,AssertionError,test,"assert ('B', 'e', 'r...'P', 'r', ...) == ('BertProcessor',)"
+8b,19,test_maximal_matching_pairs_2,TypeError,funzione,'float' object cannot be interpreted as an integer
+8b,19,test_maximal_matching_pairs_3,TypeError,funzione,'float' object cannot be interpreted as an integer
+8b,19,test_maximal_matching_pairs_5,TypeError,funzione,'float' object cannot be interpreted as an integer
+8b,19,test_maximal_matching_pairs_6,TypeError,funzione,'float' object cannot be interpreted as an integer
+8b,20,test_lflverify_1,TypeError,funzione,'int' object is not subscriptable
+8b,20,test_lflverify_2,TypeError,funzione,'int' object is not iterable
+8b,20,test_lflverify_3,TypeError,funzione,'int' object is not subscriptable
+8b,20,test_lflverify_4,NameError,funzione,name 'logging' is not defined. Did you forget to import 'logging'
+8b,20,test_lflverify_5,TypeError,test,'int' object is not subscriptable
+8b,20,test_lflverify_6,NameError,funzione,name 'logging' is not defined. Did you forget to import 'logging'
+8b,20,test_lflverify_7,TypeError,test,'int' object is not subscriptable
+8b,21,test_longestNonWildcardSubsequence_1,AssertionError,test,assert (0 == 0 and 0 == 2)
+8b,21,test_longestNonWildcardSubsequence_2,AssertionError,test,assert (0 == 0 and 1 == 1 and '**' == '11'
+8b,21,test_longestNonWildcardSubsequence_3,AssertionError,test,assert (1 == 0)
+8b,21,test_longestNonWildcardSubsequence_4,AssertionError,test,assert (0 == 0 and 0 == 1)
+8b,21,test_longestNonWildcardSubsequence_5,AssertionError,test,assert (0 == 0 and 1 == 1 and '**' == '11'
+8b,21,test_longestNonWildcardSubsequence_6,AssertionError,test,assert (1 == 0)
+8b,21,test_longestNonWildcardSubsequence_7,AssertionError,test,assert (0 == 0 and 0 == 1)
+8b,21,test_longestNonWildcardSubsequence_8,AssertionError,test,assert (0 == 0 and 0 == 1)
+8b,22,test_windows_k_distinct_1,AssertionError,test,assert 3 == 2
+8b,22,test_windows_k_distinct_2,AssertionError,test,assert 1 == 4
+8b,22,test_windows_k_distinct_3,AssertionError,test,assert 2 == 3
+8b,23,test_string_contrast_1,AssertionError,test,"assert ('ab', '', ['...q', '', 'cd']) == ('a', '', ['b', 'c', None])"
+8b,23,test_string_contrast_2,AssertionError,test,"assert ('ab', '', ['c', 'q', 'cd']) == ('a', 'd', ['', 'bc'])"
+8b,23,test_string_contrast_3,ValueError,funzione,min() iterable argument is empty
+8b,23,test_string_contrast_4,AssertionError,test,"assert ('ab', '', ['c', 'q']) == ('a', '', ['b', 'c'])"
+8b,23,test_string_contrast_5,AssertionError,test,"assert ('', 'abc', ['', '']) == ('a', '', ['bc', None])"
+8b,24,test_max_rewards_3,AssertionError,test,assert 1 == 11
+8b,24,test_max_rewards_4,AssertionError,test,assert 1 == 35
+8b,24,test_max_rewards_5,AssertionError,test,assert 1 == 67
+8b,24,test_max_rewards_6,AssertionError,test,assert 1 == 163
+8b,25,test_circle_line_segment_intersection_2,AssertionError,test,assert 2 == 1
+8b,25,test_circle_line_segment_intersection_3,ZeroDivisionError,funzione,float division by zero
+8b,25,test_circle_line_segment_intersection_4,AssertionError,test,assert 1 == 2
+8b,25,test_circle_line_segment_intersection_5,AssertionError,test,assert 0 == []
+8b,25,test_circle_line_segment_intersection_6,AssertionError,test,assert 0 == 2
+8b,25,test_circle_line_segment_intersection_7,AssertionError,test,assert 0 == 1
+8b,26,test_initiate_board_1,AssertionError,test,assert 12 == 13
+8b,26,test_initiate_board_4,AssertionError,test,"assert (-2, -1) in {(-3, 0): 'red', (-3, 1): 'red', (-3, 2): 'red', (-3, 3): 'red', ...}"
+8b,26,test_initiate_board_7,AssertionError,test,assert 12 == 13
+8b,27,test_move_gain_1,TypeError,funzione,'int' object is not subscriptable
+8b,27,test_move_gain_2,TypeError,funzione,'int' object is not subscriptable
+8b,27,test_move_gain_3,TypeError,funzione,'int' object is not subscriptable
+8b,27,test_move_gain_4,TypeError,funzione,'int' object is not subscriptable
+8b,27,test_move_gain_5,TypeError,funzione,'int' object is not subscriptable
+8b,27,test_move_gain_6,TypeError,funzione,'int' object is not subscriptable
+8b,27,test_move_gain_7,TypeError,funzione,'int' object is not subscriptable
+8b,27,test_move_gain_8,TypeError,funzione,'int' object is not subscriptable
+8b,28,test_time_in_swiss_german_1,AssertionError,test,assert 'viertel ab 12i znacht' == 'viertel ab 12 znacht'
+8b,28,test_time_in_swiss_german_2,AssertionError,test,assert 'halbi 7i am morge' == 'halbi am morge'
+8b,28,test_time_in_swiss_german_3,AssertionError,test,assert '12i am mittag' == '12 am mittag'
+8b,28,test_time_in_swiss_german_4,AssertionError,test,assert 'viertel vor 7i am abig' == 'viertel vor 6 am namittag'
+8b,28,test_time_in_swiss_german_5,AssertionError,test,assert 'viertel ab 10i znacht' == 'viertel ab 10 znacht'
+8b,28,test_time_in_swiss_german_6,AssertionError,test,assert 'halbi 12i znacht' == 'halbi vor 1 znacht'
+8b,28,test_time_in_swiss_german_7,AssertionError,test,assert 'viertel vor 13i znacht' == 'viertel vor 12 znacht'
+8b,29,test_columnTransCipher_1,AssertionError,test,assert 27 == 26
+8b,29,test_columnTransCipher_2,AssertionError,test,assert 'adg' == 'abc'
+8b,29,test_columnTransCipher_6,AssertionError,test,assert False
+8b,29,test_columnTransCipher_8,AssertionError,test,assert 27 == 26
+8b,30,test_compute_convolution_output_dimensions_3,AssertionError,test,assert [2] == [4]
+8b,30,test_compute_convolution_output_dimensions_4,AssertionError,test,assert [2] == [4]
+8b,30,test_compute_convolution_output_dimensions_7,AssertionError,test,assert [2] == [4]
+8b,31,test_get_trackletpair_t_range_1,AssertionError,funzione,
+8b,31,test_get_trackletpair_t_range_2,AssertionError,funzione,
+8b,31,test_get_trackletpair_t_range_3,AssertionError,funzione,
+8b,31,test_get_trackletpair_t_range_4,AssertionError,funzione,
+8b,31,test_get_trackletpair_t_range_5,AssertionError,test,"assert (7, 10, 15, 18) == (0, 10, 15, 20)"
+8b,31,test_get_trackletpair_t_range_6,AssertionError,funzione,
+8b,31,test_get_trackletpair_t_range_7,AssertionError,funzione,
+8b,31,test_get_trackletpair_t_range_8,AssertionError,funzione,
+8b,32,test_get_bw_weight_1,NameError,test,name 'Flag' is not defined
+8b,32,test_get_bw_weight_2,NameError,test,name 'Flag' is not defined
+8b,32,test_get_bw_weight_4,NameError,test,name 'Flag' is not defined
+8b,32,test_get_bw_weight_5,NameError,test,name 'Flag' is not defined
+8b,32,test_get_bw_weight_6,NameError,test,name 'Flag' is not defined
+8b,32,test_get_bw_weight_7,NameError,test,name 'Flag' is not defined
+8b,32,test_get_bw_weight_8,NameError,test,name 'Flag' is not defined
+8b,33,test_coordinate_sorter_1,AssertionError,test,assert None == 0
+8b,33,test_coordinate_sorter_2,AssertionError,test,assert None == 1
+8b,33,test_coordinate_sorter_6,AssertionError,test,assert None == 1
+8b,34,test_get_past_goal_indices_2,AssertionError,test,"assert [0] == [0, 5, 7]"
+8b,34,test_get_past_goal_indices_3,AssertionError,test,assert [0] == []
+8b,34,test_get_past_goal_indices_5,AssertionError,test,"assert [0, 2] == []"
+8b,34,test_get_past_goal_indices_6,AssertionError,test,"assert [0] == [0, 5]"
+8b,34,test_get_past_goal_indices_7,AssertionError,test,"assert [0] == [0, 10]"
+8b,35,test__normalized_vcf_2,AssertionError,test,"assert ('chr1', 100, 'AA', 'GG') == ('chr1', 101, 'A', 'G')"
+8b,35,test__normalized_vcf_3,AssertionError,test,"assert ('chr1', 100, 'A', 'GGG') == ('chr1', 102, 'A', 'GG')"
+8b,35,test__normalized_vcf_4,AssertionError,test,"assert ('chr1', 100, 'AA', 'G') == ('chr1', 101, 'A', 'G')"
+8b,35,test__normalized_vcf_5,NameError,test,name 'pytest' is not defined
+8b,35,test__normalized_vcf_6,NameError,test,name 'pytest' is not defined
+8b,36,test_categorizeSentimentcomplex_2,AssertionError,test,assert 'delighted' == 'happy'
+8b,36,test_categorizeSentimentcomplex_4,AssertionError,test,assert 'delighted' == 'excited'
+8b,36,test_categorizeSentimentcomplex_6,AssertionError,test,assert '' == 'alarmed'
+8b,36,test_categorizeSentimentcomplex_7,AssertionError,test,assert 'angry' == 'mad'
+8b,37,test_uniformate2_1,AssertionError,test,"assert ('', '') == ('AL', 'ALEF_HARAKA')"
+8b,37,test_uniformate2_2,AssertionError,test,"assert ('', '') == ('AD', 'DAMMA WAW_HARAKA')"
+8b,37,test_uniformate2_3,AssertionError,test,"assert ('', '') == ('A', 'KASRA YEH_HARAKA')"
+8b,37,test_uniformate2_4,AssertionError,test,"assert ('', '') == ('A', 'SUKUN NOT_DEF_HARAKA')"
+8b,37,test_uniformate2_5,AssertionError,test,"assert ('', '') == ('A', 'ALEF_HARAKA')"
+8b,37,test_uniformate2_6,AssertionError,test,"assert ('', '') == ('AD', 'DAMMA WAW_HARAKA')"
+8b,37,test_uniformate2_8,AssertionError,test,"assert ('', '') == ('AL', 'ALEF_HARAKA')"
+8b,38,test_wordparamcheck_1,AssertionError,test,"assert [False, -1, '... False, 0, []] == [True, 0, 'he...-2, ['world']]"
+8b,38,test_wordparamcheck_2,AssertionError,test,"assert [False, -1, '... False, 0, []] == [False, -1, '... -2, ['NULL']]"
+8b,38,test_wordparamcheck_3,AssertionError,test,"assert [False, -1, '... False, 0, []] == [True, 0, 'he...-2, ['world']]"
+8b,38,test_wordparamcheck_4,IndexError,funzione,list index out of range
+8b,38,test_wordparamcheck_5,AssertionError,test,"assert [False, -1, '...False, -1, []] == [True, 0, 'he... -1, ['NULL']]"
+8b,38,test_wordparamcheck_6,AssertionError,test,"assert [False, -1, '... False, 0, []] == [True, 0, 'he... -2, ['NULL']]"
+8b,38,test_wordparamcheck_7,AssertionError,test,"assert [False, -1, '... False, 0, []] == [False, -1, '... -2, ['NULL']]"
+8b,39,test_splitIA2Attribs_1,AssertionError,test,assert {'': {'key2': 'value2'}} == {'key1': 'val...y2': 'value2'}
+8b,39,test_splitIA2Attribs_2,AssertionError,test,assert {'': {'key3': 'value3'}} == {'key1': 'val...y3': 'value3'}
+8b,39,test_splitIA2Attribs_3,AssertionError,test,assert {'': {'key2':...3': 'value3'}} == {'key1': 'val...y3': 'value3'}
+8b,39,test_splitIA2Attribs_4,AssertionError,test,assert {'': {'key4': 'value4'}} == {'key1': 'val...y4': 'value4'}
+8b,39,test_splitIA2Attribs_5,AssertionError,test,assert {'': {'key3': 'value3'}} == {'key1': 'val...y3': 'value3'}
+8b,39,test_splitIA2Attribs_6,AssertionError,test,assert {'': {'key2':...4': 'value4'}} == {'key1': 'val...y4': 'value4'}
+8b,40,test_decode_address_entry_1,AssertionError,test,"assert [['0x1234', 1...x1234', 2, 1]] == [['0x1234', 2...x1234', 0, 3]]"
+8b,40,test_decode_address_entry_2,AssertionError,test,"assert [['0x1234', 1...x1234', 2, 0]] == [['0x1234', 2...x1234', 0, 3]]"
+8b,40,test_decode_address_entry_3,AssertionError,test,"assert [['0x1234', 1...x1234', 2, 1]] == [['0x1234', 2...x1234', 0, 3]]"
+8b,40,test_decode_address_entry_4,AssertionError,test,"assert [] == [['0x1234', 2...x1234', 0, 3]]"
+8b,40,test_decode_address_entry_5,AssertionError,test,"assert [] == [['0x1234', 2...x1234', 0, 3]]"
+8b,40,test_decode_address_entry_6,AssertionError,test,"assert [] == [['0x1234', 2...x1234', 0, 3]]"
+8b,40,test_decode_address_entry_7,AssertionError,test,"assert [['0x1234', 1...x1234', 2, 1]] == [['0x1234', 2...x1234', 0, 3]]"
+8b,40,test_decode_address_entry_8,AssertionError,test,"assert [['0x1234', 1...x1234', 2, 1]] == [['0x1234', 0...x1234', 2, 0]]"
+8b,41,test_make_similar_2,AssertionError,test,assert 0 == 6
+8b,41,test_make_similar_5,AssertionError,test,assert 0 == 12
+8b,43,test_identify_distance_type_1,AssertionError,test,"assert None == ('sub', 't', 'i', 'it', 'ti')"
+8b,43,test_identify_distance_type_4,AssertionError,test,"assert ('sub', 'e', 'i', 'i', 'e') == ('del', 't', '', 'it', 'ti')"
+8b,43,test_identify_distance_type_5,AssertionError,test,"assert None == ('ins', '', 'i', 'ki', 'kt')"
+8b,43,test_identify_distance_type_6,AssertionError,test,"assert ('del', 'e', '', 'a', 'ae') == ('sub', 'e', 'd', 'de', 'ab')"
+8b,43,test_identify_distance_type_7,AssertionError,test,"assert ('ins', '', 'f', '#f', '#') == ('ins', '', 'f', 'f', 'bc')"
+8b,43,test_identify_distance_type_8,AssertionError,test,"assert ('sub', 'd', 'a', 'a', 'd') == ('trans', 'ab...', 'cd', 'ae')"
+8b,44,test_score_calculation_base_2,AssertionError,test,"assert (0, '0\u7b261Han0\u70b9') == (0, '')"
+8b,44,test_score_calculation_base_3,AssertionError,test,"assert (8000, '\u6e80\u8cab8000\u70b9') == (8000, '\u6e80\u8cab2000-4000\u70b9')"
+8b,44,test_score_calculation_base_4,AssertionError,test,"assert (8000, '\u6e80\u8cab8000\u70b9') == (8000, '\u6e80\u8cab2000-4000\u70b9')"
+8b,44,test_score_calculation_base_7,AssertionError,test,"assert (8000, '\u6e80\u8cab8000\u70b9') == (0, '')"
+8b,44,test_score_calculation_base_8,AssertionError,test,"assert (12000, '\u8df3\u6ee112000\u70b9') == (18000, '\u8df3\u6e806000\u70b9\u2200')"
+8b,45,test_min_edit_script_2,AssertionError,test,assert '-' == ''
+8b,45,test_min_edit_script_3,AssertionError,test,assert '+a' == ''
+8b,45,test_min_edit_script_4,AssertionError,test,assert '-+a' == '\u2192'
+8b,45,test_min_edit_script_5,AssertionError,test,assert '---+a+b+c' == '\u2192\u2192'
+8b,45,test_min_edit_script_6,AssertionError,test,assert '---+d+e+f' == 'a+d-e+c'
+8b,45,test_min_edit_script_7,AssertionError,test,assert '------+a+b+c' == 'a+d-e+f'
+8b,45,test_min_edit_script_8,AssertionError,test,assert '---+a+b+c+d+e+f' == 'a+d-e+f'
+8b,46,test_common_conv2d_pool_output_shape_3,AssertionError,test,"assert (1, 5, 5, 64) == (1, 4, 4, 64)"
+8b,46,test_common_conv2d_pool_output_shape_4,AssertionError,test,"assert (1, 3, 3, 64) == (1, 4, 4, 64)"
+8b,46,test_common_conv2d_pool_output_shape_5,NotImplementedError,funzione,Strides on batch axis (N) and channel axis (C) must be 1 for importer.
+8b,46,test_common_conv2d_pool_output_shape_6,NotImplementedError,funzione,Strides on batch axis (N) and channel axis (C) must be 1 for importer.
+8b,46,test_common_conv2d_pool_output_shape_8,AssertionError,test,"assert (1, 3, 3, 64) == (1, 4, 4, 64)"
+8b,47,test_featurize_finance_1,AssertionError,test,"assert [0, 1, 0, 0, 0, 0, ...] == [1, 0, 0, 0, 0, 0, ...]"
+8b,47,test_featurize_finance_2,AssertionError,test,"assert [1, 0, 0, 0, 0, 0, ...] == [0, 1, 0, 0, 0, 0, ...]"
+8b,47,test_featurize_finance_5,AssertionError,test,"assert [0, 0, 0, 0, 0, 1, ...] == [0, 0, 0, 0, 1, 0, ...]"
+8b,47,test_featurize_finance_6,AssertionError,test,"assert [0, 0, 0, 0, 0, 0, ...] == [0, 0, 0, 0, 0, 1, ...]"
+8b,47,test_featurize_finance_7,AssertionError,test,"assert [0, 0, 0, 0, 0, 0, ...] == [0, 0, 0, 0, 0, 0, ...]"
+8b,48,test_tmux_format_1,AssertionError,test,"assert '#[reverse,fg... KW: 1 mins  ' == '#[noreverse,... KW: 2 mins  '"
+8b,48,test_tmux_format_2,AssertionError,test,"assert '#[noreverse,...  EB: 1 min  ' == '#[reverse,fg...=white]  GW  '"
+8b,48,test_tmux_format_3,AssertionError,test,"assert '#[noreverse,...yellow]  HB  ' == '#[noreverse,... HB: 2 mins  '"
+8b,48,test_tmux_format_4,AssertionError,test,"assert '#[reverse,fg...=white]  GW  ' == '#[reverse,fg...=white]  GW  '"
+8b,48,test_tmux_format_5,AssertionError,test,"assert '#[reverse,fg... KW: 1 mins  ' == '#[noreverse,...  KW: 1 min  '"
+8b,48,test_tmux_format_6,AssertionError,test,"assert '#[noreverse,...  EB: 1 min  ' == '#[noreverse,...=green]  EB  '"
+8b,49,test_next_point_in_8_neigh_1,AssertionError,test,"assert None == (-1, -1)"
+8b,49,test_next_point_in_8_neigh_2,AssertionError,test,"assert None == (-1, -1)"
+8b,49,test_next_point_in_8_neigh_3,AssertionError,test,"assert None == (-1, 0)"
+8b,49,test_next_point_in_8_neigh_4,AssertionError,test,"assert None == (-1, 1)"
+8b,49,test_next_point_in_8_neigh_5,AssertionError,test,"assert None == (0, 1)"
+8b,49,test_next_point_in_8_neigh_6,AssertionError,test,"assert (-1, -1) == (1, 1)"
+8b,49,test_next_point_in_8_neigh_7,AssertionError,test,"assert (-1, 0) == (1, 0)"
+8b,50,test_cal_overlap_neg_strand_1,AssertionError,test,assert 'No overlap' == 'Complete overlap'
+8b,50,test_cal_overlap_neg_strand_3,AssertionError,test,assert 'No overlap' == 0.6
+8b,50,test_cal_overlap_neg_strand_5,AssertionError,test,assert 'No overlap' == 0.2
+8b,50,test_cal_overlap_neg_strand_6,AssertionError,test,assert 'No overlap' == 'Complete overlap'
+8b,51,test_find_repeat_1,AssertionError,test,assert ['right'] == ['up']
+8b,51,test_find_repeat_2,AssertionError,test,"assert ['right'] == ['up', 'down']"
+8b,51,test_find_repeat_3,AssertionError,test,"assert ['down'] == ['up', 'down']"
+8b,51,test_find_repeat_4,AssertionError,test,"assert ['right'] == ['up', 'down']"
+8b,51,test_find_repeat_5,AssertionError,test,"assert ['down'] == ['up', 'down']"
+8b,51,test_find_repeat_6,AssertionError,test,assert ['left'] == ['up']
+8b,51,test_find_repeat_7,AssertionError,test,"assert ['right'] == ['up', 'down']"
+8b,51,test_find_repeat_8,AssertionError,test,"assert ['up'] == ['up', 'down']"
+8b,52,test_get_next_queen_recursion_coordinates_1,NameError,test,name 'Square' is not defined
+8b,52,test_get_next_queen_recursion_coordinates_2,NameError,test,name 'Square' is not defined
+8b,52,test_get_next_queen_recursion_coordinates_3,NameError,test,name 'Square' is not defined
+8b,52,test_get_next_queen_recursion_coordinates_4,NameError,test,name 'Square' is not defined
+8b,52,test_get_next_queen_recursion_coordinates_5,NameError,test,name 'Square' is not defined
+8b,52,test_get_next_queen_recursion_coordinates_6,NameError,test,name 'Square' is not defined
+8b,52,test_get_next_queen_recursion_coordinates_7,NameError,test,name 'Square' is not defined
+8b,52,test_get_next_queen_recursion_coordinates_8,NameError,test,name 'Square' is not defined
+8b,53,test_calc_num_weights3_1,AssertionError,test,assert 300 == 205
+8b,53,test_calc_num_weights3_2,AssertionError,test,assert 55 == 50
+8b,53,test_calc_num_weights3_3,AssertionError,test,assert 950 == 2050
+8b,53,test_calc_num_weights3_4,AssertionError,test,assert 235 == 130
+8b,54,test_get_intersect_point_1,AssertionError,test,"assert [0, 0] == None"
+8b,54,test_get_intersect_point_2,AssertionError,test,"assert [0, 0] == [0, 5]"
+8b,54,test_get_intersect_point_3,AssertionError,test,"assert [0, 0] == None"
+8b,54,test_get_intersect_point_4,AssertionError,test,"assert [0, 0] == [-5, 0]"
+8b,54,test_get_intersect_point_5,AssertionError,test,"assert [0, 0] == None"
+8b,54,test_get_intersect_point_6,AssertionError,test,"assert [0, 0] == [-5, 0]"
+8b,54,test_get_intersect_point_7,AssertionError,test,"assert [0, 0] == None"
+8b,54,test_get_intersect_point_8,AssertionError,test,"assert [0, 0] == [-5, 0]"
+8b,55,test_check_dead_corner_1,AssertionError,test,assert None == True
+8b,55,test_check_dead_corner_2,AssertionError,test,assert True == False
+8b,55,test_check_dead_corner_3,AssertionError,test,assert None == True
+8b,55,test_check_dead_corner_4,AssertionError,test,assert True == False
+8b,55,test_check_dead_corner_6,AssertionError,test,assert True == False
+8b,57,test_fileNamer_1,AssertionError,test,assert 'EdgeModel' == 'NodeModel'
+8b,57,test_fileNamer_2,AssertionError,test,assert 'DatasetName' == '_DatasetName'
+8b,57,test_fileNamer_3,AssertionError,test,assert 'NodeModel_ModelName' == '_EdgeModel_ModelName'
+8b,57,test_fileNamer_4,AssertionError,test,assert 'Linf1.0' == '_Linf1'
+8b,57,test_fileNamer_5,AssertionError,test,assert '10Layers' == '_10Layers'
+8b,57,test_fileNamer_7,AssertionError,test,assert '1000K_patience5' == '_1000K_patience5'
+8b,58,test_detect_side_3,AssertionError,test,assert '45 degrees left' == '45 degrees right'
+8b,58,test_detect_side_4,AssertionError,test,assert '225 degrees right' == '225 degrees left'
+8b,59,test_circle_line_intersection_1,AssertionError,test,"assert [(5.0, 0.0), (-5.0, 0.0)] == [(0.0, 0.0)]"
+8b,59,test_circle_line_intersection_2,AssertionError,test,"assert [(3.0, 4.0), (-3.0, -4.0)] == []"
+8b,59,test_circle_line_intersection_3,AssertionError,test,"assert [(1.0, 0.0), (-1.0, 0.0)] == [(0.0, 0.0)]"
+8b,59,test_circle_line_intersection_4,AssertionError,test,"assert [(3.0, 4.0), (-3.0, -4.0)] == []"
+8b,59,test_circle_line_intersection_5,AssertionError,test,"assert [(1.0, 0.0), (-1.0, 0.0)] == [(0.0, 0.0)]"
+8b,59,test_circle_line_intersection_6,AssertionError,test,"assert [(3.0, 4.0), (-3.0, -4.0)] == []"
+8b,59,test_circle_line_intersection_7,AssertionError,test,"assert [(5.0, 0.0), (-5.0, 0.0)] == []"
+8b,61,test_rollDie_7,AssertionError,test,"assert 'red' in [1, 2, 3]"
+8b,61,test_rollDie_8,AssertionError,test,"assert 'yellow' in [5, 6]"
+8b,61,test_rollDie_9,AssertionError,test,assert 'green' == 1
+8b,61,test_rollDie_10,AssertionError,test,"assert 'red' in [1, 2, 3]"
+8b,62,test_idx_for_diag_se_from_tr_1,AssertionError,test,"assert [(0, 1), (1, ...1, 1), (1, 0)] == [(0, 2), (1, 2)]"
+8b,62,test_idx_for_diag_se_from_tr_2,AssertionError,test,"assert [(0, 1), (1, ..., (1, 0), ...] == [(0, 3), (1, ..., (0, 1), ...]"
+8b,62,test_idx_for_diag_se_from_tr_3,AssertionError,test,"assert [(0, 3), (1, ..., (0, 1), ...] == [(0, 5), (1, ..., (0, 4), ...]"
+8b,62,test_idx_for_diag_se_from_tr_4,AssertionError,test,"assert [(0, 3), (1, ..., (0, 1), ...] == [(0, 5), (1, ..., (0, 4), ...]"
+8b,62,test_idx_for_diag_se_from_tr_5,AssertionError,test,"assert [(0, 0), (1, ..., (3, 1), ...] == [(0, 2), (1, 2), (0, 1)]"
+8b,62,test_idx_for_diag_se_from_tr_6,AssertionError,test,"assert [(0, 1), (1, ..., (1, 0), ...] == [(0, 3), (1, ...1, 2), (0, 1)]"
+8b,62,test_idx_for_diag_se_from_tr_7,AssertionError,test,"assert [(0, 3), (1, ..., (0, 1), ...] == [(0, 5), (1, ...1, 4), (9, 5)]"
+8b,63,test_idx_for_diag_se_from_bl_2,AssertionError,test,assert 12 == 10
+8b,63,test_idx_for_diag_se_from_bl_3,AssertionError,test,assert 20 == 14
+8b,63,test_idx_for_diag_se_from_bl_4,AssertionError,test,assert 30 == 18
+8b,63,test_idx_for_diag_se_from_bl_5,AssertionError,test,assert 4 == 3
+8b,63,test_idx_for_diag_se_from_bl_6,AssertionError,test,"assert (0, 0) == (1, 1)"
+8b,63,test_idx_for_diag_se_from_bl_7,AssertionError,test,assert 2 == 3
+8b,63,test_idx_for_diag_se_from_bl_8,AssertionError,test,assert 1 == 3
+8b,64,test_remove_chars_2,AssertionError,test,"assert 'Hello World' == 'Hello ""World""'"
+8b,64,test_remove_chars_3,AssertionError,test,assert ' This is a comment' == ''
+8b,64,test_remove_chars_5,AssertionError,test,"assert 'This is a li...s Hello World' == 'This is a li...""Hello World""'"
+8b,64,test_remove_chars_6,AssertionError,test,assert ' This is a comment' == ''
+8b,64,test_remove_chars_7,AssertionError,test,assert 'This is a li...other comment' == 'Thisisaline'
+8b,65,test_cigar_prefix_length_1,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+8b,65,test_cigar_prefix_length_2,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+8b,65,test_cigar_prefix_length_3,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+8b,65,test_cigar_prefix_length_5,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+8b,65,test_cigar_prefix_length_6,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+8b,65,test_cigar_prefix_length_7,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+8b,65,test_cigar_prefix_length_8,ValueError,funzione,"not enough values to unpack (expected 2, got 1)"
+8b,66,test_get_segment_directions_1,AssertionError,test,"assert ['NW', 'N', '...E', 'SW', ...] == ['N', 'E', 'S', 'W']"
+8b,66,test_get_segment_directions_2,Exception,funzione,"The point (-1, -1) doesn't belong into the matrix"
+8b,66,test_get_segment_directions_3,AssertionError,test,"assert ['E', 'S', 'SE'] == ['N', 'E', 'S', 'W']"
+8b,66,test_get_segment_directions_4,AssertionError,test,"assert ['NW', 'N', 'W'] == ['N', 'E', 'S', 'W']"
+8b,66,test_get_segment_directions_5,AssertionError,test,"assert ['W', 'E', 'SW', 'S', 'SE'] == ['E', 'S', 'W']"
+8b,66,test_get_segment_directions_6,AssertionError,test,"assert ['NW', 'N', 'NE', 'W', 'E'] == ['N', 'E', 'S', 'W']"
+8b,66,test_get_segment_directions_7,Exception,funzione,"The point (5, -1) doesn't belong into the matrix"
+8b,66,test_get_segment_directions_8,Exception,funzione,"The point (-1, 5) doesn't belong into the matrix"
+8b,67,test_max2GetIdx_1,AssertionError,test,"assert (2, 0) == (1, 2)"
+8b,67,test_max2GetIdx_2,AssertionError,test,"assert (4, 2) == (3, 4)"
+8b,67,test_max2GetIdx_3,AssertionError,test,"assert (4, 2) == (4, 4)"
+8b,67,test_max2GetIdx_4,AssertionError,test,"assert (5, 3) == (5, 5)"
+8b,67,test_max2GetIdx_5,AssertionError,test,"assert (7, 6) == (6, 7)"
+8b,67,test_max2GetIdx_6,AssertionError,test,"assert (7, 6) == (6, 7)"
+8b,67,test_max2GetIdx_7,AssertionError,test,"assert (8, 6) == (8, 8)"
+8b,67,test_max2GetIdx_8,AssertionError,test,"assert (8, 6) == (8, 8)"
+8b,68,test_getYAxisMinMaxGC_1,AssertionError,test,"assert (0, 100) == (0, 60)"
+8b,68,test_getYAxisMinMaxGC_3,AssertionError,test,"assert (-100, -10) == (-100, -60)"
+8b,68,test_getYAxisMinMaxGC_4,AssertionError,test,"assert (0, 0) == (0, 50)"
+8b,68,test_getYAxisMinMaxGC_5,AssertionError,test,"assert (0, 6000) == (0, 450)"
+8b,68,test_getYAxisMinMaxGC_6,AssertionError,test,"assert (0, -1000) == (-400, 50)"
+8b,68,test_getYAxisMinMaxGC_7,AssertionError,test,"assert (0, 60000) == (0, 450)"
+8b,68,test_getYAxisMinMaxGC_8,AssertionError,test,"assert (0, -100000) == (-400, 50)"
+8b,69,test_calculate_possibility_1,AssertionError,test,assert 0.4 == 1
+8b,69,test_calculate_possibility_3,AssertionError,test,assert 0.01 == 1
+8b,69,test_calculate_possibility_4,AssertionError,test,assert 0.01 == 0.4
+8b,69,test_calculate_possibility_5,AssertionError,test,assert 0.01 == 1
+8b,69,test_calculate_possibility_6,AssertionError,test,assert 0.01 == 0.4
+8b,70,test_iterative_levenshtein_1,AssertionError,test,assert 4 == 1
+8b,70,test_iterative_levenshtein_2,AssertionError,test,assert 1 == 4
+8b,70,test_iterative_levenshtein_3,AssertionError,test,assert 3 == 2
+8b,70,test_iterative_levenshtein_4,AssertionError,test,assert 0 == 1
+8b,70,test_iterative_levenshtein_6,AssertionError,test,assert 0 == 5
+8b,70,test_iterative_levenshtein_7,AssertionError,test,assert 5 == 0
+8b,70,test_iterative_levenshtein_8,AssertionError,test,assert 5 == 0
+8b,71,test_centre_on_peak_1,AssertionError,test,"assert [3, 4, 5, 1, 2] == [2, 3, 4, 5, 1]"
+8b,71,test_centre_on_peak_2,AssertionError,test,"assert [30, 40, 50, 10, 20] == [25, 30, 40, 50, 10]"
+8b,71,test_centre_on_peak_3,AssertionError,test,"assert [3.5, 4.5, 5.5, 1.5, 2.5] == [3.0, 4.0, 5.0, 5.5, 1.5]"
+8b,71,test_centre_on_peak_6,AssertionError,test,"assert [2, 1] == [1, 2]"
+8b,71,test_centre_on_peak_7,AssertionError,test,"assert [40, 50, 60, 10, 20, 30] == [25.0, 30.0, ...0.0, 60.0, 10]"
+8b,72,test_locate_alignment_1,AssertionError,test,"assert [0, 1, 2, 3] == [0]"
+8b,72,test_locate_alignment_2,AssertionError,test,"assert [1, 2, 3, 4] == [1]"
+8b,72,test_locate_alignment_3,AssertionError,test,"assert [0, 1, 2, 3] == []"
+8b,72,test_locate_alignment_4,AssertionError,test,"assert [0, 1, 2, 3] == [0]"
+8b,72,test_locate_alignment_5,AssertionError,test,"assert [0, 1] == []"
+8b,72,test_locate_alignment_6,AssertionError,test,"assert [0, 1, 2, 3] == []"
+8b,73,test_smooth_param_1,AssertionError,test,"assert [1, 6, 0, 0, 'interp'] == [8, 6, 0, 0, 'interp']"
+8b,73,test_smooth_param_2,AssertionError,test,"assert [3, 5, 0, 0, 'interp'] == [4, 5, 0, 0, 'interp']"
+8b,73,test_smooth_param_3,AssertionError,test,"assert [5, 3, 0, 0, 'interp'] == [7, 3, 0, 0, 'interp']"
+8b,73,test_smooth_param_4,AssertionError,test,"assert [11, 2, 0, 0, 'interp'] == [5, 2, 0, 0, 'interp']"
+8b,73,test_smooth_param_5,AssertionError,test,"assert [25, 1, 0, 0, 'interp'] == [2, 1, 0, 0, 'interp']"
+8b,73,test_smooth_param_6,AssertionError,test,"assert [1, 6, 0, 0, 'interp'] == [8, 6, 0, 0, 'interp']"
+8b,73,test_smooth_param_7,NameError,test,name 'pytest' is not defined
+8b,74,test_look_up_latest_epoch_1,non classificato,,
+8b,74,test_look_up_latest_epoch_2,non classificato,,
+8b,74,test_look_up_latest_epoch_3,non classificato,,
+8b,74,test_look_up_latest_epoch_4,non classificato,,
+8b,74,test_look_up_latest_epoch_5,non classificato,,
+8b,74,test_look_up_latest_epoch_6,non classificato,,
+8b,74,test_look_up_latest_epoch_7,non classificato,,
+8b,74,test_look_up_latest_epoch_8,non classificato,,
+8b,76,test_convert_location_to_pitch_1,AssertionError,test,assert 'note-B2' == 'note-C3'
+8b,76,test_convert_location_to_pitch_2,AssertionError,test,assert 'note-B2' == 'note-D3'
+8b,76,test_convert_location_to_pitch_3,AssertionError,test,assert 'note-C2' == 'note-E3'
+8b,76,test_convert_location_to_pitch_5,AssertionError,test,assert 'note-D0' == 'note-C1'
+8b,76,test_convert_location_to_pitch_6,AssertionError,test,assert 'note-E0' == 'note-F1'
+8b,76,test_convert_location_to_pitch_7,AssertionError,test,assert 'note-B8' == 'rest'
+8b,77,test_oracle2numpy_1,AssertionError,test,assert 'f4' == 'f8'
+8b,77,test_oracle2numpy_2,AssertionError,test,assert None == 'f4'
+8b,77,test_oracle2numpy_3,AssertionError,test,assert 'S0' == 'S10'
+8b,77,test_oracle2numpy_4,TypeError,funzione,'<=' not supported between instances of 'NoneType' and 'int'
+8b,77,test_oracle2numpy_5,AssertionError,test,assert None == 'f8'
+8b,77,test_oracle2numpy_6,AssertionError,test,assert 'S0' == 'S20'
+8b,77,test_oracle2numpy_7,AssertionError,test,assert 'f4' == 'f8'
+8b,78,test_turn_sequence_1,AssertionError,test,assert '' == 's'
+8b,78,test_turn_sequence_2,AssertionError,test,assert '' == 'ss'
+8b,78,test_turn_sequence_3,AssertionError,test,assert 's' == 'rl'
+8b,78,test_turn_sequence_4,AssertionError,test,assert 's' == 'll'
+8b,78,test_turn_sequence_5,AssertionError,test,assert '' == 'lr'
+8b,78,test_turn_sequence_6,AssertionError,test,assert '' == 'rl'
+8b,79,test_count_leading_digits_var2_1,AssertionError,test,"assert [2, 2, 2, 1, 1, 1, ...] == [1, 1, 1, 0, 0, 0, ...]"
+8b,79,test_count_leading_digits_var2_2,AssertionError,test,"assert [1, 1, 1, 2, 2, 2, ...] == [0, 0, 0, 1, 1, 1, ...]"
+8b,79,test_count_leading_digits_var2_3,AssertionError,test,"assert [1, 1, 1, 1, 1, 1, ...] == [0, 0, 0, 0, 0, 0, ...]"
+8b,79,test_count_leading_digits_var2_4,AssertionError,test,"assert [7, 1, 1, 1, 1, 1, ...] == [5, 0, 0, 0, 0, 0, ...]"
+8b,79,test_count_leading_digits_var2_5,AssertionError,test,"assert [1, 2, 2, 2, 2, 2, ...] == [1, 1, 1, 1, 1, 1, ...]"
+8b,79,test_count_leading_digits_var2_6,AssertionError,test,"assert [1, 1, 1, 2, 2, 2, ...] == [0, 0, 0, 0, 0, 0, ...]"
+8b,81,test_maximal_mesh_pattern_of_occurrence_1,IndexError,funzione,list assignment index out of range
+8b,81,test_maximal_mesh_pattern_of_occurrence_2,IndexError,funzione,list assignment index out of range
+8b,81,test_maximal_mesh_pattern_of_occurrence_3,IndexError,funzione,list assignment index out of range
+8b,81,test_maximal_mesh_pattern_of_occurrence_4,IndexError,funzione,list assignment index out of range
+8b,81,test_maximal_mesh_pattern_of_occurrence_5,IndexError,funzione,list assignment index out of range
+8b,81,test_maximal_mesh_pattern_of_occurrence_6,IndexError,funzione,list assignment index out of range
+8b,82,test_process_lines_for_spell_1,AssertionError,test,"assert (2, 2, 2, 2, 12.5, 37.5, ...) == (2, 1, 1, 1, 20.0, 10.0, ...)"
+8b,82,test_process_lines_for_spell_2,AssertionError,test,"assert (2, 2, 2, 2, 4.5, 14.5, ...) == (2, 1, 1, 1, 10.5, 6.0, ...)"
+8b,82,test_process_lines_for_spell_3,AssertionError,test,"assert (2, 2, 2, 2, 20.0, 40.0, ...) == (2, 1, 1, 1, 30.0, 20.0, ...)"
+8b,82,test_process_lines_for_spell_4,AssertionError,test,"assert (1, 1, 1, 1, 7.5, 22.5, ...) == (2, 1, 1, 1, 20.0, 10.0, ...)"
+8b,82,test_process_lines_for_spell_5,AssertionError,test,"assert (2, 2, 2, 2, 4.5, 14.5, ...) == (2, 1, 1, 1, 10.5, 6.0, ...)"
+8b,82,test_process_lines_for_spell_6,AssertionError,test,"assert (2, 2, 2, 2, 20.0, 40.0, ...) == (2, 1, 1, 1, 30.0, 20.0, ...)"
+8b,82,test_process_lines_for_spell_7,AssertionError,test,"assert (2, 2, 2, 2, 12.5, 37.5, ...) == (2, 1, 1, 1, 20.0, 10.0, ...)"
+8b,82,test_process_lines_for_spell_8,AssertionError,test,"assert (2, 2, 2, 2, 4.5, 14.5, ...) == (2, 1, 1, 1, 10.5, 6.0, ...)"
+8b,84,test_checkFormulas_1,KeyError,funzione,'c'
+8b,84,test_checkFormulas_2,KeyError,funzione,'c'
+8b,84,test_checkFormulas_3,KeyError,funzione,'c'
+8b,84,test_checkFormulas_4,KeyError,funzione,'c'
+8b,84,test_checkFormulas_5,KeyError,funzione,'c'
+8b,84,test_checkFormulas_6,KeyError,funzione,'c'
+8b,84,test_checkFormulas_7,KeyError,funzione,'c'
+8b,84,test_checkFormulas_8,KeyError,funzione,'c'
+8b,85,test_bound_line_in_box_1,AssertionError,test,assert False is True
+8b,85,test_bound_line_in_box_3,AssertionError,test,assert False is True
+8b,85,test_bound_line_in_box_5,AssertionError,test,assert False is None
+8b,85,test_bound_line_in_box_6,NameError,test,name 'math' is not defined. Did you forget to import 'math'
+8b,85,test_bound_line_in_box_7,NameError,test,name 'math' is not defined. Did you forget to import 'math'
+8b,85,test_bound_line_in_box_8,NameError,test,name 'math' is not defined. Did you forget to import 'math'
+8b,86,test_change_display_1,IndexError,funzione,list index out of range
+8b,86,test_change_display_2,IndexError,funzione,list index out of range
+8b,86,test_change_display_3,AssertionError,test,"assert [0, 1, 2] == [[0, 1, 2]]"
+8b,86,test_change_display_4,AssertionError,test,"assert [0, 1, 2] == [[0, 1, 2]]"
+8b,86,test_change_display_5,IndexError,funzione,list index out of range
+8b,86,test_change_display_6,IndexError,funzione,list index out of range
+8b,86,test_change_display_7,IndexError,funzione,list index out of range
+8b,86,test_change_display_8,IndexError,funzione,list index out of range
+8b,87,test_oligo_complements_1,AssertionError,test,"assert ['ATCG', 'TAG...GCTA', 'CGAT'] == ['TAGC', 'ATG...CGAT', 'TCGA']"
+8b,87,test_oligo_complements_2,AssertionError,test,"assert ['GCTA', 'CGA...ATCG', 'TAGC'] == ['AGCA', 'GCT...ATGC', 'ACGT']"
+8b,87,test_oligo_complements_3,AssertionError,test,"assert ['TTTT', 'AAA...UUUU', 'AAAA'] == ['TTTT', 'UUU...UUUU', 'TTTT']"
+8b,87,test_oligo_complements_4,AssertionError,test,"assert ['AAAA', 'TTT...AAAA', 'TTTT'] == ['TTTT', 'AAA...TTTT', 'TTTT']"
+8b,87,test_oligo_complements_6,AssertionError,test,"assert ['ATGC', 'TAC...CGTA', 'GCAT'] == ['TAGC', 'ATG...CGAT', 'TCGA']"
+8b,89,test_bin_search_range_1,AssertionError,test,assert 5 == 3
+8b,89,test_bin_search_range_2,AssertionError,test,assert 2 == 0
+8b,89,test_bin_search_range_3,AssertionError,test,assert 6 == 5
+8b,89,test_bin_search_range_4,AssertionError,test,assert 2 == 0
+8b,89,test_bin_search_range_5,AssertionError,test,assert 2 == 0
+8b,89,test_bin_search_range_6,AssertionError,test,assert 6 == 5
+8b,89,test_bin_search_range_7,AssertionError,test,assert 2 == 0
+8b,89,test_bin_search_range_8,AssertionError,test,assert 2 == 0
+8b,90,test_descartes_1,AssertionError,test,"assert [[2, 2, 0], [...2], [0, 0, 4]] == [[0, 0, 5], [1, 0, 4]]"
+8b,90,test_descartes_2,AssertionError,test,"assert [[2, 2, 0], [...2], [0, 0, 4]] == [[0, 0, 5], [1, 0, 4]]"
+8b,90,test_descartes_3,AssertionError,test,"assert [[0, 0, 4]] == []"
+8b,90,test_descartes_4,AssertionError,test,"assert [[0, 0, 4]] == [[1, 1, 2]]"
+8b,90,test_descartes_5,AssertionError,test,"assert [[0, 0, 4]] == []"
+8b,90,test_descartes_6,AssertionError,test,"assert [[2, 2, 0], [...2], [0, 0, 4]] == [[0, 0, 5], [1, 0, 4]]"
+8b,91,test_row_revile_indexes_2,AssertionError,test,"assert (-1, -1, -1, -1) == (0, -1, 1, -1)"
+8b,91,test_row_revile_indexes_3,AssertionError,test,"assert (-1, -1, -1, -1) == (0, 1, 2, -1)"
+8b,91,test_row_revile_indexes_4,AssertionError,test,"assert (-1, -1, -1, -1) == (0, 1, 2, 3)"
+8b,91,test_row_revile_indexes_5,AssertionError,test,"assert (-1, -1, -1, -1) == (0, 1, 2, 3)"
+8b,91,test_row_revile_indexes_6,AssertionError,test,"assert (-1, -1, -1, -1) == (0, 1, 2, 3)"
+8b,91,test_row_revile_indexes_7,AssertionError,test,"assert (-1, -1, -1, -1) == (0, 1, 2, -1)"
+8b,92,test_usage_bound_1,AssertionError,test,assert 60.0 == 10
+8b,92,test_usage_bound_2,AssertionError,test,assert 60.0 == 15
+8b,92,test_usage_bound_3,AssertionError,test,assert 30.0 == 5
+8b,92,test_usage_bound_4,IndexError,funzione,list index out of range
+8b,92,test_usage_bound_5,IndexError,funzione,list index out of range
+8b,92,test_usage_bound_6,IndexError,funzione,list index out of range
+8b,92,test_usage_bound_7,AssertionError,test,assert 60.0 == 10
+8b,92,test_usage_bound_8,AssertionError,test,assert 60.0 == 15
+8b,93,test_define_neighbours_1,AssertionError,test,"assert [[0, 1], [0, ..., [2, 0], ...] == [[0, 1], [0, ..., [3, 2], ...]"
+8b,93,test_define_neighbours_2,AssertionError,test,"assert [[2, 1], [2, ..., [1, 0], ...] == [[1, 1], [2, ...5, 1], [6, 1]]"
+8b,93,test_define_neighbours_3,AssertionError,test,"assert [[1, 1], [1, ..., [0, 0], ...] == [[1, 1], [2, ...5, 1], [6, 1]]"
+8b,93,test_define_neighbours_4,AssertionError,test,"assert [[0, 0], [0, ..., [2, 2], ...] == [[0, 2], [0, ...4, 3], [5, 3]]"
+8b,93,test_define_neighbours_5,AssertionError,test,"assert [[0, 2], [0, ..., [2, 1], ...] == [[0, 1], [0, ...2, 1], [2, 3]]"
+8b,93,test_define_neighbours_6,AssertionError,test,"assert [[0, 1], [0, ..., [2, 0], ...] == [[0, 1], [0, ..., [3, 2], ...]"
+8b,93,test_define_neighbours_7,AssertionError,test,"assert [[2, 2], [2, ..., [1, 1], ...] == [[1, 2], [3, ...5, 2], [6, 2]]"
+8b,93,test_define_neighbours_8,AssertionError,test,"assert [[0, 1], [0, ..., [2, 0], ...] == [[0, 1], [0, ..., [3, 2], ...]"
+8b,94,test__get_barchart_sizings_1,AssertionError,test,assert 1905 == 450
+8b,94,test__get_barchart_sizings_2,AssertionError,test,assert 4445 == 450
+8b,94,test__get_barchart_sizings_3,AssertionError,test,assert 9525 == 450
+8b,94,test__get_barchart_sizings_4,AssertionError,test,assert 108525 == 1200
+8b,94,test__get_barchart_sizings_5,AssertionError,test,assert 9525 == 450
+8b,94,test__get_barchart_sizings_6,AssertionError,test,assert 9525 == 450
+8b,94,test__get_barchart_sizings_7,AssertionError,test,assert 9525 == 450
+8b,94,test__get_barchart_sizings_8,AssertionError,test,assert 9525 == 450
+8b,96,test_coord_finder_1,AssertionError,test,"assert (1, 2) == (2, 0)"
+8b,96,test_coord_finder_2,AssertionError,test,"assert (-2, -2) == (-1, -1)"
+8b,96,test_coord_finder_3,AssertionError,test,"assert (-2, 2) == (-1, 2)"
+8b,96,test_coord_finder_5,AssertionError,test,"assert (0, 0) == (-3, -3)"
+8b,96,test_coord_finder_6,AssertionError,test,"assert (0, 0) == (1, 2)"
+8b,97,test___transform_coors_1,AssertionError,test,"assert None == (0, 0, 2, 3)"
+8b,97,test___transform_coors_2,AssertionError,test,"assert None == (0, 0, 2, 3)"
+8b,97,test___transform_coors_3,AssertionError,test,"assert None == (0, 0, 1, 1)"
+8b,97,test___transform_coors_4,AssertionError,test,"assert None == (0, 0, 2, 3)"
+8b,97,test___transform_coors_5,AssertionError,test,"assert None == (0, 0, 4, 9)"
+8b,97,test___transform_coors_6,AssertionError,test,"assert None == (0, 0, 4, 9)"
+8b,97,test___transform_coors_7,AssertionError,test,"assert None == (0, 0, 2, 3)"
+8b,97,test___transform_coors_8,AssertionError,test,"assert None == (0, 0, 1, 1)"
+8b,98,test_lumen_type_1,AssertionError,test,"assert {0: 'TE', 1: ...bi', 2: 'ICM'} == {'0': 'ICMmi'... '2': 'ICMbi'}"
+8b,98,test_lumen_type_2,AssertionError,test,"assert {0: 'ICMmi', ...', 2: 'ICMmi'} == {'0': 'ICMmi'... '2': 'ICMmi'}"
+8b,98,test_lumen_type_3,AssertionError,test,"assert {0: 'mutantsm...', 2: 'ICMmi'} == {'0': 'mutant... '2': 'ICMbi'}"
+8b,98,test_lumen_type_4,AssertionError,test,"assert {0: 'TE', 1: ...bi', 2: 'ICM'} == {'0': 'wild_m... '2': 'ICMbi'}"
+8b,98,test_lumen_type_5,AssertionError,test,"assert {0: 'TE', 1: ...bi', 2: 'ICM'} == {'0': 'ICMmi'... '2': 'ICMbi'}"
+8b,98,test_lumen_type_6,AssertionError,test,"assert {0: 'TE', 1: ...bi', 2: 'ICM'} == {'0': 'ICMmi'... '2': 'ICMbi'}"
+8b,98,test_lumen_type_7,AssertionError,test,"assert {0: 'TE', 1: ...bi', 2: 'ICM'} == {'0': 'ICMmi'... '2': 'ICMbi'}"
+8b,98,test_lumen_type_8,AssertionError,test,"assert {0: 'TE', 1: ...bi', 2: 'ICM'} == {'0': 'ICMmi'... '2': 'ICMbi'}"
+8b,99,test_judge_1d100_with_7_ver_2,AssertionError,test,"assert ('\u30cf\u30fc\u30c9', 'COLOR_SUCCESS') == ('\u5931\u6557', 'COLOR_FAILURE')"
+8b,99,test_judge_1d100_with_7_ver_7,AssertionError,test,"assert ('\u30d5\u30a1\u30f3\u30d6\u30eb', 'COLOR_FUMBLE') == ('\u6210\u529f', 'COLOR_NORMAL_SUCCESS')"
