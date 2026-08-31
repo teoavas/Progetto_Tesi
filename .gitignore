@@ -11,3 +11,7 @@ venv/
 
 # la chiave API resta solo sul tuo computer
 chiave.py
+
+# report dei test generati: rigenerabili con misura.py
+locale/report/
+benchmark/report/

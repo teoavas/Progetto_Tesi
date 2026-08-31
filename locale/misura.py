@@ -1,9 +1,10 @@
-"""Esegue i test generati e ne misura esito e coverage.
+"""Parte dinamica: esegue i test generati e ne misura esito, copertura e duplicazione.
 
 Per ogni file generato:
   1. controllo sintattico con ast.parse   -> se fallisce: "non eseguibile"
-  2. esecuzione con pytest in una cartella isolata e con timeout
-  3. coverage della sola funzione sotto test
+  2. esecuzione con pytest in una cartella isolata e con limite di tempo
+  3. copertura di riga e di ramo sulla sola funzione sotto test
+  4. duplicazione fra le righe di test
 
 Esito attribuito a ciascun campione:
   non_eseguibile  errore di sintassi, import fallito, nessun test raccolto
@@ -11,10 +12,22 @@ Esito attribuito a ciascun campione:
   passato         tutti i test passano
   timeout         l'esecuzione non termina entro il limite
 
-Uso:  python misura.py 8b
+L'output integrale di pytest viene salvato in report/<sigla>/<indice>.txt:
+serve per analizzare i fallimenti e raggrupparli per categoria.
+
+Le misure statiche (sintassi, aderenza al formato, tempo di generazione) stanno
+in statiche.csv e si uniscono a queste su (modello, indice).
+
+Attenzione a n_test: qui e' il numero di casi eseguiti da pytest, che conta
+separatamente le istanze di un test parametrizzato; in statiche.csv e' invece
+il numero di funzioni di test presenti nel sorgente. I due valori possono
+differire, e vanno usati per scopi diversi.
+
+Uso:  python misura.py 8b [limite_secondi]
 """
 
 import ast
+import collections
 import csv
 import json
 import re
@@ -25,6 +38,7 @@ import tempfile
 from pathlib import Path
 
 QUI = Path(__file__).parent
+DATASET = QUI.parent / "benchmark" / "dataset" / "ULT_Lite.jsonl"
 sigla = sys.argv[1]
 LIMITE_SECONDI = int(sys.argv[2]) if len(sys.argv) > 2 else 60
 
@@ -34,62 +48,121 @@ LIMITE_SECONDI = int(sys.argv[2]) if len(sys.argv) > 2 else 60
 # modello. "pragma: no cover" tiene queste righe fuori dal calcolo di coverage.
 PREAMBOLO = ("import re, math, os, sys, json, string, itertools, collections, "
              "functools, datetime, random, copy  # pragma: no cover\n\n")
+
 campioni = [json.loads(r) for r in
-            (QUI / "dataset" / "ULT_Lite.jsonl").read_text(encoding="utf-8").splitlines()]
+            DATASET.read_text(encoding="utf-8").splitlines()]
+
+REPORT = QUI / "report" / sigla
+REPORT.mkdir(parents=True, exist_ok=True)
+
+# pytest -v stampa una riga per test:  test_generato.py::test_x_1 PASSED  [ 12%]
+ESITO_TEST = re.compile(r"::(\S+)\s+(PASSED|FAILED|ERROR)")
 
 
-def conta(testo, parola):
-    m = re.search(rf"(\d+) {parola}", testo)
-    return int(m.group(1)) if m else 0
+def duplicazione(righe):
+    """Percentuale di righe ripetute sul totale delle righe di test.
+
+    Si ignorano righe vuote e commenti. Una riga presente n volte contribuisce
+    n-1 ripetizioni: il risultato e' la quota di codice ridondante.
+    """
+    utili = [r.strip() for r in righe
+             if r.strip() and not r.strip().startswith("#")]
+    if not utili:
+        return 0.0
+    conteggio = collections.Counter(utili)
+    ripetute = sum(n - 1 for n in conteggio.values() if n > 1)
+    return round(100 * ripetute / len(utili), 1)
 
 
-def misura(percorso_test, codice_funzione):
-    """Esegue un file di test in isolamento. Restituisce (esito, n_pass, n_fail, coverage)."""
+def righe_dei_test(sorgente, nomi):
+    """Righe appartenenti alle funzioni di test elencate in `nomi`.
+
+    pytest riporta i test parametrizzati come voci distinte (test_x[1],
+    test_x[2], ...): il suffisso fra parentesi va tolto per ritrovare la
+    funzione nell'albero sintattico.
+    """
+    nomi = {n.split("[")[0] for n in nomi}
+    linee = sorgente.splitlines()
+    fuori = []
+    for nodo in ast.parse(sorgente).body:
+        if isinstance(nodo, ast.FunctionDef) and nodo.name in nomi:
+            fuori.extend(linee[nodo.lineno - 1:nodo.end_lineno])
+    return fuori
+
+
+def misura(percorso_test, codice_funzione, indice):
+    """Esegue un file di test in isolamento. Restituisce un dizionario di misure."""
+    vuoto = {"esito": "non_eseguibile", "n_test": 0, "passati": 0, "falliti": 0,
+             "errori": 0, "cov_righe": 0.0, "cov_rami": 0.0,
+             "dup_tutti": 0.0, "dup_passati": 0.0}
     sorgente = percorso_test.read_text(encoding="utf-8")
     try:
         ast.parse(sorgente)
     except SyntaxError:
-        return "non_eseguibile", 0, 0, 0.0
+        return vuoto
 
     lavoro = Path(tempfile.mkdtemp())
     try:
-        (lavoro / "funzione.py").write_text(PREAMBOLO + codice_funzione.strip() + "\n", encoding="utf-8")
+        (lavoro / "funzione.py").write_text(
+            PREAMBOLO + codice_funzione.strip() + "\n", encoding="utf-8")
         (lavoro / "test_generato.py").write_text(sorgente, encoding="utf-8")
 
-        comando = [sys.executable, "-m", "coverage", "run", "--source=funzione",
-                   "-m", "pytest", "test_generato.py", "-q", "--no-header", "-p", "no:cacheprovider"]
+        comando = [sys.executable, "-m", "coverage", "run", "--branch",
+                   "--source=funzione", "-m", "pytest", "test_generato.py",
+                   "-v", "--tb=short", "-p", "no:cacheprovider"]
         try:
-            esito = subprocess.run(comando, cwd=lavoro, capture_output=True,
-                                   text=True, timeout=LIMITE_SECONDI)
+            esecuzione = subprocess.run(comando, cwd=lavoro, capture_output=True,
+                                        text=True, timeout=LIMITE_SECONDI)
         except subprocess.TimeoutExpired:
-            return "timeout", 0, 0, 0.0
+            (REPORT / f"{indice:03d}.txt").write_text(
+                "TIMEOUT\n", encoding="utf-8")
+            return {**vuoto, "esito": "timeout"}
 
-        uscita = esito.stdout + esito.stderr
-        passati, falliti = conta(uscita, "passed"), conta(uscita, "failed")
-        errori = conta(uscita, "error")
+        uscita = esecuzione.stdout + esecuzione.stderr
+        # Report integrale: e' la base per la categorizzazione dei fallimenti.
+        (REPORT / f"{indice:03d}.txt").write_text(uscita, encoding="utf-8")
 
-        if esito.returncode == 0:
+        esiti = dict(ESITO_TEST.findall(uscita))
+        passati = [n for n, e in esiti.items() if e == "PASSED"]
+        falliti = [n for n, e in esiti.items() if e == "FAILED"]
+        errori = [n for n, e in esiti.items() if e == "ERROR"]
+
+        if esecuzione.returncode == 0 and passati:
             stato = "passato"
-        elif passati == 0 and falliti == 0:
+        elif not passati and not falliti:
             stato = "non_eseguibile"   # import fallito o nessun test raccolto
         elif errori and not falliti:
             stato = "non_eseguibile"
         else:
             stato = "fallito"
 
-        copertura = 0.0
+        cov_righe = cov_rami = 0.0
         if stato in ("passato", "fallito"):
-            subprocess.run([sys.executable, "-m", "coverage", "json", "-o", "cov.json", "-q"],
+            subprocess.run([sys.executable, "-m", "coverage", "json",
+                            "-o", "cov.json", "-q"],
                            cwd=lavoro, capture_output=True, text=True)
             f = lavoro / "cov.json"
             if f.exists():
-                dati = json.loads(f.read_text(encoding="utf-8"))
-                copertura = dati["totals"]["percent_covered"]
-        return stato, passati, falliti, round(copertura, 1)
+                t = json.loads(f.read_text(encoding="utf-8"))["totals"]
+                if t["num_statements"]:
+                    cov_righe = 100 * t["covered_lines"] / t["num_statements"]
+                if t.get("num_branches"):
+                    cov_rami = 100 * t["covered_branches"] / t["num_branches"]
+
+        return {"esito": stato, "n_test": len(esiti),
+                "passati": len(passati), "falliti": len(falliti),
+                "errori": len(errori),
+                "cov_righe": round(cov_righe, 1), "cov_rami": round(cov_rami, 1),
+                # due basi: tutti i test, oppure i soli test che passano.
+                # Quale riportare dipende da come si definisce "successo".
+                "dup_tutti": duplicazione(sorgente.splitlines()),
+                "dup_passati": duplicazione(righe_dei_test(sorgente, set(passati)))}
     finally:
         shutil.rmtree(lavoro, ignore_errors=True)
 
 
+COLONNE = ["modello", "indice", "func_name", "esito", "n_test", "passati",
+           "falliti", "errori", "cov_righe", "cov_rami", "dup_tutti", "dup_passati"]
 uscita = QUI / f"misure_{sigla}.csv"
 
 # salva riga per riga e salta cio' che e' gia' stato misurato:
@@ -100,18 +173,20 @@ if uscita.exists():
 
 nuovo = not uscita.exists()
 with uscita.open("a", newline="", encoding="utf-8") as f:
-    w = csv.writer(f)
+    w = csv.DictWriter(f, fieldnames=COLONNE)
     if nuovo:
-        w.writerow(["modello", "indice", "func_name", "esito", "passati", "falliti", "coverage"])
+        w.writeheader()
     for percorso in sorted((QUI / "generati" / sigla).glob("test_*.py")):
         indice = int(percorso.name.split("_")[1])
         if indice in gia_fatti:
             continue
         campione = campioni[indice]
-        stato, passati, falliti, copertura = misura(percorso, campione["code"])
-        w.writerow([sigla, indice, campione["func_name"], stato, passati, falliti, copertura])
+        m = misura(percorso, campione["code"], indice)
+        w.writerow({"modello": sigla, "indice": indice,
+                    "func_name": campione["func_name"], **m})
         f.flush()
-        print(f"[{indice:>3}] {campione['func_name'][:32]:<32} {stato:<15} "
-              f"{passati}p/{falliti}f  cov {copertura}%", flush=True)
+        print(f"[{indice:>3}] {campione['func_name'][:30]:<30} {m['esito']:<15} "
+              f"{m['passati']}p/{m['falliti']}f  righe {m['cov_righe']}%  "
+              f"rami {m['cov_rami']}%  dup {m['dup_tutti']}%", flush=True)
 
-print(f"\n-> {uscita.name}")
+print(f"\n-> {uscita.name}  e report/{sigla}/")
