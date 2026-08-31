@@ -80,6 +80,22 @@ for sigla in (sys.argv[1:] or ["1b", "3b", "8b"]):
         print(f"    {nome:<14}{len(base):>5}{media(base, 'cov_righe'):>9.1f}%"
               f"{media(base, 'cov_rami'):>8.1f}%")
 
+    # Copertura eseguita contro verificata, sui soli campioni che hanno almeno
+    # un test passato: altrove la seconda vale zero per costruzione.
+    con_passati = [r for r in eseguibili if int(r["passati"]) > 0]
+    if con_passati and "cov_righe_ok" in con_passati[0]:
+        print(f"\n  eseguita contro verificata"
+              f"   (su {len(con_passati)} campioni con almeno un test passato):")
+        print(f"    {'':<14}{'righe':>10}{'rami':>9}")
+        print(f"    {'eseguita':<14}{media(con_passati, 'cov_righe'):>9.1f}%"
+              f"{media(con_passati, 'cov_rami'):>8.1f}%")
+        print(f"    {'verificata':<14}{media(con_passati, 'cov_righe_ok'):>9.1f}%"
+              f"{media(con_passati, 'cov_rami_ok'):>8.1f}%")
+        print(f"    {'differenza':<14}"
+              f"{media(con_passati, 'cov_righe') - media(con_passati, 'cov_righe_ok'):>9.1f}"
+              f"{media(con_passati, 'cov_rami') - media(con_passati, 'cov_rami_ok'):>9.1f}"
+              "   <- quanto la copertura sopravvaluta")
+
     # dup_passati va mediata sui soli file che hanno almeno un test passato:
     # dove non ne hanno, non ci sono righe da confrontare e il valore e' zero
     # per costruzione, il che schiaccerebbe la media senza dire nulla.

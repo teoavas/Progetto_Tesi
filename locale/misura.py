@@ -3,7 +3,11 @@
 Per ogni file generato:
   1. controllo sintattico con ast.parse   -> se fallisce: "non eseguibile"
   2. esecuzione con pytest in una cartella isolata e con limite di tempo
-  3. copertura di riga e di ramo sulla sola funzione sotto test
+  3. copertura di riga e di ramo sulla sola funzione sotto test, calcolata due
+     volte: con tutti i test (cov_righe, cov_rami) e con i soli test che passano
+     (cov_righe_ok, cov_rami_ok). La prima dice quanto codice viene *eseguito*,
+     la seconda quanto ne viene davvero *verificato*: la distanza fra le due
+     misura quanto la copertura sopravvaluta cio' che i test garantiscono
   4. duplicazione fra le righe di test
 
 Esito attribuito a ciascun campione:
@@ -94,6 +98,7 @@ def misura(percorso_test, codice_funzione, indice):
     """Esegue un file di test in isolamento. Restituisce un dizionario di misure."""
     vuoto = {"esito": "non_eseguibile", "n_test": 0, "passati": 0, "falliti": 0,
              "errori": 0, "cov_righe": 0.0, "cov_rami": 0.0,
+             "cov_righe_ok": 0.0, "cov_rami_ok": 0.0,
              "dup_tutti": 0.0, "dup_passati": 0.0}
     sorgente = percorso_test.read_text(encoding="utf-8")
     try:
@@ -136,23 +141,50 @@ def misura(percorso_test, codice_funzione, indice):
         else:
             stato = "fallito"
 
-        cov_righe = cov_rami = 0.0
-        if stato in ("passato", "fallito"):
+        def copertura(nome_file):
+            """Legge il report json prodotto da coverage e ne ricava le due misure."""
             subprocess.run([sys.executable, "-m", "coverage", "json",
-                            "-o", "cov.json", "-q"],
+                            "-o", nome_file, "-q"],
                            cwd=lavoro, capture_output=True, text=True)
-            f = lavoro / "cov.json"
-            if f.exists():
-                t = json.loads(f.read_text(encoding="utf-8"))["totals"]
-                if t["num_statements"]:
-                    cov_righe = 100 * t["covered_lines"] / t["num_statements"]
-                if t.get("num_branches"):
-                    cov_rami = 100 * t["covered_branches"] / t["num_branches"]
+            f = lavoro / nome_file
+            if not f.exists():
+                return 0.0, 0.0
+            t = json.loads(f.read_text(encoding="utf-8"))["totals"]
+            righe = 100 * t["covered_lines"] / t["num_statements"] if t["num_statements"] else 0.0
+            rami = 100 * t["covered_branches"] / t["num_branches"] if t.get("num_branches") else 0.0
+            return righe, rami
+
+        cov_righe = cov_rami = 0.0
+        cov_righe_ok = cov_rami_ok = 0.0
+        if stato in ("passato", "fallito"):
+            cov_righe, cov_rami = copertura("cov.json")
+
+            # Seconda esecuzione con i soli test che passano: misura quanto
+            # codice viene davvero *verificato*, non solo eseguito. La prima
+            # copertura conta anche i test che falliscono, perche' un assert
+            # sbagliato esegue comunque la funzione prima di sollevare l'errore.
+            if passati and falliti:
+                (lavoro / ".coverage").unlink(missing_ok=True)
+                soli_passati = [f"test_generato.py::{n}" for n in passati]
+                try:
+                    subprocess.run(
+                        [sys.executable, "-m", "coverage", "run", "--branch",
+                         "--source=funzione", "-m", "pytest", *soli_passati,
+                         "-q", "--no-header", "-p", "no:cacheprovider"],
+                        cwd=lavoro, capture_output=True, text=True,
+                        timeout=LIMITE_SECONDI)
+                    cov_righe_ok, cov_rami_ok = copertura("cov_ok.json")
+                except subprocess.TimeoutExpired:
+                    pass
+            elif passati:      # passano tutti: coincide con la prima misura
+                cov_righe_ok, cov_rami_ok = cov_righe, cov_rami
 
         return {"esito": stato, "n_test": len(esiti),
                 "passati": len(passati), "falliti": len(falliti),
                 "errori": len(errori),
                 "cov_righe": round(cov_righe, 1), "cov_rami": round(cov_rami, 1),
+                "cov_righe_ok": round(cov_righe_ok, 1),
+                "cov_rami_ok": round(cov_rami_ok, 1),
                 # due basi: tutti i test, oppure i soli test che passano.
                 # Quale riportare dipende da come si definisce "successo".
                 "dup_tutti": duplicazione(sorgente.splitlines()),
@@ -162,7 +194,8 @@ def misura(percorso_test, codice_funzione, indice):
 
 
 COLONNE = ["modello", "indice", "func_name", "esito", "n_test", "passati",
-           "falliti", "errori", "cov_righe", "cov_rami", "dup_tutti", "dup_passati"]
+           "falliti", "errori", "cov_righe", "cov_rami", "cov_righe_ok", "cov_rami_ok",
+           "dup_tutti", "dup_passati"]
 uscita = QUI / f"misure_{sigla}.csv"
 
 # salva riga per riga e salta cio' che e' gia' stato misurato:
