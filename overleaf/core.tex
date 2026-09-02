@@ -1,99 +1,174 @@
 \chapter{Il sistema proposto}
 \label{ch:core}
 
-% prendere ispirazione dalla parte di formalization di questo articolo: https://iris.unica.it/bitstream/11584/461825/1/1-s2.0-S0164121225003516-main_2.pdf
-% possibilmente pensare a una figura con uno schema a blocchi
-% descrivere il sistema in modo generale, senza scendere nei dettagli implementativi
+\section{Architettura generale}
+\label{sec:architettura}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  blocco/.style={draw, thin, rounded corners=2pt, align=center,
+                 text width=4.0cm, minimum height=1.25cm,
+                 inner xsep=5pt, inner ysep=5pt, font=\small},
+  freccia/.style={-{Stealth[length=1.8mm]}, thin}]
 
-% NOTA: l'articolo indicato e' \cite{tony2025prompt} (Journal of Systems and
-% Software, 2025): usarne la sezione di formalizzazione come modello per la
-% notazione di questo capitolo.
-%
-% Schema a blocchi suggerito:
-%   dataset (funzione) -> costruzione del prompt -> modello -> normalizzazione
-%   dell'output -> file di test -> esecuzione -> misure
-%
-% Il capitolo descrive COME si misura. I numeri stanno nel capitolo 4.
+  \node[blocco] (a)
+       {\textbf{Dataset ULT\_Lite}\\[2pt]\scriptsize primi 100 campioni};
+  \node[blocco, below=0.8cm of a] (b)
+       {\textbf{Costruzione del prompt}\\[2pt]\scriptsize template fisso};
+  \node[blocco, below=0.8cm of b] (c)
+       {\textbf{Modello in locale}\\[2pt]\scriptsize Ollama, temperatura 0};
+  \node[blocco, below=0.8cm of c] (d)
+       {\textbf{Normalizzazione}\\[2pt]\scriptsize rimozione del markdown};
+  \node[blocco, below=0.8cm of d] (e)
+       {\textbf{File di test}\\[2pt]\scriptsize uno per modello e funzione};
+
+  \node[blocco, below=1.4cm of e, xshift=-2.35cm] (f)
+       {\textbf{Misure statiche}\\[2pt]\scriptsize senza esecuzione};
+  \node[blocco, below=1.4cm of e, xshift=2.35cm] (g)
+       {\textbf{Esecuzione e misura}\\[2pt]\scriptsize pytest e coverage.py};
+
+  \draw[freccia] (a) -- (b);
+  \draw[freccia] (b) -- (c);
+  \draw[freccia] (c) -- (d);
+  \draw[freccia] (d) -- (e);
+
+  \draw[freccia] (e.south) -- ++(0,-0.7) -| (f.north);
+  \draw[freccia] (e.south) -- ++(0,-0.7) -| (g.north);
+
+  \draw[freccia] (a.east) -- ++(2.975,0) |- (g.east);
+
+\end{tikzpicture}
+\caption{Architettura del sistema.}
+\label{fig:architettura}
+\end{figure}
+
+Il sistema è sviluppato come un'unica catena a colpo singolo, l'esito dell'esecuzione non viene restituito al modello per una nuova generazione: si vuole misurare cosa produce il modello senza correzioni successive. La funzione del dataset entra due volte nel processo: per poter generare il prompt da fornire al modello e in fase di esecuzione dove viene scritta accanto ai test perché possano importarla (è su di essa che si misura la copertura).
+La biforcazione finale separa la parte statica (ciò che si stabilisce senza eseguire i test) dalla parte dinamica. La normalizzazione come mostrato in figura rimuove la presenza di markdown nei test generati: un blocco di codice in stile markdown in cima al file in cima rende il file sintatticamente non valido, e il campione finirebbe fra i non eseguibili per un motivo di formattazione anziché di contenuto. Togliendolo prima di salvare, il dato sparisce, e il rispetto di quel vincolo non è più verificabile a posteriori.
 
 
 \section{Formalizzazione}
 \label{sec:formalizzazione}
-% Notazione da introdurre, sul modello di \cite{tony2025prompt}:
-% - F = insieme delle funzioni sotto test, f in F, |F| = 100;
-% - M = insieme dei modelli considerati, m in M, |M| = 3;
-% - P(f) = prompt costruito a partire dalla funzione f tramite il template fisso;
-% - T(m, f) = file di test prodotto dal modello m per la funzione f;
-% - t in T(m, f) = singola funzione di test contenuta nel file.
-%
-% La distinzione fra T(m,f) e t e' sostanziale e va introdotta qui: le metriche
-% di esito si definiscono sul file, quelle di correttezza sul singolo test.
-% Serve nel capitolo 4, dove i file che passano interamente sono pochissimi
-% mentre i test corretti sono abbastanza da permettere una media.
-%
-% Definire poi le metriche come funzioni su T(m,f) e f, distinguendo:
-% - misure statiche: calcolabili senza eseguire nulla;
-% - misure dinamiche: richiedono l'esecuzione dei test.
 
+La formalizzazione che segue serve a rendere il resto del capitolo più leggibile e a fissare i simboli usati nel Capitolo~\ref{ch:risultati}
 
-\section{Architettura generale}
-% Il sistema e' una catena a colpo singolo: una funzione, una richiesta, un file
-% di test. Non c'e' iterazione di riparazione, per scelta: si vuole misurare la
-% capacita' dei modelli senza aiuti esterni. Va detto esplicitamente, perche' e'
-% cio' che distingue questo impianto da CoverUp \cite{pizzorno2024coverup} e
-% CodaMOSA \cite{lemieux2023codamosa} discussi nella Sezione~\ref{sec:llm}.
-%
-% Blocchi:
-% 1. selezione del campione dal dataset;
-% 2. costruzione del prompt secondo un template fisso;
-% 3. invocazione del modello a parametri costanti;
-% 4. normalizzazione della risposta;
-% 5. salvataggio in un file separato per ogni coppia (modello, funzione);
-% 6. esecuzione dei test in ambiente isolato e calcolo delle metriche.
-%
-% Sul blocco 4 va fatta una precisazione, perche' e' una scelta con un costo:
-% la normalizzazione rimuove gli eventuali blocchi markdown dalla risposta prima
-% di salvarla. Rende i file eseguibili, ma cancella la prova, e quindi impedisce
-% di misurare a posteriori quante volte il vincolo "niente markdown" e' stato
-% violato. Dichiararlo come limite noto e rimandare alla sezione sulle minacce
-% alla validita'.
+Sia $\mathcal{F}$ l'insieme delle funzioni sotto test e $\mathcal{M}$ l'insieme
+dei modelli considerati, con $|\mathcal{F}| = 100$ e $|\mathcal{M}| = 3$. Per
+ogni coppia $(m, f)$ con $m \in \mathcal{M}$ e $f \in \mathcal{F}$ il sistema
+produce un file di test, secondo la catena
 
+\begin{equation}
+T(m, f) = N\bigl(m(P(f))\bigr),
+\label{eq:catena}
+\end{equation}
+
+dove:
+
+\begin{itemize}
+  \item $P(f)$ è il prompt costruito a partire dalla funzione $f$ tramite il
+        template fisso descritto nella Sezione~\ref{sec:prompt};
+  \item $m(\cdot)$ indica l'invocazione del modello a parametri costanti;
+  \item $N(\cdot)$ è la normalizzazione della risposta;
+  \item $T(m, f)$ è il file di test risultante.
+\end{itemize}
+
+Si indica inoltre con $t \in T(m, f)$ la singola funzione di test contenuta nel
+file. La distinzione fra $T(m,f)$ e $t$ è sostanziale: le metriche di esito, che
+classificano come si è conclusa l'esecuzione dell'intero file, sono definite su
+$T(m,f)$; quelle di correttezza, che contano quanti test risultano giusti, sono
+definite sul singolo $t$.
 
 \section{Dataset e selezione dei campioni}
-% ULT_Lite \cite{huang2025ult}: 200 campioni in formato JSON Lines; ne vengono
-% usati i primi 100 nell'ordine del file (criterio deterministico e riproducibile).
-% Ogni campione contiene nome della funzione, codice sorgente, descrizione in
-% linguaggio naturale, identificativo e una lista di assert.
-% Le funzioni vanno da 8 a 171 righe, con mediana 34.
-%
-% Due esclusioni da motivare:
-% - la descrizione in linguaggio naturale non viene passata al modello, per
-%   scelta sperimentale: si misura cosa il modello ricava dal solo codice;
-% - la lista di assert non e' utilizzabile come riferimento, perche' gli autori
-%   del benchmark dichiarano di non rilasciare i test di verita' per non
-%   contaminare i futuri addestramenti. Verificato sui dati: quegli assert
-%   passano solo nel 12% dei casi sul codice fornito.
+Le funzioni Python sfruttate per lo sviluppo del lavoro sono state prese dal dataset pubblico ULT\_Lite \cite{huang2025ult}, in tutto 200 campioni in formato JSON Lines. Del totale, sono stati usati i primi 100 campioni per ordine di apparizione nel file (criterio deterministico e riproducibile).
+
+Ogni campione contiene il nome della funzione, il codice sorgente, la descrizione in linguaggio naturale, un identificativo e una lista di assert. Le funzioni hanno una lunghezza mediana di 34 righe, con un minimo di 8 e un massimo di 171.
+
+Tutte le funzioni del benchmark hanno complessità ciclomatica non inferiore a
+dieci~\cite{mccabe1976complexity}: come riportato nella Sezione~\ref{sec:bench},
+è il criterio con cui gli autori gli autori escludono il codice banale e spiega perché gli esempi che seguono contengono molte diramazioni in poche righe.
+
+Un esempio della difficoltà posta dal benchmark è riportato nel
+Listato~\ref{lst:checkformulas}. I parametri si chiamano \texttt{arguments}, \texttt{formulaTuple} e \texttt{state}, e non ci sono annotazioni di tipo né documentazione. Dalla sola firma non si può dedurre che \texttt{formulaTuple} contenga tuple di lunghezza uno, due o tre. È quindi il modello a dover ricavare la struttura attesa degli argomenti dal corpo della funzione.
+
+\begin{lstlisting}[float=htbp,
+                   caption={Il campione 84 del dataset, \texttt{checkFormulas}.},
+                   label={lst:checkformulas}]
+def checkFormulas(arguments, formulaTuple, state):
+    for formula in formulaTuple:
+        if len(formula) == 1 and formula[0] not in state:
+            return False
+        if len(formula) == 2 \
+            and (formula[0] not in state or arguments[formula[1]] not in state[formula[0]]):
+            return False
+        if len(formula) == 3 \
+            and (formula[0] not in state or (arguments[formula[1]], arguments[formula[2]]) not in state[formula[0]]):
+            return False
+    return True
+\end{lstlisting}
+
+La descrizione in linguaggio naturale non viene passata al modello: in questo modo quest'ultimo deve essere in grado di ricavare da solo il comportamento atteso della funzione. La lista di assert non è utilizzabile come riferimento: gli autori del benchmark dichiarano di non rilasciare i test corretti di riferimento  (\emph{ground truth}) per non contaminare i futuri addestramenti.
+Il Listato~\ref{lst:degree} ne è un esempio: fra le asserzioni fornite per quella funzione compare \texttt{is\_degree\_in\_degree\_range(30, 150, 100) == True},
+mentre il codice del dataset restituisce \texttt{False}.
+
+\begin{lstlisting}[float=htbp,
+                   caption={Il campione 0 del dataset, \texttt{is\_degree\_in\_degree\_range}.},
+                   label={lst:degree}]
+def is_degree_in_degree_range(degree_a, degree_b, degree_c):
+    degrees_omni = [degree_a, degree_b, degree_c]
+    for x in range(len(degrees_omni)):
+        if degrees_omni[x] > 180 or degrees_omni[x] <= -180:
+            degrees_omni[x] = -180 * (((degrees_omni[x] // 180) % 2) \
+                * degrees_omni[x]/abs(degrees_omni[x])) + (degrees_omni[x] % 180)
+    degree_a = degrees_omni[0]
+    degree_b = degrees_omni[1]
+    degree_c = degrees_omni[2]
+    clockwise = degree_a
+    counterclock = degree_b
+    if clockwise > counterclock:
+        if degree_c <= clockwise and degree_c >= counterclock:
+            return True
+    elif clockwise < counterclock and clockwise <= 0 and counterclock > 0:
+        if degree_c >= counterclock or degree_c <= clockwise:
+            return True
+    return False
+\end{lstlisting}
 
 
 \section{Costruzione del prompt}
-% Template fisso in tre sezioni:
-% [instruction] i vincoli: stile pytest senza classi, import esplicito della
-%   funzione sotto test, da 3 a 8 funzioni di test con nomi numerati, almeno un
-%   assert per test, divieto di riscrivere la funzione, divieto di spiegazioni e
-%   markdown;
-% [data] il solo codice della funzione;
-% [format] lo scheletro atteso dell'output.
-%
-% Riportare il template per intero in un ambiente verbatim: e' parte del
-% contributo e permette la riproducibilita'.
-% Motivazione della sezione [format]: per i modelli piccoli vedere la forma
-% attesa e' piu' efficace che leggerne la descrizione.
-%
-% Anticipare che i sei vincoli non sono decorativi: cinque di essi diventano la
-% metrica di aderenza al formato del capitolo 4, e il loro rispetto e' cio' che
-% separa nettamente il modello da 1B dagli altri due.
+A ciascuno dei modelli usati è stato fornito il medesimo prompt $P(f)$ riportato nel Listato~\ref{lst:prompt}: in questo modo le differenze osservate sono attribuibili al modello e non alla formulazione. Ognuno dei vincoli riportati nella parte \texttt{[instruction]} ha una ragione operativa di primaria importanza. Chiedere di scrivere i file in stile pytest senza classi e con import esplicito consente l'eseguibilità del file in isolamento accanto alla sua funzione $f$ di riferimento. Il fatto di scrivere da 3 a 8 funzioni pone un vincolo sull'output in modo tale che il numero di token sia sufficiente a contenerlo e allo stesso tempo rende i file meglio confrontabili tra modelli. I nomi numerati permettono di individuare il singolo test: è la base per la metrica Pass@1. Il fatto di avere almeno un assert dà la sicurezza che ogni test abbia dietro un oracolo e non si limiti a chiamare la funzione. Il divieto di sovrascrizione della funzione vincola il modello ad attenersi alla funzione $f$ del dataset, in caso contrario le metriche sulla copertura non avrebbero alcun significato perché verrebbero valutate sulla copia.
+L'assenza di spiegazioni e markdown rende l'output $T(m,f)$ un file Python direttamente eseguibile.
+
+Infine, la descrizione di come il modello $m$ dovrebbe portare a termine il compito viene riportata nella parte di \texttt{[format]}: per i modelli più piccoli vale la pena mostrare quella che dovrebbe essere la forma attesa rispetto ad una spiegazione in linguaggio naturale.
+
+\begin{lstlisting}[float=htbp, language=,
+                   caption={Il template del prompt, identico per tutti i modelli
+                            e tutti i campioni. I segnaposto \texttt{func\_name}
+                            e \texttt{code} vengono sostituiti con il nome e il
+                            codice della funzione sotto test.},
+                   label={lst:prompt}]
+[instruction]
+Write unit tests in Python for the function given below.
+Rules:
+- Use pytest style: plain functions, no classes.
+- Import the function under test with: from funzione import {func_name}
+- Write between 3 and 8 test functions, named test_{func_name}_1,
+  test_{func_name}_2, and so on.
+- Every test function must contain at least one assert statement.
+- Do not rewrite or redefine the function under test.
+- Do not write explanations, comments or markdown. Output Python code only.
+
+[data]
+{code}
+
+[format]
+from funzione import {func_name}
+
+def test_{func_name}_1():
+    assert {func_name}(...) == ...
+\end{lstlisting}
 
 
 \section{Modelli e parametri}
+
 % Tre modelli della stessa famiglia \cite{llama3herd} di dimensione crescente
 % (1B, 3B, 8B), a parita' di prompt e parametri: temperatura 0 (generazione
 % deterministica, una sola esecuzione per campione) e limite di 1024 token in

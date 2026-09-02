@@ -7,6 +7,25 @@
 \linespread{1.2}
 
 %Librerie utili
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\bfseries,
+  commentstyle=\itshape,
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=8pt,
+  frame=single,
+  framesep=4pt,
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=4,
+  captionpos=b,
+  upquote=true
+}
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{libertine}
@@ -27,10 +46,12 @@
 \usepackage[strict]{changepage}
 \usepackage{pgfplots}
 \usepackage{tikz}
+\usepackage{float}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds}
 \usetikzlibrary{matrix}
 \pgfplotsset{width=11cm,compat=1.9}
 \usepgfplotslibrary{external}
-\tikzexternalize
+%\tikzexternalize
 
 \begin{document}
 \title{title}
