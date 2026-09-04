@@ -15,61 +15,79 @@
 
 
 \section{Il testing di unità e il costo della scrittura manuale}
+\label{sec:testing}
 
+Il test di unità consiste in un insieme di input costruiti appositamente per esaminare in isolamento una singola componente software (come può essere una funzione) e verificarne il comportamento rispetto a quello atteso. L'obiettivo è esercitare le istruzioni e i diversi rami di esecuzione che si possono incontrare nel codice, così da poter correggere i difetti a partire dalle prime fasi di sviluppo \cite{huang2025ult}.
 
-Gli unit test sono un passaggio fondamentale dello sviluppo software, che permette agli sviluppatori di controllare che il codice scritto risulti robusto e funzioni secondo le specifiche richieste. Permette quindi di evidenziare potenziali errori nel software prima che venga effettivamente fatto operare, così come durante l'intero ciclo di vita del codice.
+Gli unit test sono un passaggio fondamentale dello sviluppo software, che permette agli sviluppatori di controllare che il codice scritto risulti robusto e funzioni secondo le specifiche richieste. Permette quindi di evidenziare potenziali errori nel software prima che venga effettivamente fatto operare, così come durante l'intero ciclo di vita del codice. \todo[color=green!30]{RISOLTO--qua per prima cosa spiegherei cosa sono gli unit test (o in generale cosa sono i test). Meglio non dare per scontato}
 
 La scrittura manuale dei test può essere vista come un grande collo di bottiglia nel processo di sviluppo. Non solo è causa di larghe perdite di tempo per l'effettiva scrittura di test ma, al contempo, richiede la conoscenza profonda del codice sul quale si sta lavorando \cite{schaefer2024testpilot}.
 
-Scrivere un "test di qualità" significa quindi assicurarsi  che questo sia innzanzitutto corretto ed eseguibile e, allo stesso tempo, deve essere in grado di esercitare il codice in modo esaustivo. Questo è reso complicato dal fatto che nelle moderne architetture di programmi interconnessi è presente spesso una logica intricata, numerose dipendenze e svariati formati di input \cite{huang2025ult}. Nel caso manuale di scrittura, implementare una test suite su un numero molto elevato di funzioni e riuscire a mantenere test di qualità alta è quindi un compito estremamente dispendioso.
+Scrivere un "test di qualità" significa quindi assicurarsi che questo sia eseguibile e corretto. Un test è \emph{eseguibile} quando il file in cui si trova è sintatticamente valido, la funzione sotto test viene effettivamente importata e l'esecuzione arriva a termine restituendo un esito. È \emph{corretto} quando, oltre a essere eseguibile, le sue asserzioni esprimono aspettative valide sul comportamento della funzione: una funzione può essere implementata correttamente e il test fallire ugualmente, perché il valore atteso scritto nell'assserzione è errato. \todo[color=green!30]{RISOLTO--meglio definire cosa vuol dire in questo contesto corretto ed eseguibile} Un test eseguibile e corretto non è però ancora sufficiente: deve anche esercitare il codice in modo esaustivo. Questo è reso complicato dal fatto che nelle moderne architetture di programmi interconnessi è presente spesso una logica intricata, numerose dipendenze e svariati formati di input \cite{huang2025ult}. Una logica intricata implica maggiori cammini di esecuzione: una funzione con dieci diramazioni richiede più prove rispetto ad una che ne conta solamente due. Le risorse esterne da cui la funzione dipende (una base di dati, un servizio remoto o il file system) vanno rimpiazzate con sostituti fittizi, che sono a loro volta codice da scrivere e mantenere. Infine, i formati di input sono spesso impliciti: la funzione non li dichiara nella firma e chi scrive il test deve dedurli a partire dal corpo della funzione. \todo[color=green!30]{RISOLTO--meglio spendere qualche parola in più su questo, magari anche facendo qualche esempio} Nel caso manuale di scrittura, implementare una test suite su un numero molto elevato di funzioni e riuscire a mantenere test di qualità alta è quindi un compito estremamente dispendioso.
 
 
 \section{Generazione automatica di test: approcci classici}
 \label{sec:classici}
-Gli approcci classici per la generazione automatica di testing sono il primo passo per l'attuazione di un nuovo standard non basato sul lavoro diretto dell'uomo in questo campo. Quando si genera un test in primis ci si deve chiedere: con quali input "chiamo la funzione". Questo deve essere fatto in modo tale da esplorarla e coprire più casi possibili. Secondo, conoscendo gli input dati, che cosa ci aspettiamo restituisca?
 
-Ci sono due rami principali:
+\todo[color=green!30]{RISOLTO--forse anche qui mancano un po' di fondamenti, meglio spendere un po' più parole ma dare più chiarezza. Una persona che legge la tesi e non ha esperienza di test, arriva qui e si perde.}
+Gli approcci classici per la generazione automatica di test affidano a un programma il compito che finora è stato attribuito esclusivamente allo sviluppatore. Quando si genera un test in primo luogo ci si deve chiedere: con quali input "chiamo la funzione". Questo deve essere fatto in modo tale da coprire quante più parti possibile della funzione. Per misurare quanto ci si riesce si utilizza la \emph{copertura}, cioè la percentuale di righe, o rami, del codice che vengono eseguite dai test. In secondo luogo, conoscendo gli input dati, che cosa ci aspettiamo restituisca? 
 
-Nel paradigma Search-Based Software Testing (SBST) la generazione dei test è vista come un problema di ottimizzazione. EvoSuite parte da un insieme casuale di test. Viene usata la copertura come fattore di merito: le suite che hanno la "coverage" più alta sopravvivono e vengono combinate tramite operatori genetici come crossover e mutazione, mentre quelle che non soddisfano la specifica desiderata vengono progressivamente scartate \cite{fraser2011evosuite}. Pynguin sfrutta lo stesso paradigma specificamente su Python (laddove EvoSuite è eseguito per classi nel linguaggio Java) nel quale lo strumento, privo di tipizzazione statica, deve effettuare un'analisi preliminare. Viene quindi fatta una scansione sul codice per trovare tipi espliciti oppure si controllano le type annotations e qualora manchino comunque le informazioni necessarie Pynguin sceglierà i tipi in modo casuale \cite{lukasczyk2022pynguin}.
+Ci sono due rami principali:gli approcci basati sulla ricerca e quelli basati sull'esecuzione simbolica.
 
-L'esecuzione simbolica, d'altro canto, affronta la generazione dei test come un problema matematico per raggiungere specifici cammini di esecuzione della porzione di codice sulla quale si sta lavorando \cite{king1976symbolic}. Il programma non viene eseguito con valori numerici specifici ma con simboli algebrici che rappresentano valori arbitrari. Durante l'esecuzione (in particolare quando si incontra una diramazione condizionale) viene aggiornata la "Path Condition" che descrive un determinato cammino e gli input necessario a percorrerlo. Risolvendo i vincoli logici che si incontrano è possibile risalire al valore numerico necessario a rispettare la condizione.
+Nel paradigma Search-Based Software Testing (SBST) la generazione dei test è vista come un problema di ottimizzazione e il procedimento è iterativo. EvoSuite parte da un insieme casuale di test e ne misura la copertura, usata come criterio di merito: le suite che ottengono un risultato migliore sopravvivono e vengono ricombinate per produrre una nuova generazione, mentre le altre vengono progressivamente scartate. La ricombinazione avviene tramite operatori genetici: il \emph{crossover} mescola parti di due suite esistenti, la \emph{mutazione} altera un singolo test cambiando un valore o aggiungendo una chiamata. Il ciclo si ripete finché la copertura smette di avere miglioramenti o finché si esaurisce il tempo prestabilito \cite{fraser2011evosuite}. Pynguin sfrutta lo stesso paradigma specificamente su Python (laddove EvoSuite è eseguito per classi nel linguaggio Java) nel quale lo strumento, privo di tipizzazione statica, deve effettuare un'analisi preliminare. Viene quindi fatta una scansione sul codice per trovare tipi espliciti oppure si controllano le annotazioni di tipo e qualora manchino comunque le informazioni necessarie Pynguin sceglierà i tipi in modo casuale \cite{lukasczyk2022pynguin}.
 
-Entrambe queste famiglie di strumenti hanno un limite di fondo: seppur eccellendo nell'esplorazione e nel raggiungere determinati rami specifici, non dispongono din un "oracolo": il valore atteso da inserire nell'asserzione viene ottenuto limitandosi a "fotografare" la situazione già esistente senza controllare le specifiche desiderate. Se la funzione contenesse un difetto, il test generato in modo automatico lo farebbe passare come corretto: saper raggiungere il codice e conoscere cosa quel codice debba restituire sono due qualità distinte e la modalità di generazione automatica dei test ha solo la prima.
+L'esecuzione simbolica, d'altro canto, affronta la generazione dei test come un problema matematico per raggiungere specifici cammini di esecuzione della porzione di codice sulla quale si sta lavorando \cite{king1976symbolic}. Il programma non viene eseguito con valori numerici specifici ma con simboli algebrici che rappresentano valori arbitrari. Durante l'esecuzione (in particolare quando si incontra una diramazione condizionale) viene aggiornata la "Path Condition" che descrive un determinato cammino e gli input necessari a percorrerlo. Incontrando per esempio l'istruzione \texttt{if x > 5}, l'esecuzione simbolica registra la condizione $x > 5$ per il ramo vero e $x \leq 5$ per quello falso. A risolvere questi vincoli è un risolutore di vincoli logici, o solver SMT, come Z3~\cite{demoura2008z}, che restituisce un valore concreto che li soddisfa, ad esempio per il ramo vero $x = 6$, il quale viene poi usato come input per il test.
+
+Entrambe queste famiglie di strumenti hanno un limite di fondo: seppur eccellendo nell'esplorazione e nel raggiungere determinati rami specifici, non dispongono di un "oracolo": il valore atteso da inserire nell'asserzione viene ottenuto limitandosi a "fotografare" la situazione già esistente senza controllare le specifiche desiderate. Se la funzione contenesse un difetto, il test generato in modo automatico lo farebbe passare come corretto: saper raggiungere il codice e conoscere cosa quel codice debba restituire sono due qualità distinte e la modalità di generazione automatica dei test ha solo la prima.
+\todo[color=green!30]{RISOLTO--forse ha senso anche spiegare come si fanno, quale processo si segue. Risulta un po' superficiale come paragrafo.}
 
 
 \section{Generazione di test con modelli linguistici}
-Un primo passo nella direzione di unire in un unico workflow sia l'esplorazione del codice che la deduzione di un oracolo è avvenuto grazie allo sviluppo di reti di apprendimento automatico. Un esempio di sviluppo di questo tipo di tecnologia è rappresentato da TOGA (Test Oracle Generation) \cite{dinella2022toga}. TOGA si colloca come ponte tra la generazione automatica e i modelli neurali: delega a due sottosistemi due compiti diversi. Ad uno strumento (come può essere EvoSuite) affida la generazione della sequenza di esecuzione (test prefix), mentre affida ad una rete neurale il compito di dedurre l'oracolo. Questo però presuppone la disposizione di un ampio corpus di addestramento della suddetta rete, ed è questo ciò che i modelli linguistici eliminano.
+\todo[color=green!30]{RISOLTO--anche qua, va spiegato un po' come si fanno, non si capisce molto e non si capisce troppo la differenza con il paragrafo precedente}
+Un primo passo nella direzione di unire in un unico workflow sia l'esplorazione del codice che la deduzione di un oracolo è avvenuto grazie allo sviluppo di reti di apprendimento automatico. Un esempio di sviluppo di questo tipo di tecnologia è rappresentato da TOGA (Test Oracle Generation) \cite{dinella2022toga}. TOGA si colloca come ponte tra la generazione automatica e i modelli neurali: delega a due sottosistemi due compiti diversi. A uno strumento (come può essere EvoSuite) affida la generazione della sequenza di esecuzione (test prefix), mentre affida a una rete neurale il compito di dedurre l'oracolo. Questo però presuppone la disposizione di un ampio corpus di addestramento della suddetta rete, ed è questo ciò che i modelli linguistici eliminano.
 
-Il salto nella generazione dei test è avvenuto proprio con i modelli linguistici di grandi dimensioni. Il vantaggio offerto dall'utilizzo di questi strumenti sta nella capacità di avvicinarsi di più al risultato corretto, "indovinando" a partire dal nome della funzione, dalla docstring oppure in altri casi dagli stessi schemi visti in fase di addestramento \cite{schaefer2024testpilot}. Un ulteriore vantaggio è la leggibilità: i nomi dei test sono descrittivi e le asserzioni esprimono il comportamento della funzione. Il valore atteso proviene da un'ipotesi su ciò che il codice dovrebbe fare, non da ciò che fa.
+Il salto nella generazione dei test è avvenuto proprio con i modelli linguistici di grandi dimensioni. Il funzionamento è sostanzialmente diverso da quello degli strumenti descritti nella sezione precedente. In questi ultimi i test vengono costruiti iterativamente rieseguendo il codice e osservando quali input sono necessari per raggiungere determinati rami di esecuzione. Un modello linguistico, invece, riceve il codice della funzione come semplice testo e restituisce un file contenente la suite di test finale. Di conseguenza, non sono necessarie riesecuzioni o fasi di addestramento specifiche: la capacità di scegliere gli input giusti dipende dalle competenze già acquisite dal modello durante il pre-addestramento su grandi moli di codice e test.
+
+TestPilot~\cite{schaefer2024testpilot} è un esempio concreto di questo tipo di tecnologia: non passa al modello solo il codice, assembla una richiesta costituita dalla firma della funzione, il corpo dell'implementazione e frammenti presi dalla documentazione del pacchetto che mostrano come quella funzione viene chiamata nell'uso reale. Al contempo non necessita di addestramento specifico né esempi di test da imitare.
+
+ Il vantaggio offerto dall'utilizzo di questi strumenti sta nella capacità di avvicinarsi di più al risultato corretto, "indovinando" a partire dal nome della funzione, dalla docstring oppure in altri casi dagli stessi schemi visti in fase di addestramento \cite{schaefer2024testpilot}. Un ulteriore vantaggio è la leggibilità: i nomi dei test sono descrittivi e le asserzioni esprimono il comportamento della funzione. La differenza fondamentale risiede nell'origine del valore atteso: gli strumenti della sezione precedente lo ricavano in maniera puramente empirica, eseguono la funzione e registrano ciò che restituisce, quindi l'asserzione si limita a fotografare il comportamento corrente del codice. Un modello linguistico, invece, formula il valore atteso tramite una deduzione. Di conseguenza, di fronte a un codice in cui sono presenti difetti solo il secondo può accorgersene, pur esponendosi alla possibilità di generare allucinazioni o errori propri. \todo[color=green!30]{RISOLTO--non mi è chiarissima questa frase, meglio espandere. Occhio anche che questo è un po' un llm pattern (not X, but Y).}
 
 
 \section{Benchmark per la valutazione}
 \label{sec:bench}
-I test generati dagli LLM devono poter essere valutati tramite dei parametri per evidenziare la loro efficacia. Diversi studi si sono prodigati per analizzare come diversi modelli sviluppassero test e su questi fosse possibile estrarre dei risultati su più metriche contemporaneamente.
+La qualità dei test generati ha conseguenze concrete. Una suite che considera solo i casi triviali e lavora in condizioni ideali lascia scoperte le zone in cui il software è più fragile: input ai limiti dell'intervallo considerato, formati inattesi, combinazioni di argomenti che chi ha scritto la funzione non aveva previsto. Per questo la valutazione dei test generati si affida a criteri di misura espliciti. Più studi si sono prodigati per analizzare come diversi modelli sviluppassero test e su questi fosse possibile estrarre dei risultati su più metriche contemporaneamente. \todo[color=green!30]{RISOLTO--perché è importante? bisogna far capire che se si fanno test che non verificano bene le condizioni, si rischia che poi il software fallisca appena si esce dalle condizioni ideali per le quali è stato pensato. Tra l'altro ha senso dire se questi benchmark possono essere anche usati in generale su test scritti da umani (cioè se prescindono da come i test siano stati scritti)}
+
+Le metriche impiegate per lo studio dei test sono proprietà della suite di test: significa che le stesse misure si applicano senza modifiche a test redatti da uno sviluppatore. Ciò che risulta proprio dei benchmark per modelli linguistici è l'impianto sperimentale: l'unità di codice da testare viene fornita come compito isolato, staccata dal progetto in cui vive. La contaminazione dei dati, inoltre, è un problema che non si pone per un autore umano.
 
 In UnLeakedTestbench \cite{huang2025ult} sono raccolte funzioni che rispettano a priori diversi attributi che permettono di valutare le capacità del modello sulla singola FUT (Function Under Test). 
 
-Granularità: valutazione a livello di funzione, al contrario di classi o file. Realismo: generare test partendo per esempio da codice attinto da LeetCode equivale ad esercitare il modello su qualcosa di artificiale e non attinente a come verrebbe scritto da un umano. ULT attinge a The Stack v2 \cite{lozhkov2024stackv2}, un'ampia raccolta di codice open-source dalla quale sono state estratte funzioni scritte in linguaggio Python di software reale. Le funzioni candidate inoltre hanno una complessità ciclomatica \cite{mccabe1976complexity} non inferiore a dieci in modo tale da eliminare a priori le funzioni triviali che avrebbero considerevolmente favorito la performance dei modelli sulla suite.
-Infine le funzioni prese sotto esame sono esenti da contaminazione: questo significa che sono codice non presente in fase di addestramento del modello in considerazione. Questo infatti avrebbe favorito la "memoria".
+\todo[color=green!30]{RISOLTO--questo paragrafo sembra un po' poco pulito, non capisco se sia una lista di caratteristiche che vengono misurate e poi continui. Se le caratteristiche sono solo granularità e realismo, meglio metterle in una lista puntata per renderle subito evidenti. Oltretutto, granularità compare nella tabella sotto, ma realismo non compare. Lega meglio il testo a quello che mostri sotto.}
+\begin{itemize}
+  \item \textbf{Granularità}: valutazione a livello di funzione, anziché di classi o file. La funzione è l'unità naturale del testing, ed è uno dei punti principali per cui ULT differisce dagli altri due benchmark.
+  \item \textbf{Realismo}: ULT attinge a The Stack v2 \cite{lozhkov2024stackv2}, un'ampia raccolta di codice open-source dalla quale sono state estratte funzioni scritte in linguaggio Python di software effettivamente in uso. Il codice di esercizi come quelli di LeetCode rappresenta invece una situazione artificiale rispetto a quello di un progetto reale.
+  \item \textbf{Complessità}: le funzioni candidate hanno una complessità ciclomatica \cite{mccabe1976complexity} (cioè un numero di cammini indipendenti all'interno della funzione) non inferiore a dieci in modo tale da eliminare a priori le funzioni triviali che avrebbero considerevolmente favorito le prestazioni dei modelli sulla suite.
+  \item \textbf{Decontaminazione}: sono escluse le funzioni per cui The Stack v2 contiene già un test o un'asserzione che le richiama.
+\end{itemize} 
+\todo[color=green!30]{RISOLTO--va spiegato cosa sia l'addestramento, e anche perché la contaminazione sarebbe un problema}
+Quest'ultimo criterio necessita un approfondimento. Un modello linguistico viene costruito facendogli elaborare grandi quantità di testo e di codice: è la fase di addestramento, durante la quale gli schemi ricorrenti in quel materiale vengono fissati nei parametri del modello. Se tra gli stessi documenti su cui si addestra sono presenti le funzioni del benchmark, con i test relativi ad esse, il modello potrebbe riprodurli anziché generarli. Questo farebbe salire i punteggi senza che vi corrisponda una reale capacità. È il fenomeno noto come contaminazione dei dati.
 
-Ad ULT è stato affiancato PLT: un superset che in maniera preliminare opera come ULT per gli altri attributi delle funzioni contentute, infatti include lo stesso ULT. All'interno però si trovano anche  tutte quelle funzioni che sono state scartate per contaminazione e risulta utile per accreditare ancor di più la tesi per la quale il codice contaminato falsa i risultati ottenuti.
+Ad ULT è stato affiancato PLT (PreLeakedTestBench). PLT contiene tutte le funzioni di ULT insieme a quelle che sono state scartate perché contaminate: è quindi un sovrainsieme nel quale convivono dati puliti e dati potenzialmente già visti dai modelli. Confrontando le prestazioni di uno stesso modello su entrambi gli insiemi si ottiene una misura diretta di quanto la contaminazione gonfi i risultati.\todo[color=green!30]{RISOLTO--non mi è chiara questa frase}
 
-
+La Tabella~\ref{tab:benchmark} riassume come i benchmark considerati si collocano rispetto a questi criteri.
 \begin{table}[H]
 \centering
-\caption{Confronto fra i principali benchmark per la generazione di unit test.}
+\caption{Caratteristiche dei tre benchmark considerati.}
 \label{tab:benchmark}
 \begin{tabular}{lllll}
 \hline
-\textbf{Benchmark} & \textbf{Granularità} & \textbf{Dimensione} & \textbf{Metriche} & \textbf{Decont.} \\
+\textbf{Benchmark} & \textbf{Granularità} & \textbf{Origine del codice} & \textbf{Dimensione} & \textbf{Decont.} \\
 \hline
-TestEval \cite{wang2025testeval} & programma & 210 programmi & copertura & no \\
-TestGenEval \cite{jain2025testgeneval} & file & 1.210 coppie & pass@k, cov., mut. & no \\
-ULT \cite{huang2025ult} & funzione & 3.909 funzioni & Pass@k, LCov, BCov, Mut & sì \\
+TestEval \cite{wang2025testeval} & programma & LeetCode & 210 programmi & no \\
+TestGenEval \cite{jain2025testgeneval} & file & repository reali & 1.210 coppie & no \\
+ULT \cite{huang2025ult} & funzione & The Stack v2 & 3.909 funzioni & sì \\
 \hline
 \end{tabular}
 \end{table}
-
 
 \section{Metriche per la qualità dei test}
 La valutazione di un test generato da un modello linguistico va oltre il fatto che questo sia sintatticamente valido e sia eseguito senza errori. Sebbene siano condizioni necessarie, non sono sufficienti a descriverne tutti gli aspetti. La letteratura ne affronta molti altri: quanto il test sia capace di esplorare il codice, se sia in grado di individuare un'implementazione difettosa, la ridondanza e la duplicazione.
@@ -97,14 +115,21 @@ Una nota fondamentale da riportare è che la coverage è ottenuta anche dai test
 
 
 \subsection{I limiti della copertura come indicatore}
-L'efficacia della misura di copertura del codice è dibattuta in letteratura. Secondo lo studio effettuato da Inozemtseva e Holmes \cite{inozemtseva2014coverage} la correlazione tra il livello di copertura e l'efficacia nell'individuare i difetti è è più debole di quanto comunemente si assuma. Gli autori hanno descritto come la dimensione della suite di test possa agire come fattore confondente. Una volta reso costante il numero di test presenti nella suite, la correlazione sopra citata scende a bassa o moderata. La critica appare evidente se accostata a ciò che è stato detto nella Sezione~\ref{sec:classici}: raggiungere una riga non implica sapere cosa questa debba produrre.
+L'efficacia della misura di copertura del codice è dibattuta in letteratura. Secondo lo studio effettuato da Inozemtseva e Holmes \cite{inozemtseva2014coverage} la correlazione tra il livello di copertura e l'efficacia nell'individuare i difetti è più debole di quanto comunemente si assuma. Gli autori hanno descritto come la dimensione della suite di test possa agire come fattore confondente.
+
+Una suite composta da molti test tende ad avere una copertura più alta e una maggiore capacità di rilevare i difetti solamente per il fatto di contenere più prove. Osservando le due grandezze si registra una correlazione forte, che però può essere spiegata dalla numerosità della suite anziché dalla copertura in sé.
+
+Si considerino due suite scritte per la stessa funzione: una composta da dieci test e un'altra da cinquanta. La seconda avrà una copertura maggiore e troverà più difetti, ma non è possibile stabilire se ciò dipenda dalla copertura o banalmente dalla presenza di più test.
+
+Lo studio confronta perciò collezioni di uguale dimensione: a parità di numero di test, la correlazione tra copertura ed efficacia nell'individuare i difetti si riduce a bassa o moderata. Questo implica che aumentare la copertura non garantisce di individuarne di più. \todo[color=green!30]{RISOLTO--espandi un po' di più, è troppo compatto e non si capisce. Un esempio potrebbe aiutare}
+La critica appare evidente se accostata a ciò che è stato detto nella Sezione~\ref{sec:classici}: raggiungere una riga non implica sapere cosa questa debba produrre.
 
 
 \subsection{Capacità di rilevare difetti}
 Il mutation score (Mut@k) risponde direttamente al limite sopra descritto della copertura nella valutazione. Viene effettuato introducendo piccole modifiche sintattiche (un "+" che diventa "-", un "$>$" che diventa "$\geq$") ottenendo versioni difettose della funzione, dette mutanti. Una test suite uccide un mutante se fallisce quando viene eseguita sul codice mutato, mentre passa correttamente su quello originale. Nel lavoro sviluppato da Huang et al. è stato posto un timeout pari a 120 secondi in modo da evitare che la suite di test elabori per troppo tempo su un mutante \cite{huang2025ult}. Gli stessi autori riportano la formulazione per ottenere il punteggio: \begin{equation}
-Mut@k = \frac{\sum_{i=1}^{N} M_i}{N}.
+Mut@k = \frac{\sum_{i=1}^{N} M_i}{N} \, ,
 \label{eq:mutk}
-\end{equation}, 
+\end{equation} 
 dove $N$ è il numero totale di funzioni in un benchmark mentre $M_i$ la proporzione di mutanti uccisi dalla suite generata per la i-esima funzione.
 
 Il mutation score è la metrica più difficile da ingannare: il test per uccidere il mutante deve essere in grado di discernere il codice sano da quello difettoso, quindi deve essere in possesso di un oracolo funzionante. Il costo tuttavia è elevato perché richiede l'intera riesecuzione della test suite per ogni mutante: è quindi spesso riportato a livello di sottoinsiemi.
@@ -118,10 +143,10 @@ La duplicazione risulta essere una metrica complementare e non sostitutiva della
 
 
 \subsection{Qualità del codice di test}
-I test smell sono difetti di progettazione che non fanno fallire i test ma li rendono fragili, difficili da mantenere e riutilizzare. Sono catalogati da van Deursen et al. \cite{vandeursen2001testsmells}. L'idea dietro il lavoro è che il fatto di passare non è garanzia di qualità.
+I test smell sono difetti di progettazione che non fanno fallire i test ma li rendono fragili, difficili da mantenere e riutilizzare. Sono catalogati da van Deursen et al.~\cite{vandeursen2001testsmells}. L'idea dietro questo lavoro è che il fatto di passare non è garanzia di qualità.
 
-Un difetto ricorrente nei test generati dai LLM è l'Assertion Roulette,
-che si verifica quando un test contiene molte asserzioni prive di messaggi esplicativi. Questo è qualcosa di altamente problematico dal punto di vista ingegneristico perché non fornisce informazioni sulla causa di un errore, solo sul fatto che è avvenuto.
+Un difetto ricorrente nei test generati dai LLM è l'Assertion Roulette\footnote{Per una trattazione più estesa, con sintomi ed esempi di codice, si veda la scheda nel catalogo di Meszaros:
+\url{http://xunitpatterns.com/Assertion\%20Roulette.html}}\todo[color=green!30]{RISOLTO--riesci a mettere una footnote con un link dove lo spiegano più nel dettaglio? Non penso ci siano articoli scientifici a riguardo, ma forse è più facile puntare a risorse esterne per mostrare che questo nome non è inventato in questa tesi, ma è usato da qualcuno}, che si verifica quando un test contiene molte asserzioni prive di messaggi esplicativi. Questo è qualcosa di altamente problematico dal punto di vista ingegneristico perché non fornisce informazioni sulla causa di un errore, solo sul fatto che è avvenuto.
 
 Alla stessa area appartengono la leggibilità e la manutenibilità del codice di test: i test generati da un modello linguistico tendono ad essere più leggibili di quelli prodotti dagli strumenti search-based, rispettano una struttura convenzionale e adottano nomi descrittivi.
 
@@ -132,15 +157,13 @@ Tutte le dimensioni sopra citate non vengono misurate in questo lavoro perché r
 
 \subsection{Metriche sul comportamento del modello}
 \label{sec:comportamento}
-Queste metriche non misurano il test ma il processo che lo produce. Sono tre:
-\begin{description}
-  \item[Aderenza al formato] ovvero il rispetto dei vincoli espressi nel prompt: import, assenza di markdown, nessuna riscrittura della funzione sotto test;
-  \item[Troncamento della risposta per esaurimento del budget di token] un file troncato può superare il controllo sintattico se il taglio cade a fine funzione: sembra sano ma è incompleto. Ecco perché va trattato come categoria a sé e non lasciato dentro "non eseguibile".
-  \item[Tempo per generazione] valutabile solo a parità di infrastruttura.
-\end{description}
-Questa famiglia è assente dai lavori della Sezione~\ref{sec:bench}, che valutano il mero output (il test).
-L'aderenza al formato e il troncamento permettono di risalire all'origine del fallimento: c'è distinzione tra non rispettare il prompt fornito e sbagliare il ragionamento.
+Le metriche esaminate finora riguardano il test prodotto. Nessuno dei benchmark della Sezione~\ref{sec:bench} riporta informazioni sul processo che lo genera: se il modello abbia rispettato le istruzioni ricevute, se la risposta sia stata interrotta prima di essere completata e quanto tempo abbia richiesto.
 
+Ne consegue che un campione classificato come non eseguibile viene conteggiato una volta sola, senza che si sappia se il modello abbia sbagliato il ragionamento o semplicemente disatteso un'istruzione di formato. Sono difetti di natura diversa e la distinzione conta soprattutto per i modelli più piccoli, sui quali il secondo tipo di errore è più comune.
+
+Le misure adottate in questo lavoro per colmare questa lacuna sono descritte nel Capitolo~\ref{ch:core}.
+
+\todo[color=green!30]{RISOLTO--queste da dove sono prese? perché si misurano e in che contesto?O sono parte della tesi? Se siamo nell'ultimo caso, conviene spiegarle più avanti ma dare l'idea di cosa non misurino questi lavori precedenti (senza dare già la soluzione).}
 
 \section{Sintesi e posizionamento del lavoro}
 \label{sec:posizionamento}

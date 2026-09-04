@@ -87,7 +87,8 @@ dieci~\cite{mccabe1976complexity}: come riportato nella Sezione~\ref{sec:bench},
 è il criterio con cui gli autori gli autori escludono il codice banale e spiega perché gli esempi che seguono contengono molte diramazioni in poche righe.
 
 Un esempio della difficoltà posta dal benchmark è riportato nel
-Listato~\ref{lst:checkformulas}. I parametri si chiamano \texttt{arguments}, \texttt{formulaTuple} e \texttt{state}, e non ci sono annotazioni di tipo né documentazione. Dalla sola firma non si può dedurre che \texttt{formulaTuple} contenga tuple di lunghezza uno, due o tre. È quindi il modello a dover ricavare la struttura attesa degli argomenti dal corpo della funzione.
+Listato~\ref{lst:checkformulas}. I parametri si chiamano \texttt{arguments}, \texttt{formulaTuple} e \texttt{state}, e non ci sono annotazioni di tipo né documentazione. Dalla sola firma non si può dedurre che \texttt{formulaTuple} contenga tuple di lunghezza uno, due o tre. È quindi il modello a dover ricavare la struttura attesa degli argomenti dal corpo della funzione. è il caso concreto
+dei formati di input impliciti descritti nella Sezione~\ref{sec:testing}.
 
 \begin{lstlisting}[float=htbp,
                    caption={Il campione 84 del dataset, \texttt{checkFormulas}.},
@@ -139,7 +140,7 @@ L'assenza di spiegazioni e markdown rende l'output $T(m,f)$ un file Python diret
 
 Infine, la descrizione di come il modello $m$ dovrebbe portare a termine il compito viene riportata nella parte di \texttt{[format]}: per i modelli più piccoli vale la pena mostrare quella che dovrebbe essere la forma attesa rispetto ad una spiegazione in linguaggio naturale.
 
-\begin{lstlisting}[float=htbp, language=,
+\begin{lstlisting}[language=,
                    caption={Il template del prompt, identico per tutti i modelli
                             e tutti i campioni. I segnaposto \texttt{func\_name}
                             e \texttt{code} vengono sostituiti con il nome e il
@@ -169,54 +170,87 @@ def test_{func_name}_1():
 
 \section{Modelli e parametri}
 
-% Tre modelli della stessa famiglia \cite{llama3herd} di dimensione crescente
-% (1B, 3B, 8B), a parita' di prompt e parametri: temperatura 0 (generazione
-% deterministica, una sola esecuzione per campione) e limite di 1024 token in
-% uscita.
-%
-% ATTENZIONE: non scrivere che il limite di 1024 token basta sempre a chi
-% rispetta il vincolo sul numero di test. I dati lo smentiscono: fra i file
-% troncati ce ne sono con 3, 5, 6 e 7 funzioni di test, cioe' dentro il vincolo.
-% Il budget dipende anche da quanto sono verbosi i singoli test, non solo da
-% quanti sono. Il troncamento va quindi trattato come fenomeno a se'.
-%
-% Infrastruttura: esecuzione in locale con Ollama \cite{ollama} attraverso
-% un'interfaccia compatibile con la libreria openai. I pesi sono quelli
-% rilasciati da Meta, qui quantizzati a 4 bit: la quantizzazione riduce la
-% precisione numerica dei parametri e semmai penalizza il modello, non lo
-% favorisce. Va dichiarata.
-%
-% I primi 100 campioni dell'8B erano stati generati in precedenza su un servizio
-% remoto: quei dati sono archiviati e usati solo come confronto secondario fra
-% piena precisione e quantizzazione. Non fanno parte dello studio.
+I tre modelli linguistici utilizzati in questo lavoro fanno parte della famiglia Llama~\cite{llama3herd} e sono di dimensione crescente, rispettivamente da uno, tre e otto miliardi di parametri, corrispondenti all'identificativo \texttt{llama3.2:1b}, \texttt{llama3.2:3b} e \texttt{llama3.1:8b}. I primi due sono Llama 3.2 mentre il terzo fa parte di Llama 3.1: è stato necessario passare alla versione 3.1 in quanto 1b e 3b sono gli unici modelli esclusivamente testuali della versione 3.2.
+Questi modelli sono stati valutati a parità di prompt e parametri: la temperatura è stata fissata a 0. Questo significa, dalla definizione di temperatura, che il modello sceglie sempre il token più probabile. In questo modo la generazione diventa deterministica e si è scelto quindi di svolgere una singola esecuzione per ogni campione.
+Il limite dei token è stato posto pari a 1024 per l'output. Rispettare il vincolo sul numero di test non garantisce però di rientrare nel limite di token: alcuni file contengono correttamente 3, 5, 6, 7 funzioni di test ma sono comunque troncati perché i singoli test scritti potrebbero essere verbosi a tal punto da far esaurire il budget.
+
+L'esecuzione è stata fatta in locale tramite Ollama \cite{ollama} attraverso un'interfaccia compatibile con \texttt{openai}. I pesi dei singoli modelli sono quelli riportati da Meta, in questo caso quantizzati a 4 bit: La precisione numerica dei parametri viene ridotta per ridurre la memoria utilizzata, al prezzo di ridurre leggermente la qualità del modello. Questo risulta tuttalpiù un fattore penalizzante per il modello.
 
 
 \section{Classificazione degli esiti}
+Ad ogni file $T(m, f)$ generato dai modelli viene riportato un esito univoco secondo la classificazione della Figura~\ref{fig:albero}. Questo schema è definito a priori rispetto all'osservazione dei dati e costituisce l'impalcatura del capitolo che riguarda i risultati ottenuti: stabilisce quali campioni entrano nel calcolo di ciascuna metrica.
+
+
 \label{sec:albero}
-% Sezione nuova, ed e' la struttura portante dei capitoli 3 e 4.
-% Va accompagnata da una figura ad albero, qui vuota; il capitolo 4 la ripopola
-% con le percentuali.
-%
-% N campioni
-% |- test NON scritti .............. fallimento della pipeline (parte statica)
-% \- test SCRITTI
-%    |- sintatticamente non validi .. ast.parse fallisce (parte statica)
-%    \- sintatticamente validi
-%       |- non eseguibili ........... pytest non raccoglie test, import fallito
-%       |- timeout .................. oltre il limite di tempo
-%       |- falliti .................. almeno un test non passa
-%       \- passati .................. tutti i test passano
-%
-% Il confine fra parte statica e parte dinamica cade sotto "sintatticamente
-% validi": tutto cio' che sta sopra si stabilisce senza eseguire il codice.
-%
-% Ogni ramo si riporta in percentuale e separatamente per ogni modello.
-% Un ramo puo' risultare vuoto: va comunque riportato, perche' la classificazione
-% e' definita a priori e riportarla per intero e' cio' che la rende credibile.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  nodo/.style={draw, thin, rounded corners=2pt, align=center,
+               minimum height=1.1cm, inner xsep=4pt, inner ysep=4pt,
+               font=\small},
+  ramo/.style={thin}]
+
+  \node[nodo, text width=2.0cm] (a) at (0,-6.44)  {N campioni};
+
+  \node[nodo, text width=2.3cm] (b) at (3.1,-4.375) {test scritti};
+  \node[nodo, text width=2.3cm] (c) at (3.1,-8.5)   {test non scritti};
+
+  \node[nodo, text width=2.4cm] (d) at (6.3,-2.25)  {sintatticamente validi};
+  \node[nodo, text width=2.4cm] (e) at (6.3,-6.5)   {sintatticamente non validi};
+
+  \node[nodo, text width=2.4cm] (f) at (9.5,0)      {errore a runtime};
+  \node[nodo, text width=2.4cm] (g) at (9.5,-1.5)   {timeout};
+  \node[nodo, text width=2.4cm] (h) at (9.5,-3.0)   {falliti};
+  \node[nodo, text width=2.4cm] (i) at (9.5,-4.5)   {passati};
+
+  \draw[ramo] (a.east) -- ++(0.30,0) |- (b.west);
+  \draw[ramo] (a.east) -- ++(0.30,0) |- (c.west);
+
+  \draw[ramo] (b.east) -- ++(0.28,0) |- (d.west);
+  \draw[ramo] (b.east) -- ++(0.28,0) |- (e.west);
+
+  \draw[ramo] (d.east) -- ++(0.26,0) |- (f.west);
+  \draw[ramo] (d.east) -- ++(0.26,0) |- (g.west);
+  \draw[ramo] (d.east) -- ++(0.26,0) |- (h.west);
+  \draw[ramo] (d.east) -- ++(0.26,0) |- (i.west);
+    \draw[dashed, gray] (7.9,0.9) -- (7.9,-9.2);
+  \node[font=\scriptsize, anchor=south east] at (7.8,0.9) {statica};
+  \node[font=\scriptsize, anchor=south west] at (8.0,0.9) {dinamica};
+
+\end{tikzpicture}
+\caption{Classificazione degli esiti.}
+\label{fig:albero}
+\end{figure}
+
+Il confine fra parte statica e parte dinamica cade fra la terza e la quarta colonna: i rami che la precedono sono determinati senza eseguire il codice, mentre le quattro foglie richiedono l'esecuzione dei test. L'albero assegna una sola etichetta a ciascun file mentre le metriche sono riportate separatamente.
+
+La foglia \emph{errore a runtime} raccoglie i file che superano il controllo sintattico ma che pytest non riesce a eseguire: l'import della funzione fallisce, oppure non viene raccolta alcuna funzione di test. Questo secondo caso avviene quando il modello produce funzioni cui il nome che non inizia per \texttt{test}che è la convenzione con cui pytest individua i test da eseguire. In entrambi i casi, la suite non produce alcune esito e nessuna metrica è calcolabile.
+
+La foglia \emph{timeout} raccoglie invece le esecuzioni che non terminano entro il limite di tempo previsto di 60 secondi.
 
 
 \section{Esecuzione e misura}
 \label{sec:esecuzione}
+% ---------------------------------------------------------------------------
+% Testo spostato qui dal 2.5.7 su indicazione della relatrice: nel capitolo 2
+% resta solo la lacuna, le definizioni operative vanno sviluppate qui.
+%
+% Queste metriche non misurano il test ma il processo che lo produce. Sono tre:
+%
+% - Aderenza al formato: ovvero il rispetto dei vincoli espressi nel prompt:
+%   import, assenza di markdown, nessuna riscrittura della funzione sotto test.
+%
+% - Troncamento della risposta per esaurimento del budget di token: un file
+%   troncato puo' superare il controllo sintattico se il taglio cade a fine
+%   funzione: sembra sano ma e' incompleto. Ecco perche' va trattato come
+%   categoria a se' e non lasciato dentro "non eseguibile".
+%
+% - Tempo per generazione: valutabile solo a parita' di infrastruttura.
+%
+% Da espandere: qui serve dire anche COME si misurano (quali vincoli si
+% verificano sull'albero sintattico, finish_reason per il troncamento).
+% ---------------------------------------------------------------------------
 % Per ogni file di test generato:
 % 1. controllo sintattico con il parser AST, senza eseguire il codice;
 % 2. esecuzione con pytest \cite{pytest} in una cartella temporanea isolata e con

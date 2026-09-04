@@ -7,6 +7,7 @@
 \linespread{1.2}
 
 %Librerie utili
+\usepackage{url}
 \usepackage{listings}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -52,6 +53,7 @@
 \pgfplotsset{width=11cm,compat=1.9}
 \usepgfplotslibrary{external}
 %\tikzexternalize
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 
 \begin{document}
 \title{title}
@@ -88,6 +90,8 @@
 \end{titlepage}
 
 \tableofcontents
+
+\listoftodos
 
 \input{introduction}
 \input{state_of_the_art}
