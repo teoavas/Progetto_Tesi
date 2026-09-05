@@ -377,29 +377,3 @@ benchmark, una sola famiglia di modelli e una sola formulazione del prompt.
 Quest'ultimo punto merita attenzione: la formulazione del prompt incide sulla
 qualità dell'output~\cite{tony2025prompt}, e un template diverso potrebbe
 produrre risultati diversi.
-
-% Sezione nuova. Tre punti emersi durante il lavoro, tutti da dichiarare.
-%
-% 1. Codifica dei caratteri. Tre funzioni del dataset contengono caratteri non
-%    ASCII (giapponese in due casi, una freccia nel terzo). I modelli li
-%    riproducono nelle asserzioni, e la stampa della risposta sollevava
-%    UnicodeEncodeError sulla console di Windows, facendo fallire la
-%    generazione. Corretto forzando UTF-8. Senza la correzione quelle tre
-%    funzioni sarebbero state escluse dal confronto per una ragione che non
-%    riguarda i modelli: e' un esempio di come un dettaglio infrastrutturale
-%    possa falsare una misura.
-%
-% 2. Determinismo. Alcune funzioni del dataset usano numeri pseudocasuali o
-%    dipendono dall'ordine di iterazione, quindi l'esecuzione dei test non e'
-%    del tutto riproducibile: fra due esecuzioni successive le medie oscillano
-%    di circa due decimi di punto. I valori vanno riportati con una cifra
-%    decimale e non letti come esatti al decimo.
-%
-% 3. Quantizzazione. I modelli locali sono quantizzati a 4 bit. La quantizzazione
-%    tende a peggiorare leggermente le prestazioni, quindi i risultati vanno
-%    letti come una stima prudente e non ottimistica.
-%
-% 4. Generalizzabilita'. Cento funzioni di un solo benchmark, una sola famiglia
-%    di modelli, una sola formulazione del prompt. Il ruolo del prompt e' noto
-%    per essere rilevante \cite{tony2025prompt}: risultati diversi con un
-%    template diverso non sarebbero sorprendenti.
