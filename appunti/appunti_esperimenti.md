@@ -428,6 +428,20 @@ risultano quindi coperte.
 
 ### 11.5 Cosa manca
 
+**Da correggere prima di consolidare i risultati: il preambolo e' incompleto.**
+`misura.py` antepone alla funzione gli import di `re, math, os, sys, json,
+string, itertools, collections, functools, datetime, random, copy`, ma **manca
+`logging`**. Il campione 20 (`lflverify`) lo usa, e nei report dei tre modelli
+compaiono 26 occorrenze di `NameError: name 'logging' is not defined`: quei
+fallimenti sono attribuiti ai modelli senza dipendere da loro.
+
+Verifica sull'intero dataset: 11 campioni su 100 usano nomi non definiti nel
+proprio codice, e i moduli coinvolti sono `re`, `math`, `random`, `os`, `sys` e
+`logging`. Di questi solo `logging` non e' coperto dal preambolo, quindi
+aggiungerlo chiude tutti i casi noti. Dopo la modifica va rilanciato
+`misura.py` sui tre modelli e rigenerate le tabelle.
+
+
 Il mutation score e' l'unica metrica non ancora calcolata. Richiede suite che
 passino sul codice sano, quindi va calcolato restringendo ogni file ai soli test
 che passano: la base utile e' di 45 campioni sul 3B e 56 sull'8B, mentre sul 1B
