@@ -110,8 +110,12 @@ for sigla in (sys.argv[1:] or ["1b", "3b", "8b"]):
     print(f"    la funzione non si raggiunge{len(righe) - oracolo:4d}  "
           f"({100 * (len(righe) - oracolo) / len(righe):5.1f}%)   -> errore d'uso")
 
+# Il CSV viene riscritto per intero: lanciando lo script su un solo modello si
+# perderebbero le righe degli altri, quindi in quel caso si usa un nome diverso.
 if tutte:
-    uscita = QUI / "fallimenti.csv"
+    parziale = len(sys.argv) > 1
+    uscita = QUI / ("fallimenti_%s.csv" % "_".join(sys.argv[1:]) if parziale
+                    else "fallimenti.csv")
     with uscita.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["modello", "indice", "test",
                                           "categoria", "origine", "messaggio"])
