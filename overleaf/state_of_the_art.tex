@@ -96,8 +96,9 @@ Solo la lettura congiunta di queste misure è capace di restituire una panoramic
 
 
 \subsection{Correttezza ed eseguibilità}
+\label{sec:passa}
 In primis il test deve essere generato: un modello può fornire una risposta vuota o non rispondere affatto anche se il prompt fornito è lo stesso di quelli per cui ha risposto correttamente. Questo tipo di fallimento avviene quindi nella pipeline di generazione del test e va contato separatamente dalle altre metriche: queste infatti possono essere estratte solo alla fine del processo.
-In ordine segue poi la correttezza sintattica del test: questa può essere verificata con un parser AST ancor prima che il test venga eseguito. Poi il codice sintatticamente corretto ma che non arriva all'esecuzione per esempio a causa di import mancanti o incompleti. Infine la differenza tra test eseguiti che falliscono e test che invece passano.
+In ordine segue poi la correttezza sintattica del test: questa può essere verificata da un \emph{parser}, il componente che legge il sorgente e ne ricostruisce la struttura, senza che il test venga eseguito. Poi il codice sintatticamente corretto ma che non arriva all'esecuzione per esempio a causa di import mancanti o incompleti. Infine la differenza tra test eseguiti che falliscono e test che invece passano.
 
 La metrica che esprime la proporzione di test passati è chiamata Pass@k \cite{chen2021humaneval}: test corretti sintatticamente che arrivano a termine e le cui assert esprimono aspettative esatte sul comportamento della funzione. Questa qualità è valutata sul singolo test: è il numero di test validi per funzione diviso il numero di test richiesti ($K$). Il calcolo di Pass@k passa attraverso $C_i$, definito come il numero di test corretti generati per la i-esima funzione (dove $0 \leq C_i \leq K$). Se chiamiamo con $N$ il numero totale di funzioni in un benchmark, secondo la formulazione di Huang et al. \cite{huang2025ult} otteniamo: \begin{equation}
 Pass@k = \frac{\sum_{i=1}^{N} C_i}{N \times K}.

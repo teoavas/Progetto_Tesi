@@ -1,100 +1,668 @@
 \chapter{Esperimenti e risultati}
 \label{ch:risultati}
 
-% dataset (prendere 20 campioni, arrivare a 100 sarebbe l'ideale) https://github.com/huangd1999/UnLeakedTestBench/blob/main/datasets/ULT_Lite.jsonl
-
-% modelli da https://build.nvidia.com/models?filters=usecase%3Ausecase_code_gen (prendere llama 1, 3, 8 billion)
-% settare la temperatura a zero
-
-% dichiarato il template per il prompt
-% formattare il prompt
-% [instruction] write the unit test for this function. Output only the code, formatted as ....
-% [data] <sample del dataset>
+% ===========================================================================
+% AVVERTENZA SUI NUMERI RIPORTATI IN QUESTI COMMENTI
 %
-% output viene salvato in file separati
+% Tutti i valori qui annotati provengono dall'esecuzione locale definitiva,
+% successiva alla correzione del preambolo di misura.py (aggiunta dell'import
+% di "logging", che mancava). Corrispondono a statiche.csv, misure_*.csv e
+% fallimenti.csv nella cartella locale/, e alla sezione 11 di
+% appunti_esperimenti.md.
+%
+% Il capitolo 3 definisce COME si misura. Qui si riportano i risultati e li
+% si interpreta: evitare di ridefinire le metriche, rimandare con \ref.
+% ===========================================================================
 
-% metriche da misurare
-% - quanto sono in grado di coprire il codice effettivamente (coverage)
-% - possibile misura di quanto sono rieseguite le linee (contare quante volte viene eseguita la stessa linea)
-% - quante linee sono replicate (limitato ai file di test, per esempio con questo tool https://github.com/platisd/duplicate-code-detection-tool)
-% codice non eseguibile -> errori di python o simili OPPURE test falliti (sarebbe l'ideale distinguerli)
-% - eseguibile ma fallito
-% - non eseguibile
-
-% aggiunge ulteriore valore fare la valutazione "senza LLM", ovvero con AST + KLARA
-
-% si può mettere anche un esempio di generazione di test end-to-end e la spiegazione delle metriche fatta per via visiva
-
-
-% --- da qui: struttura da riempire con i risultati definitivi ---
 
 \section{Setup sperimentale}
-% Riepilogo compatto: 100 campioni di ULT_Lite \cite{huang2025ult}, tre modelli
-% \cite{llama3herd} di taglia 1B, 3B e 8B, temperatura 0, limite di 1024 token,
-% una funzione per richiesta, un file di output per coppia (modello, funzione).
-% Dichiarare l'infrastruttura di esecuzione e la quantizzazione.
+\label{sec:setup}
+% Riepilogo compatto, non una ripetizione del capitolo 3. Bastano pochi
+% periodi: 100 campioni di ULT_Lite \cite{huang2025ult}, tre modelli della
+% famiglia Llama \cite{llama3herd} da 1, 3 e 8 miliardi di parametri, prompt
+% fisso, temperatura 0, limite di 1024 token, una richiesta per funzione.
+% Esecuzione in locale con Ollama, pesi quantizzati a 4 bit.
+% Per il resto rimandare al Capitolo~\ref{ch:core}.
+%
+% Chiudere dichiarando la dimensione complessiva dell'esperimento: 300 file
+% di test generati, 2075 funzioni di test prodotte in totale
+% (709 + 699 + 667), 1778 test falliti analizzati.
 
 
-\section{Metriche misurate}
-% Definizione operativa di ciascuna metrica, con la formula quando serve:
-% - esito: non eseguibile / eseguibile ma fallito / passato;
-% - copertura di istruzioni sulla funzione sotto test, con i due denominatori
-%   (soli file eseguibili, oppure tutti i campioni);
-% - proporzione di test corretti sul totale dei test generati;
-% - riesecuzione delle righe: quante volte la stessa riga viene eseguita;
-% - duplicazione fra i file di test;
-% - aderenza al formato e tasso di troncamento.
+\section{Esiti della generazione e dell'esecuzione}
+\label{sec:esiti}
+% Qui si riempie l'albero della Sezione~\ref{sec:albero}. E' la sezione che
+% stabilisce le basi di calcolo di tutto il resto, quindi va per prima.
+%
+% NUMERI (su 100 campioni per modello):
+%                             1B    3B    8B
+%   test non scritti           0     0     0
+%   sintatticamente non validi 8     1     6
+%   errore a runtime           8     0     0
+%   timeout                    1     1     1
+%   falliti                   83    96    91
+%   passati                    0     2     2
+%
+% Osservazioni da sviluppare:
+%
+% 1. Il ramo dei non scritti e' VUOTO su tutti e tre. Da riportare come tale,
+%    spiegando che dipende dall'esecuzione locale e deterministica: su un
+%    servizio remoto la categoria non sarebbe vuota. Non presentarlo come un
+%    merito dei modelli.
+%
+% 2. Gli 8 errori a runtime del 1B contro 0 sugli altri due: e' il primo
+%    segnale del divario, e anticipa la sezione sull'aderenza al formato.
+%
+% 3. I timeout sono UN SOLO CAMPIONE, lo stesso su tutti e tre i modelli:
+%    l'indice 1, BinaryFromFraction. Non e' un fallimento dei modelli: quella
+%    funzione entra in ciclo infinito su input negativi, perche' controlla
+%    solo che numeratore e denominatore siano diversi da zero e non il segno.
+%    Il modello ha scelto un caso limite legittimo (numeratore negativo) e ha
+%    scoperto un difetto latente del benchmark. Vale la pena raccontarlo qui
+%    o nell'analisi dei fallimenti, ma raccontarlo.
+%
+% 4. I file interamente passati sono 0, 2 e 2. Usare questo dato UNA VOLTA
+%    per giustificare che le metriche di correttezza si calcolano sul singolo
+%    test, poi non tornarci sopra.
+%
+% FIGURA: l'albero della Sezione~\ref{sec:albero} ripopolato con le
+% percentuali, oppure una tabella con i sei rami in righe e i tre modelli in
+% colonne. La tabella e' piu' leggibile se i rami sono molti.
 
-
-\section{Risultati per modello}
-% Tabella principale: una riga per modello, colonne = metriche.
-% Grafici suggeriti:
-% - barre impilate degli esiti per modello;
-% - distribuzione della copertura (box plot) per modello;
-% - dispersione copertura contro proporzione di test corretti.
 
 \begin{table}[H]
 \centering
-\caption{Esiti dell'esecuzione dei test generati, per modello (100 campioni ciascuno).}
+\caption{Esito attribuito a ciascun campione, su cento campioni per modello.
+Le percentuali coincidono con i conteggi.}
 \label{tab:esiti}
-\begin{tabular}{lcccc}
+\begin{tabular}{lccc}
 \hline
-\textbf{Modello} & \textbf{Passati} & \textbf{Falliti} & \textbf{Non eseguibili} & \textbf{Copertura media} \\
+\textbf{Esito} & \textbf{1B} & \textbf{3B} & \textbf{8B} \\
 \hline
-Llama 3.2 1B & -- & -- & -- & -- \\
-Llama 3.2 3B & -- & -- & -- & -- \\
-Llama 3.1 8B & -- & -- & -- & -- \\
+Test non scritti            &  0 &  0 &  0 \\
+Sintatticamente non validi  &  8 &  1 &  6 \\
+Errore a runtime            &  8 &  0 &  0 \\
+Timeout                     &  1 &  1 &  1 \\
+Falliti                     & 83 & 96 & 91 \\
+Passati                     &  0 &  2 &  2 \\
+\hline
+\textbf{Arrivati all'esecuzione} & \textbf{83} & \textbf{98} & \textbf{93} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  nodo/.style={draw, thin, rounded corners=2pt, align=center,
+               minimum height=1.25cm, inner xsep=4pt, inner ysep=4pt,
+               font=\small},
+  ramo/.style={thin}]
+
+  \node[nodo, text width=2.0cm] (a) at (0,-6.44)
+        {100 campioni};
+
+  \node[nodo, text width=2.3cm] (b) at (3.1,-4.375)
+        {test scritti\\[2pt]\scriptsize 100 / 100 / 100};
+  \node[nodo, text width=2.3cm] (c) at (3.1,-8.5)
+        {test non scritti\\[2pt]\scriptsize 0 / 0 / 0};
+
+  \node[nodo, text width=2.4cm] (d) at (6.3,-2.25)
+        {sintatticamente validi\\[2pt]\scriptsize 92 / 99 / 94};
+  \node[nodo, text width=2.4cm] (e) at (6.3,-6.5)
+        {sintatticamente non validi\\[2pt]\scriptsize 8 / 1 / 6};
+
+  \node[nodo, text width=2.4cm] (f) at (9.5,0)
+        {errore a runtime\\[2pt]\scriptsize 8 / 0 / 0};
+  \node[nodo, text width=2.4cm] (g) at (9.5,-1.5)
+        {timeout\\[2pt]\scriptsize 1 / 1 / 1};
+  \node[nodo, text width=2.4cm] (h) at (9.5,-3.0)
+        {falliti\\[2pt]\scriptsize 83 / 96 / 91};
+  \node[nodo, text width=2.4cm] (i) at (9.5,-4.5)
+        {passati\\[2pt]\scriptsize 0 / 2 / 2};
+
+  \draw[ramo] (a.east) -- ++(0.30,0) |- (b.west);
+  \draw[ramo] (a.east) -- ++(0.30,0) |- (c.west);
+  \draw[ramo] (b.east) -- ++(0.28,0) |- (d.west);
+  \draw[ramo] (b.east) -- ++(0.28,0) |- (e.west);
+  \draw[ramo] (d.east) -- ++(0.26,0) |- (f.west);
+  \draw[ramo] (d.east) -- ++(0.26,0) |- (g.west);
+  \draw[ramo] (d.east) -- ++(0.26,0) |- (h.west);
+  \draw[ramo] (d.east) -- ++(0.26,0) |- (i.west);
+
+  \draw[dashed, gray] (7.9,0.9) -- (7.9,-9.2);
+  \node[font=\scriptsize, anchor=south east] at (7.8,0.9) {statica};
+  \node[font=\scriptsize, anchor=south west] at (8.0,0.9) {dinamica};
+
+\end{tikzpicture}
+\caption{Classificazione degli esiti con i valori misurati. In ciascun nodo i
+tre numeri indicano, nell'ordine, i modelli da 1, 3 e 8 miliardi di parametri.}
+\label{fig:albero-pieno}
+\end{figure}
+
+
+\section{Aderenza ai vincoli del prompt}
+\label{sec:ris-formato}
+% ATTENZIONE ALL'ORDINE: questa sezione va PRIMA di correttezza e copertura,
+% non dopo. Il comportamento del 1B sull'import spiega i suoi risultati in
+% tutte le sezioni successive: se il lettore lo scopre alla fine, ha gia'
+% interpretato male tutti i numeri precedenti.
+%
+% NUMERI (percentuali sui soli file sintatticamente validi):
+%                            1B      3B      8B
+%   import corretto        23,9%   100%    100%
+%   da 3 a 8 test          93,5%   100%    98,9%
+%   nomi conformi          95,7%   99,0%   100%
+%   un assert per test     89,1%   80,8%   97,9%
+%   un oracolo per test    98,9%   100%    100%
+%   TUTTI i vincoli        21,7%   79,8%   96,8%
+%   test per file (media)    7,6     7,1     7,2
+%
+% Osservazioni da sviluppare:
+%
+% 1. L'aderenza complessiva e' un gradiente pulito: 21,7 -> 79,8 -> 96,8.
+%    E' la riga da cui partire.
+%
+% 2. L'import e' una SOGLIA, non un gradiente. Il 1B lo rispetta nel 23,9%
+%    dei casi, il 3B e l'8B sempre. Fra uno e tre miliardi di parametri non
+%    c'e' miglioramento progressivo ma un salto. Ed e' anche il componente
+%    che determina da solo il totale del 1B: gli altri tre vincoli stanno
+%    sopra l'89%.
+%
+% 3. Il valore basso del 3B sull'assert (80,8%) NON indica test privi di
+%    verifica: sono blocchi pytest.raises. Sulla lettura larga il 3B fa 100%.
+%    Riportare entrambe le colonne e spiegare la differenza, altrimenti il 3B
+%    sembra peggiore del 1B su quel vincolo.
+%
+% 4. Tutti e tre scelgono sistematicamente l'estremo superiore del vincolo
+%    sul numero di test: su 278 file validi, 236 ne contengono 7 o 8.
+%    Praticamente nessuno ne scrive 3, 4 o 5, pur essendo ammesso.
+%
+% 5. Troncamento: 5%, 0%, 6%. NON segue la taglia del modello. E NON dire che
+%    dipende dallo scrivere troppi test: fra i file troncati ce ne sono con
+%    3, 5, 6 e 7 funzioni di test, cioe' dentro il vincolo.
+%
+% 6. Due violazioni del divieto di usare classi, entrambe sul 1B (campioni 32
+%    e 52). Troppo poche per una statistica: usarle come esempio.
+%
+% 7. Il vincolo sul markdown non e' misurabile (Sezione~\ref{sec:statiche}).
+%    Dichiararlo qui in una riga, non nasconderlo.
+%
+% TABELLA: i sette vincoli in righe, i tre modelli in colonne.
+
+
+\begin{table}[H]
+\centering
+\caption{Rispetto dei vincoli espressi nel prompt, in percentuale sui soli file
+sintatticamente validi. La riga \emph{tutti i vincoli} richiede il rispetto
+simultaneo dei primi quattro.}
+\label{tab:formato}
+\begin{tabular}{lccc}
+\hline
+\textbf{Vincolo} & \textbf{1B} & \textbf{3B} & \textbf{8B} \\
+\hline
+Import della funzione sotto test & 23,9 & 100,0 & 100,0 \\
+Da 3 a 8 funzioni di test        & 93,5 & 100,0 &  98,9 \\
+Nomi conformi allo schema        & 95,7 &  99,0 & 100,0 \\
+Almeno un assert per test        & 89,1 &  80,8 &  97,9 \\
+\hline
+\textbf{Tutti i vincoli}         & \textbf{21,7} & \textbf{79,8} & \textbf{96,8} \\
+\hline
+Almeno un oracolo per test       & 98,9 & 100,0 & 100,0 \\
+Risposte troncate                &  5,0 &   0,0 &   6,0 \\
+Test per file (media)            &  7,6 &   7,1 &   7,2 \\
 \hline
 \end{tabular}
 \end{table}
 
 
-\section{Copertura e correttezza}
-% Il risultato piu' rilevante emerso finora: la copertura resta alta mentre la
-% proporzione di test corretti e' bassa. Il modello sceglie input plausibili e
-% li fa arrivare al codice, ma sbaglia il valore atteso nell'assert.
-% Osservazione importante: la copertura e' alta anche grazie ai test che
-% falliscono, perche' un assert sbagliato esegue comunque la funzione prima di
-% fallire. Le due metriche vanno lette insieme.
-% Collegare a \cite{inozemtseva2014coverage}: la copertura da sola non basta.
+\section{Correttezza}
+\label{sec:ris-correttezza}
+% NUMERI:
+%                            1B          3B          8B
+%   Pass@1                  4,2%       17,2%       22,0%
+%   test corretti/generati  30/709     120/699     147/667
+%
+% Osservazioni:
+%
+% 1. Il gradiente c'e' ma resta basso in assoluto: anche il modello migliore
+%    sbaglia quasi quattro test su cinque.
+%
+% 2. Il 4,2% del 1B non e' incapacita' di scrivere test: e' l'import. Su 76
+%    file su 100 i test sollevano NameError e non possono passare per
+%    costruzione. Rimandare alla Sezione~\ref{sec:ris-formato}.
+%
+% 3. Il numero di test generati e' quasi identico fra i tre modelli
+%    (709, 699, 667): il confronto sul Pass@1 non e' falsato da suite di
+%    dimensioni diverse.
 
 
-\section{Aderenza al formato e troncamento}
-% Quanto i modelli rispettano i vincoli del prompt, e cosa succede quando non lo
-% fanno: la violazione del vincolo sul numero di test porta all'esaurimento del
-% budget di token e quindi a file troncati, che risultano non eseguibili.
-% Notare che un file troncato puo' superare il controllo sintattico se il taglio
-% cade a fine funzione: sembra sano ma e' incompleto.
+\begin{table}[H]
+\centering
+\caption{Correttezza dei test generati. Il Pass@1 è calcolato sul singolo test.}
+\label{tab:correttezza}
+\begin{tabular}{lccc}
+\hline
+ & \textbf{1B} & \textbf{3B} & \textbf{8B} \\
+\hline
+Test generati        & 709 & 699 & 667 \\
+Test corretti        &  30 & 120 & 147 \\
+\textbf{Pass@1}      & \textbf{4,2\%} & \textbf{17,2\%} & \textbf{22,0\%} \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Copertura}
+\label{sec:ris-copertura}
+% NUMERI, copertura di riga per base di calcolo:
+%                                     1B      3B      8B
+%   tutti i campioni                12,2%   68,4%   71,1%
+%   soli campioni eseguibili        14,8%   69,8%   76,5%
+%   soli campioni con import ok     61,2%   69,8%   76,5%
+%
+% Copertura di ramo, sui campioni eseguibili: 11,2% / 59,1% / 66,5%
+%
+% Osservazioni:
+%
+% 1. Il crollo del 1B e' INTERAMENTE l'import. Sui venti campioni in cui ha
+%    importato la funzione copre il 61,2%, non lontanissimo dal 3B. Senza
+%    l'import la funzione non viene mai chiamata: la copertura e' zero non
+%    perche' i test siano scadenti, ma perche' non arrivano al codice.
+%    E' il punto in cui l'ordine delle sezioni paga.
+%
+% 2. Sul 3B e sull'8B le basi "eseguibili" e "import ok" coincidono, perche'
+%    l'import e' sempre corretto. Notarlo esplicitamente.
+%
+% 3. La copertura di ramo sta sistematicamente una decina di punti sotto
+%    quella di riga, come atteso su funzioni con complessita' ciclomatica
+%    non inferiore a dieci (Sezione~\ref{sec:bench}).
+%
+% 4. Qui va aperta la tensione con la sezione precedente: 76,5% di copertura
+%    contro 21,6% di test corretti sull'8B. Il modello raggiunge il codice e
+%    sbaglia il valore atteso. Ma NON chiudere qui il discorso: la sezione
+%    successiva lo risolve.
+
+
+\begin{table}[H]
+\centering
+\caption{Copertura media secondo la base di calcolo adottata. Fra parentesi il
+numero di campioni su cui la media è effettuata.}
+\label{tab:copertura}
+\begin{tabular}{lccc}
+\hline
+\textbf{Base di calcolo} & \textbf{1B} & \textbf{3B} & \textbf{8B} \\
+\hline
+\multicolumn{4}{l}{\emph{copertura di riga}} \\
+Tutti i campioni                & 12,2 (100) & 68,4 (100) & 71,1 (100) \\
+Arrivati all'esecuzione         & 14,8 \ (83) & 69,8 \ (98) & 76,5 \ (93) \\
+Con import corretto             & 61,2 \ (20) & 69,8 \ (98) & 76,5 \ (93) \\
+\hline
+\multicolumn{4}{l}{\emph{copertura di ramo}} \\
+Arrivati all'esecuzione         & 11,2 \ (83) & 59,1 \ (98) & 66,5 \ (93) \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Copertura eseguita e copertura verificata}
+\label{sec:ris-verificata}
+% E' IL RISULTATO PRINCIPALE DEL CAPITOLO. Merita una sezione propria e non
+% un paragrafo dentro la copertura.
+%
+% NUMERI, medie sui campioni con almeno un test passato (8, 45 e 57):
+%                        1B      3B      8B
+%   righe eseguite     58,9%   73,4%   77,3%
+%   righe verificate   48,3%   57,8%   58,2%
+%   differenza          10,6    15,5    19,1
+%   rami eseguiti      46,4%   64,1%   67,2%
+%   rami verificati    29,1%   44,6%   44,8%
+%   differenza          17,4    19,5    22,4
+%
+% CONFRONTO A PARITA' DI CAMPIONI (i 31 in cui sia 3B sia 8B hanno almeno un
+% test passato):
+%                        3B      8B
+%   righe eseguite     73,3%   75,9%
+%   righe verificate   58,4%   58,2%
+%   rami eseguiti      63,3%   67,3%
+%   rami verificati    45,7%   46,0%
+%   test passati       91/219  88/217
+%
+% Osservazioni:
+%
+% 1. La differenza fra eseguita e verificata e' la quota di copertura
+%    prodotta da test che sbagliano. Sull'8B sono quasi venti punti sulle
+%    righe e ventidue sui rami.
+%
+% 2. Il divario e' PIU' AMPIO SUI RAMI che sulle righe, su tutti e tre i
+%    modelli. Interpretazione: i test corretti coprono il cammino principale,
+%    quelli sbagliati si spingono sui rami secondari e li attraversano senza
+%    verificarli.
+%
+% 3. IL PUNTO PIU' FORTE: a parita' di campioni, il vantaggio dell'8B sul 3B
+%    e' di 2,6 punti sulla copertura eseguita e 4,0 sui rami, ma sulla
+%    copertura VERIFICATA i due modelli sono indistinguibili: 58,4% contro
+%    58,2% sulle righe, 45,7% contro 46,0% sui rami. Il 3B fa passare persino
+%    qualche test in piu' (91 su 219 contro 88 su 217).
+%    Le differenze residue sono entro l'oscillazione fra esecuzioni, quindi la
+%    lettura corretta e' che i due modelli VERIFICANO LA STESSA QUANTITA' di
+%    codice, non che uno superi l'altro.
+%    Conseguenza: la copertura da sola non ordina i modelli.
+%
+% 4. Collegare esplicitamente a Inozemtseva e Holmes
+%    \cite{inozemtseva2014coverage} e alla Sezione~\ref{sec:limiti}: qui
+%    l'argomento teorico del capitolo 2 diventa una misura sui propri dati.
+%
+% FIGURA UTILE: barre appaiate eseguita/verificata per i tre modelli, righe e
+% rami. E' la figura piu' importante del capitolo.
+
+
+\begin{table}[H]
+\centering
+\caption{Copertura eseguita e copertura verificata, mediate sui campioni con
+almeno un test corretto (8, 45 e 57 rispettivamente). La differenza è la quota
+di copertura prodotta da test che falliscono.}
+\label{tab:verificata}
+\begin{tabular}{lccc}
+\hline
+ & \textbf{1B} & \textbf{3B} & \textbf{8B} \\
+\hline
+Righe eseguite    & 58,9 & 73,4 & 77,3 \\
+Righe verificate  & 48,3 & 57,8 & 58,2 \\
+\textbf{Differenza} & \textbf{10,6} & \textbf{15,5} & \textbf{19,1} \\
+\hline
+Rami eseguiti     & 46,4 & 64,1 & 67,2 \\
+Rami verificati   & 29,1 & 44,6 & 44,8 \\
+\textbf{Differenza} & \textbf{17,4} & \textbf{19,5} & \textbf{22,4} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[y=0.06cm]
+
+  \draw[thin] (-0.4,0) -- (-0.4,100);
+  \foreach \y in {0,20,40,60,80,100}
+    \draw[thin] (-0.5,\y) -- (-0.4,\y) node[left, font=\scriptsize, xshift=-2pt] {\y\%};
+  \draw[thin, gray!40] (-0.4,100) -- (7.7,100);
+
+  \foreach \x/\ese/\ver/\nome in {0/58.9/48.3/1B, 2.9/73.4/57.8/3B, 5.8/77.3/58.2/8B} {
+    \fill[black!20] (\x,0) rectangle (\x+0.8,\ese);
+    \draw[thin]     (\x,0) rectangle (\x+0.8,\ese);
+    \node[font=\scriptsize, above] at (\x+0.4,\ese) {\ese};
+    \draw[thin, fill=white] (\x+0.9,0) rectangle (\x+1.7,\ver);
+    \node[font=\scriptsize, above] at (\x+1.3,\ver) {\ver};
+    \node[font=\small, below] at (\x+0.85,0) {\nome};
+  }
+
+  \draw[thin] (-0.4,0) -- (7.7,0);
+
+  \fill[black!20] (0,-22) rectangle (0.5,-16);
+  \draw[thin]     (0,-22) rectangle (0.5,-16);
+  \node[font=\scriptsize, anchor=west] at (0.65,-19) {copertura eseguita};
+  \draw[thin, fill=white] (3.4,-22) rectangle (3.9,-16);
+  \node[font=\scriptsize, anchor=west] at (4.05,-19) {copertura verificata};
+
+\end{tikzpicture}
+\caption{Copertura di riga eseguita e verificata per i tre modelli. La porzione
+non verificata è prodotta da test che raggiungono il codice senza accertarne il
+comportamento.}
+\label{fig:verificata}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Confronto fra i modelli da 3 e da 8 miliardi di parametri sui 31
+campioni in cui entrambi producono almeno un test corretto. Il vantaggio
+sull'esecuzione non si traduce in un vantaggio sulla verifica.}
+\label{tab:parita}
+\begin{tabular}{lcc}
+\hline
+ & \textbf{3B} & \textbf{8B} \\
+\hline
+Righe eseguite    & 73,3 & 75,9 \\
+Righe verificate  & 58,4 & 58,2 \\
+Rami eseguiti     & 63,3 & 67,3 \\
+Rami verificati   & 45,7 & 46,0 \\
+\hline
+Test corretti     & 91 su 219 & 88 su 217 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Duplicazione}
+\label{sec:ris-duplicazione}
+% NUMERI:
+%                                              1B      3B      8B
+%   tutte le righe, campioni eseguibili      13,6%    3,7%   25,3%
+%   soli test passati, campioni con >=1       9,4%    0,2%    9,4%
+%   file sopra il 20% di duplicazione        --      5/98   54/93
+%
+% Osservazioni:
+%
+% 1. L'8B e' il piu' ridondante di tutti, e non di poco: 54 file su 93 sopra
+%    il 20%, contro 5 su 98 del 3B. E' un risultato controintuitivo e va
+%    riportato come tale.
+%
+% 2. Il meccanismo e' la ripetizione della preparazione in ogni test. Nel
+%    campione 27 le righe "match = [0, 1, 2]", "i = 1", "m = 10" compaiono
+%    otto volte identiche, una per funzione di test. E' il Test Code
+%    Duplication del catalogo di van Deursen
+%    \cite{vandeursen2001testsmells}: una fixture lo eliminerebbe.
+%
+% 3. CAUTELA OBBLIGATORIA: il 3,7% del 3B non e' un merito. Duplica poco
+%    perche' scrive test piu' scarni, spesso un solo assert senza
+%    preparazione. La duplicazione non ordina i modelli da sola.
+%
+% 4. Ricordare che la duplicazione e' il correttivo del Pass@1
+%    (Sezione~\ref{sec:duplicazione}): un modello che ripete la stessa
+%    verifica riuscita ne trae un punteggio piu' alto.
+
+
+\begin{table}[H]
+\centering
+\caption{Duplicazione fra le righe di test, in percentuale. La terza riga
+riporta la duplicazione complessiva calcolata sugli stessi campioni della
+seconda, per rendere i due valori confrontabili.}
+\label{tab:duplicazione}
+\begin{tabular}{lccc}
+\hline
+\textbf{Base di calcolo} & \textbf{1B} & \textbf{3B} & \textbf{8B} \\
+\hline
+Tutte le righe, campioni eseguibili     & 13,6 & 3,7 & 25,3 \\
+Solo test corretti                      &  9,4 & 0,2 &  9,4 \\
+Tutte le righe, stessi campioni         &  6,6 & 2,7 & 17,5 \\
+\hline
+File con duplicazione oltre il 20\%     & --- & 5 su 98 & 54 su 93 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Analisi dei fallimenti}
+\label{sec:ris-fallimenti}
+% E' il terzo punto esplicito della richiesta della relatrice, ed e' il
+% risultato che spiega tutti gli altri.
+%
+% NUMERI (1778 test falliti analizzati: 679, 579, 520):
+%                                        1B      3B      8B
+%   AssertionError                     21,9%   71,0%   83,1%
+%   NameError                          72,2%    8,6%    4,0%
+%   TypeError                           4,7%    9,7%    2,9%
+%   ---
+%   la funzione viene eseguita         25,2%   88,4%   94,2%   (errore di oracolo)
+%   la funzione non si raggiunge       74,8%   11,6%    5,8%   (errore d'uso)
+%
+% Osservazioni:
+%
+% 1. LA FRASE DA SCRIVERE: crescendo, il modello non fallisce di meno,
+%    fallisce in modo diverso. Il 1B sbaglia a livello meccanico e non tocca
+%    la funzione in tre casi su quattro; il 3B e l'8B seguono le istruzioni e
+%    vanno a sbattere contro l'ostacolo successivo, che e' l'oracolo.
+%
+% 2. E' la verifica empirica della distinzione fra raggiungere il codice e
+%    sapere cosa debba restituire (Sezione~\ref{sec:classici}). Dirlo
+%    esplicitamente: e' il momento in cui il capitolo 2 e il capitolo 4 si
+%    chiudono l'uno sull'altro.
+%
+% 3. Spiega anche perche' la copertura resta alta mentre la correttezza
+%    crolla: nel 94,2% dei fallimenti dell'8B la funzione viene comunque
+%    eseguita, quindi le sue righe risultano coperte.
+%
+% ESEMPI CONCRETI DA USARE (uno o due, non tutti):
+% - campione 66: il modello passa coordinate esterne alla matrice e la
+%   funzione solleva un'eccezione esplicita. Il test raggiunge il codice, ma
+%   sbaglia l'aspettativa su quali input siano accettati.
+% - campione 1 (BinaryFromFraction): input negativo, ciclo infinito. Il
+%   modello scopre un difetto latente del benchmark.
+% - campione 16 del 1B: contiene un solo test seguito dalla riga
+%   "test_next_holiday_2.py", cioe' un nome di file scritto come codice.
+% - campione 95 del 1B: 25 funzioni di test, nomi fuori schema.
+%
+% FIGURA: barre impilate delle due famiglie (oracolo / uso) per modello.
+% Bastano sei barre e si legge in un secondo.
+
+
+\begin{table}[H]
+\centering
+\caption{Cause dei test falliti, in percentuale sul totale dei fallimenti di
+ciascun modello. Le ultime due righe raggruppano le cause secondo che la
+funzione sotto test sia stata eseguita oppure no.}
+\label{tab:fallimenti}
+\begin{tabular}{lccc}
+\hline
+\textbf{Causa} & \textbf{1B} & \textbf{3B} & \textbf{8B} \\
+\hline
+Test falliti analizzati & 679 & 579 & 520 \\
+\hline
+\texttt{AssertionError} & 21,9 & 71,0 & 83,1 \\
+\texttt{NameError}      & 72,2 &  8,6 &  4,0 \\
+\texttt{TypeError}      &  4,7 &  9,7 &  2,9 \\
+Altre cause             &  1,2 & 10,7 & 10,0 \\
+\hline
+\textbf{Errore di oracolo} & \textbf{25,2} & \textbf{88,4} & \textbf{94,2} \\
+\textbf{Errore d'uso}      & \textbf{74,8} & \textbf{11,6} & \textbf{\ 5,8} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[y=0.05cm]
+
+  \foreach \x/\ora/\nome in {0/25.2/1B, 2.6/88.4/3B, 5.2/94.2/8B} {
+    \fill[black!20] (\x,0) rectangle (\x+1.4,\ora);
+    \draw[thin]     (\x,0) rectangle (\x+1.4,\ora);
+    \draw[thin, fill=white] (\x,\ora) rectangle (\x+1.4,100);
+    \node[font=\scriptsize] at (\x+0.7,{\ora/2}) {\ora\%};
+    \node[font=\small, below] at (\x+0.7,0) {\nome};
+  }
+
+  \fill[black!20] (7.2,74) rectangle (7.7,80);
+  \draw[thin]     (7.2,74) rectangle (7.7,80);
+  \node[font=\scriptsize, anchor=west] at (7.85,77) {errore di oracolo};
+  \draw[thin, fill=white] (7.2,60) rectangle (7.7,66);
+  \node[font=\scriptsize, anchor=west] at (7.85,63) {errore d'uso};
+
+\end{tikzpicture}
+\caption{Composizione dei fallimenti per modello. La porzione inferiore indica
+i test che eseguono la funzione sbagliandone l'aspettativa, quella superiore i
+test che non arrivano a esercitarla.}
+\label{fig:fallimenti}
+\end{figure}
 
 
 \section{Esempio end-to-end}
-% Una funzione del dataset, il prompt costruito, il test generato dai tre
-% modelli e le metriche corrispondenti, per mostrare concretamente cosa
-% significa ciascuna misura.
+\label{sec:ris-esempio}
+% Serve a rendere concreto tutto quanto precede. Struttura:
+% 1. una funzione del dataset (sceglierne una breve e comprensibile);
+% 2. il prompt costruito a partire da essa, rimandando al
+%    Listato~\ref{lst:prompt} per il template;
+% 3. il file di test prodotto dai tre modelli, affiancati o in sequenza;
+% 4. le misure corrispondenti: esito, Pass@1, copertura eseguita e
+%    verificata, duplicazione, categoria dei fallimenti.
+%
+% CRITERIO DI SCELTA della funzione: deve essere corta (venti righe al
+% massimo, per stare in pagina), avere esiti diversi fra i tre modelli, e
+% preferibilmente essere una di quelle gia' mostrate nel capitolo 3, cosi'
+% il lettore la riconosce.
+% Candidata naturale: is_degree_in_degree_range (campione 0), gia' nel
+% Listato~\ref{lst:degree}. Sul 1B l'import manca, sul 3B e sull'8B no:
+% il contrasto e' visibile a occhio nudo.
+%
+% Non riportare i tre file per intero se sono lunghi: bastano le prime tre
+% funzioni di test di ciascuno.
 
 
 \section{Confronto con i risultati pubblicati}
-% \cite{huang2025ult} riporta, come media su 12 modelli di dimensioni maggiori e
-% in gran parte specializzati sul codice, Pass@1 del 41,32% e copertura di riga
-% del 45,10%. Discutere la coerenza dei risultati ottenuti e le differenze di
-% protocollo che rendono i numeri non direttamente confrontabili.
+\label{sec:ris-confronto}
+% DUE CONFRONTI, non uno.
+%
+% A) Con ULT \cite{huang2025ult}. Loro riportano, come media su 12 modelli di
+%    dimensioni maggiori e in gran parte specializzati sul codice, Pass@1 del
+%    41,32% e copertura di riga del 45,10%.
+%    - Il tuo 22,0% di Pass@1 sull'8B e' circa la meta': coerente, trattandosi
+%      di un modello generalista molto piu' piccolo.
+%    - La tua copertura e' invece PIU' ALTA (76,5% contro 45,10%), e va
+%      spiegato perche', altrimenti sembra un risultato migliore: tu conti
+%      anche l'esecuzione prodotta dai test che falliscono, e le funzioni
+%      sono i primi 100 campioni di ULT_Lite anziche' l'intero benchmark.
+%      Questo e' anche il punto in cui la copertura verificata (58,2%) offre
+%      un termine di paragone piu' onesto.
+%    - Dichiarare che i numeri non sono direttamente confrontabili e perche'.
+%
+% B) Con l'esecuzione archiviata su NVIDIA. Stesso modello da 8 miliardi di
+%    parametri, stesso prompt, stessi campioni, ma a piena precisione e su
+%    infrastruttura remota: 77,4% di copertura e 23,4% di test corretti,
+%    contro 76,5% e 22,0% in locale con pesi quantizzati a 4 bit.
+%    E' una replica: il fenomeno non dipende dall'infrastruttura ne' dalla
+%    quantizzazione. Vale la pena rivendicarlo, e' un argomento di robustezza
+%    che pochi lavori di tesi possono portare.
+
+
+\begin{table}[H]
+\centering
+\caption{Confronto con i valori riportati da Huang et al.~\cite{huang2025ult},
+mediati su dodici modelli di dimensioni maggiori e in larga parte specializzati
+sul codice, e con l'esecuzione archiviata a piena precisione su infrastruttura
+remota. I protocolli non sono direttamente confrontabili: si vedano le
+avvertenze nel testo.}
+\label{tab:confronto}
+\begin{tabular}{lcc}
+\hline
+ & \textbf{Pass@1} & \textbf{Copertura di riga} \\
+\hline
+ULT, media su 12 modelli \cite{huang2025ult} & 41,3 & 45,1 \\
+\hline
+Questo lavoro, 8B in locale (4 bit) & 22,0 & 76,5 \\
+\quad di cui verificata             & ---  & 58,2 \\
+Questo lavoro, 8B remoto (piena precisione) & 23,4 & 77,4 \\
+\hline
+Questo lavoro, 3B in locale & 17,2 & 69,8 \\
+Questo lavoro, 1B in locale &  4,2 & 14,8 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Sintesi dei risultati}
+\label{sec:ris-sintesi}
+% Sezione breve, mezza pagina, che raccoglie il capitolo e risponde alle due
+% lacune dichiarate nella Sezione~\ref{sec:posizionamento}.
+%
+% Prima lacuna, i modelli piccoli poco esplorati: ora si hanno i numeri, e
+% mostrano che il salto rilevante non e' fra 3 e 8 miliardi di parametri ma
+% fra 1 e 3, ed e' un salto di obbedienza alle istruzioni prima che di
+% capacita'.
+%
+% Seconda lacuna, le dimensioni non misurate dai benchmark: la distinzione
+% fra copertura eseguita e verificata e la categorizzazione dei fallimenti
+% hanno prodotto due risultati che le metriche classiche, da sole, non
+% avrebbero mostrato.
+%
+% Chiudere sul limite: nessuno dei tre modelli e' utilizzabile cosi' com'e'
+% per generare test affidabili. Il migliore sbaglia il valore atteso in
+% quattro test su cinque. La copertura elevata non deve trarre in inganno,
+% ed e' esattamente cio' che il titolo della tesi mette in discussione.

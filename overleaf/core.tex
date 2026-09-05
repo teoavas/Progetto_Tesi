@@ -174,7 +174,7 @@ I tre modelli linguistici utilizzati in questo lavoro fanno parte della famiglia
 Questi modelli sono stati valutati a parità di prompt e parametri: la temperatura è stata fissata a 0. Questo significa, dalla definizione di temperatura, che il modello sceglie sempre il token più probabile. In questo modo la generazione diventa deterministica e si è scelto quindi di svolgere una singola esecuzione per ogni campione.
 Il limite dei token è stato posto pari a 1024 per l'output. Rispettare il vincolo sul numero di test non garantisce però di rientrare nel limite di token: alcuni file contengono correttamente 3, 5, 6, 7 funzioni di test ma sono comunque troncati perché i singoli test scritti potrebbero essere verbosi a tal punto da far esaurire il budget.
 
-L'esecuzione è stata fatta in locale tramite Ollama \cite{ollama} attraverso un'interfaccia compatibile con \texttt{openai}. I pesi dei singoli modelli sono quelli riportati da Meta, in questo caso quantizzati a 4 bit: La precisione numerica dei parametri viene ridotta per ridurre la memoria utilizzata, al prezzo di ridurre leggermente la qualità del modello. Questo risulta tuttalpiù un fattore penalizzante per il modello.
+L'esecuzione è stata fatta in locale tramite Ollama \cite{ollama} attraverso un'interfaccia compatibile con \texttt{openai}. I pesi dei singoli modelli sono quelli riportati da Meta, in questo caso quantizzati a 4 bit: La precisione numerica dei parametri viene ridotta per contenere la memoria utilizzata, al prezzo di ridurre leggermente la qualità del modello. Questo risulta tuttalpiù un fattore penalizzante per il modello.
 
 
 \section{Classificazione degli esiti}
@@ -232,93 +232,153 @@ La foglia \emph{timeout} raccoglie invece le esecuzioni che non terminano entro 
 
 \section{Esecuzione e misura}
 \label{sec:esecuzione}
-% ---------------------------------------------------------------------------
-% Testo spostato qui dal 2.5.7 su indicazione della relatrice: nel capitolo 2
-% resta solo la lacuna, le definizioni operative vanno sviluppate qui.
-%
-% Queste metriche non misurano il test ma il processo che lo produce. Sono tre:
-%
-% - Aderenza al formato: ovvero il rispetto dei vincoli espressi nel prompt:
-%   import, assenza di markdown, nessuna riscrittura della funzione sotto test.
-%
-% - Troncamento della risposta per esaurimento del budget di token: un file
-%   troncato puo' superare il controllo sintattico se il taglio cade a fine
-%   funzione: sembra sano ma e' incompleto. Ecco perche' va trattato come
-%   categoria a se' e non lasciato dentro "non eseguibile".
-%
-% - Tempo per generazione: valutabile solo a parita' di infrastruttura.
-%
-% Da espandere: qui serve dire anche COME si misurano (quali vincoli si
-% verificano sull'albero sintattico, finish_reason per il troncamento).
-% ---------------------------------------------------------------------------
-% Per ogni file di test generato:
-% 1. controllo sintattico con il parser AST, senza eseguire il codice;
-% 2. esecuzione con pytest \cite{pytest} in una cartella temporanea isolata e con
-%    limite di tempo, accanto al file contenente la funzione sotto test;
-% 3. calcolo della copertura con coverage.py \cite{coveragepy} sulla sola
-%    funzione sotto test, di riga e di ramo.
-%
-% L'output integrale di pytest viene conservato per ogni campione: e' la base
-% dell'analisi dei fallimenti descritta piu' avanti.
-%
-% --- misure statiche ---
-% Verificate sull'albero sintattico, senza eseguire nulla: validita' sintattica,
-% numero di funzioni di test, e i cinque vincoli del prompt controllabili
-% (import corretto, numero di test nel range, nomi conformi, un assert per test,
-% assenza di classi). Va aggiunta la variante che accetta come oracolo anche i
-% blocchi pytest.raises: alla lettera violano il vincolo sull'assert, ma un
-% oracolo ce l'hanno, e le due letture misurano cose diverse.
-%
-% --- correttezza ---
-% Pass@1 definito sul SINGOLO test e non sul file, coerentemente con
-% \cite{huang2025ult}: proporzione di funzioni di test che passano sul totale
-% generato. La ragione e' anche pratica e va detta: i file in cui tutti i test
-% passano sono pochissimi, e una metrica definita su quella base non avrebbe
-% campioni sufficienti.
-%
-% --- copertura: eseguita contro verificata ---
-% E' il punto metodologicamente piu' rilevante del capitolo.
-% La copertura si calcola due volte:
-% - con tutti i test del file: dice quanto codice viene ESEGUITO. Include
-%   l'esecuzione prodotta dai test che falliscono, perche' un assert sbagliato
-%   esegue comunque la funzione prima di sollevare l'errore;
-% - con i soli test che passano, deselezionando i falliti e rieseguendo: dice
-%   quanto codice viene davvero VERIFICATO da un'asserzione corretta.
-% La differenza fra le due misura quanto la copertura sopravvaluta cio' che i
-% test garantiscono. E' la forma operativa dell'argomento di Inozemtseva e
-% Holmes \cite{inozemtseva2014coverage} discusso nella Sezione~\ref{sec:limiti}.
-%
-% Dichiarare sempre il denominatore delle medie: tutti i campioni, i soli
-% eseguibili, oppure i soli campioni che hanno importato la funzione. La terza
-% base serve a separare l'incapacita' di scrivere test dal non aver seguito
-% l'istruzione sull'import.
-%
-% --- duplicazione ---
-% Definizione operativa: quota di righe ripetute sul totale delle righe di test,
-% ignorando righe vuote e commenti; una riga presente n volte contribuisce n-1
-% ripetizioni. In percentuale, per essere indipendente dalla lunghezza della
-% suite. Calcolata su due basi: tutte le righe di test, e le sole righe dei test
-% che passano.
-%
-% --- analisi dei fallimenti ---
-% Dai report di pytest si estrae, per ogni test fallito, il tipo di eccezione e
-% il file in cui e' stata sollevata. Da qui le due famiglie:
-% - errore di oracolo: il test esegue la funzione ma sbaglia l'aspettativa
-%   (assert fallito, eccezione attesa e non arrivata, oppure eccezione sollevata
-%   dentro la funzione perche' l'input non e' accettato);
-% - errore d'uso: il test non arriva a esercitare la funzione.
-% E' la traduzione empirica della distinzione fra raggiungere il codice e sapere
-% cosa deve restituire, introdotta nella Sezione~\ref{sec:classici}.
-%
-% --- nota implementativa ---
-% Il campo con il codice del dataset non include gli import necessari alla
-% funzione, che vanno anteposti ed esclusi dal calcolo della copertura tramite
-% "pragma: no cover". Senza questa correzione alcune funzioni sollevano NameError
-% e i test risultano falliti per un motivo estraneo al modello.
 
+\subsection{Procedura di esecuzione}
+\label{sec:procedura}
+Per ognuno dei file di test $T(m,f)$ viene effettuata la medesima procedura,
+identica per tutti i modelli e tutti i campioni.
+
+Il primo passaggio è il controllo sintattico: il file viene passato al parser,
+che ne costruisce l'albero sintattico senza eseguire alcuna istruzione. Se la
+costruzione fallisce il file risulta non valido e la procedura si interrompe.
+
+I file che superano il controllo vengono copiati in una cartella temporanea. In
+questa sono presenti due file complementari: il primo contiene la funzione $f$
+sotto test, mentre l'altro contiene i test generati relativi ad essa.
+L'esecuzione avviene tramite pytest~\cite{pytest}, con un limite di sessanta
+secondi per l'esecuzione. Superato il limite il file viene classificato come
+timeout. Contemporaneamente viene misurata la copertura tramite
+coverage.py~\cite{coveragepy}, limitata alla sola funzione sotto test.
+
+Ogni campione viene eseguito in una cartella propria perché i test generati
+possono lasciare tracce: un file scritto su disco, un modulo caricato in memoria,
+una variabile globale modificata. Senza isolamento l'esito di un campione
+dipenderebbe da quelli eseguiti prima.
+
+Il campo del dataset che contiene il codice riporta la sola funzione, senza le righe che rendono disponibili i moduli di cui essa si serve. Una funzione che usa re.match per confrontare stringhe, per esempio, presuppone che il modulo re sia stato importato, ma quella riga è rimasta fuori nell'estrazione. Eseguendo il codice così com'è la funzione solleva NameError, per un motivo che non dipende dal modello.
+
+Alla funzione viene perciò anteposto un blocco che importa i moduli di uso comune della libreria standard di Python. Quelle righe sono contrassegnate in modo da non rientrare nel calcolo della copertura, che altrimenti conterebbe istruzioni non appartenenti alla funzione.
+
+\subsection{Misure statiche}
+\label{sec:statiche}
+Un primo gruppo di misure si ottiene senza eseguire i test, analizzando il file
+prodotto e il registro delle generazioni. Riguardano il processo che ha generato
+il test più che il test in sé, e sono quelle di cui si è osservata l'assenza
+nella Sezione~\ref{sec:comportamento}.
+
+\textbf{Aderenza al formato.} Dei vincoli espressi nel prompt, quattro sono
+verificabili meccanicamente sull'albero sintattico del file: la presenza
+dell'istruzione di importazione della funzione sotto test, il numero di funzioni
+di test compreso fra tre e otto, i nomi conformi allo schema
+\texttt{test\_<nome>\_<n>}, e la presenza di almeno un'asserzione in ciascuna
+funzione di test. Un file è considerato conforme quando li rispetta tutti.
+
+Su questo vincolo si riportano due misure distinte. La prima conta le sole asserzioni, secondo la lettera della richiesta. La seconda considera conforme anche un test che racchiude la chiamata in un blocco pytest.raises: formalmente privo di asserzioni, ma dotato di un oracolo, poiché verifica che la funzione sollevi l'eccezione attesa.
+
+\textbf{Troncamento.} Per ogni risposta si sa se il modello si è fermato da solo
+oppure se ha esaurito i token disponibili. Nel secondo caso il file è incompleto. Il problema è che non sempre si vede: se il taglio cade proprio alla fine di una funzione di test, il file resta sintatticamente valido e sembra a posto. Per questo il troncamento viene contato a parte, invece di affidarsi al solo controllo della sintassi.
+
+\textbf{Tempo di generazione.} Viene registrato il tempo trascorso fra l'invio
+della richiesta e la ricezione della risposta. È una misura dell'infrastruttura
+oltre che del modello, quindi confrontabile solo fra esecuzioni condotte sulla
+stessa macchina e con la stessa quantizzazione.
+
+Un vincolo del prompt resta invece non misurabile: il divieto di produrre
+blocchi markdown. La normalizzazione descritta nella
+Sezione~\ref{sec:architettura} li rimuove prima che il file venga salvato,
+cancellando l'informazione. Se ne conserva traccia soltanto nei casi malformati,
+in cui il blocco non è chiuso e la rimozione non lo intercetta.
+
+\subsection{Correttezza} 
+\label{sec:correttezza-misura}
+Un test passa quando viene eseguito fino in fondo senza che alcuna sua asserzione risulti falsa e senza sollevare eccezioni. Si considera corretto un test che passa sulla funzione fornita dal dataset. La misura di correttezza è il Pass@1: il rapporto fra i test che passano e quelli generati. È la metrica definita nella Sezione~\ref{sec:passa} valutata per $k = 1$, poiché al modello viene
+rivolta una sola richiesta per ciascuna funzione.
+
+Il conteggio avviene a livello di test e non di file. Attribuire a ciascun file
+una sola etichetta, che indichi se tutti i suoi test sono passati, sarebbe
+limitante: come si vedrà nel Capitolo~\ref{ch:risultati}, i file in cui ciò
+accade sono pochissimi. È anche il livello al quale la metrica è definita da
+Huang et al.~\cite{huang2025ult}, il che rende i risultati confrontabili con
+quelli pubblicati.
+
+\subsection{Copertura}
+\label{sec:copertura}
+La copertura viene misurata sulla sola funzione sotto test,
+in due forme: di riga, cioè la quota di istruzioni eseguite, e di ramo, cioè la
+quota di diramazioni percorse. La seconda è più severa della prima: in una
+funzione con un \texttt{if} tutte le righe possono risultare eseguite anche
+percorrendo un solo ramo su due.
+
+Il calcolo viene svolto due volte. La prima con tutti i test del file, e misura
+quanto codice viene eseguito. Un test che fallisce esegue comunque la funzione prima di sollevare l'errore: non verifica concretamente nulla ma contribuisce alla copertura. La seconda misurazione si ottiene rieseguendo il file con i soli test che passano e esprime quanto codice viene davvero verificato da un'asserzione corretta. La distanza fra le due dice quanta copertura è prodotta da test che sbagliano.
+
+Ogni misura di copertura è riportata assieme alla base su cui è calcolata. Le basi sono tre: tutti i campioni, attribuendo copertura nulla a quelli non eseguibili; i soli campioni arrivati all'esecuzione, cioè quelli classificati come falliti o passati nell'albero della Sezione~\ref{sec:albero}; i campioni in cui il modello ha importato la funzione sotto test. Se il modello non importa la funzione, i suoi test non riescono nemmeno a chiamarla: la copertura risulta zero, semplicemente perché non arrivano al codice. Misurando sui soli campioni con l'import corretto si vede quanto il modello copre quando quell'ostacolo non c'è.
+
+\subsection{Duplicazione}
+\label{sec:duplicazione}
+La duplicazione misura quanto un modello ripeta lo stesso caso in più test. È una misura di accompagnamento necessaria al Pass@1: quest'ultimo conta i singoli test, e un modello che un modello che ripete più volte la stessa verifica riuscita ottiene un punteggio più elevato senza che questo sia correlato alla sua effettiva capacità.
+
+Si calcola come numero di righe ripetute sul totale delle righe di test. Le righe vuote e i commenti vengono ignorati. Una riga presente $n$ volte contribuisce $n-1$ volte al calcolo della duplicazione perchè la sua prima apparizione è legittima. Il valore è espresso in percentuale, così da non dipendere dalla lunghezza della suite e restare confrontabile fra modelli.
+
+In questo caso il calcolo avviene su due basi: tutte le righe del file, e
+le sole righe appartenenti ai test che passano. La seconda va mediata sui soli
+campioni che hanno almeno un test passato: includendo gli altri si sommerebbero
+zeri privi di significato, perché in quei file non esistono righe da confrontare.
+
+\subsection{Analisi dei fallimenti}
+\label{sec:fallimenti}
+L'albero della Sezione~\ref{sec:albero} dice che un campione è fallito, ma non ne spiega il motivo. Per ricostruirne la causa, l'output completo di pytest viene conservato per ogni campione .
+
+Da quell'output si estraggono, per ciascun test fallito, due informazioni: il
+tipo di eccezione che ha interrotto l'esecuzione e il file in cui è stata
+sollevata. È il secondo dato a permettere la distinzione che interessa. Se
+l'eccezione nasce nel file di test, il test non è arrivato a esercitare la
+funzione: ha sbagliato il nome, gli argomenti, oppure non l'ha importata. Se
+nasce nel file della funzione, quest'ultima è stata chiamata ed è stata lei a
+rifiutare l'input ricevuto.
+
+I fallimenti si raggruppano perciò in due famiglie. Si ha un \emph{errore di
+oracolo} quando il test esegue la funzione ma ne sbaglia l'aspettativa:
+un'asserzione risultata falsa, un'eccezione attesa che non si presenta, oppure
+un'eccezione sollevata dalla funzione stessa. Si ha un \emph{errore d'uso}
+quando il test non arriva a chiamarla correttamente.
+
+La distinzione è la traduzione empirica di quella introdotta nella
+Sezione~\ref{sec:classici} fra il raggiungere il codice e il sapere cosa esso
+debba restituire.
 
 \section{Minacce alla validità}
 \label{sec:minacce}
+Alcune caratteristiche dell'impianto sperimentale possono influire sui risultati
+e vanno dichiarate.
+
+\textbf{Codifica dei caratteri.} Tre funzioni del dataset contengono caratteri
+non ASCII. I modelli li riproducono nelle proprie asserzioni, e la stampa della
+risposta sollevava un errore di codifica che faceva fallire la generazione: quei
+tre campioni risultavano persi per una ragione che non riguarda i modelli. Il
+problema è stato individuato e corretto forzando la codifica UTF-8 in uscita.
+Viene riportato perché mostra come un dettaglio infrastrutturale possa alterare
+una misura senza che ciò sia evidente.
+
+\textbf{Riproducibilità.} Alcune funzioni del dataset impiegano numeri
+pseudocasuali o dipendono dall'ordine di iterazione, quindi l'esecuzione dei
+test non è del tutto deterministica. Fra due esecuzioni successive le medie
+oscillano di circa due decimi di punto. I valori riportati vanno letti con
+questa approssimazione.
+
+\textbf{Quantizzazione.} La quantizzazione dei pesi, discussa nella Sezione~\ref{sec:modelli}, può solo peggiorare i risultati: quelli riportati non sono quindi sovrastimati.
+
+\textbf{Vincolo non misurabile.} Il rispetto del divieto di produrre blocchi
+markdown non è verificabile a posteriori, per la ragione discussa nella
+Sezione~\ref{sec:statiche} L'aderenza al formato riportata riguarda quindi
+quattro vincoli su cinque.
+
+\textbf{Generalizzabilità.} Lo studio considera cento funzioni di un solo
+benchmark, una sola famiglia di modelli e una sola formulazione del prompt.
+Quest'ultimo punto merita attenzione: la formulazione del prompt incide sulla
+qualità dell'output~\cite{tony2025prompt}, e un template diverso potrebbe
+produrre risultati diversi.
+
 % Sezione nuova. Tre punti emersi durante il lavoro, tutti da dichiarare.
 %
 % 1. Codifica dei caratteri. Tre funzioni del dataset contengono caratteri non
