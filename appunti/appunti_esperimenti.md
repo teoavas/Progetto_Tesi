@@ -264,6 +264,11 @@ Le tabelle si ottengono con `locale/riepilogo.py`, che unisce queste misure a
 in `locale/report/<sigla>/<indice>.txt` (escluso dal versionamento perche'
 rigenerabile) ed e' la base della categorizzazione dei fallimenti.
 
+**Valori aggiornati dopo la correzione del preambolo** (aggiunta dell'import di
+`logging`, che mancava e produceva 26 fallimenti attribuiti ai modelli ma dovuti
+allo strumento di misura). Le differenze rispetto alla prima esecuzione sono
+piccole e tutte nella direzione attesa.
+
 ### 11.1 Esiti
 
 | esito | 1B | 3B | 8B |
@@ -278,171 +283,124 @@ rilevati nella parte statica — e 8 file che vengono analizzati ma si rompono
 all'esecuzione.
 
 **Il livello del file non e' utilizzabile.** I campioni in cui *tutti* i test
-passano sono 0, 2 e 2 su cento. Qualunque metrica calcolata sui "file che hanno
-successo" avrebbe una base di due campioni. La lettura per singolo test e'
-l'unica praticabile, ed e' anche quella coerente con il Pass@k di ULT. Questo
-risolve con i dati la prima domanda aperta con la relatrice.
+passano sono 0, 2 e 2 su cento. La lettura per singolo test e' l'unica
+praticabile, ed e' anche quella coerente con il Pass@k di ULT.
 
-I campioni con **almeno un** test passato sono invece 7, 45 e 56: e' questa la
-base utilizzabile per le misure che richiedono test funzionanti, mutation score
-compreso.
+I campioni con **almeno un** test passato sono 8, 45 e 57: e' questa la base
+utilizzabile per le misure che richiedono test funzionanti.
+
+**Il timeout e' sempre lo stesso campione**, l'indice 1 (`BinaryFromFraction`),
+su tutti e tre i modelli. Non e' un fallimento dei modelli: quella funzione
+entra in ciclo infinito su input negativi, perche' verifica che numeratore e
+denominatore siano diversi da zero ma non il segno. Il modello ha scelto un caso
+limite legittimo e ha scoperto un difetto latente del benchmark.
 
 ### 11.2 Correttezza e copertura
 
 | | 1B | 3B | 8B |
 |---|---|---|---|
-| Pass@1 (sul singolo test) | 3,5% | 16,9% | 21,6% |
-| test corretti / generati | 25/709 | 118/699 | 144/667 |
-| copertura righe, tutti i campioni | 12,2% | 68,3% | 71,0% |
-| copertura righe, soli eseguibili | 14,7% | 69,7% | 76,5% |
-| copertura righe, solo con import corretto | 61,0% | 69,7% | 76,5% |
-| copertura rami, soli eseguibili | 11,2% | 59,1% | 66,6% |
+| Pass@1 (sul singolo test) | 4,2% | 17,2% | 22,0% |
+| test corretti / generati | 30/709 | 120/699 | 147/667 |
+| copertura righe, tutti i campioni | 12,2% | 68,4% | 71,1% |
+| copertura righe, soli eseguibili | 14,8% | 69,8% | 76,5% |
+| copertura righe, solo con import corretto | 61,2% | 69,8% | 76,5% |
+| copertura rami, soli eseguibili | 11,2% | 59,1% | 66,5% |
 
-**Copertura alta e correttezza bassa, quantificate.** Sull'8B la copertura di
-riga e' 76,3% mentre i test corretti sono il 21,6%. E' il risultato centrale
-della tesi: i modelli raggiungono il codice e sbagliano il valore atteso.
+**Copertura alta e correttezza bassa.** Sull'8B la copertura di riga e' 76,5%
+mentre i test corretti sono il 22,0%.
 
 **Replica del risultato su NVIDIA.** L'8B remoto dava 77,4% di copertura e 23,4%
-di test corretti; in locale, con pesi quantizzati a 4 bit, da' 76,3% e 21,6%.
+di test corretti; in locale, con pesi quantizzati a 4 bit, da' 76,5% e 22,0%.
 Il fenomeno non dipende dall'infrastruttura ne' dalla quantizzazione.
 
 **Il crollo del 1B e' interamente l'import.** Sui campioni eseguibili copre il
-14,7%, ma sui soli venti campioni in cui ha importato la funzione copre il
-61,0%. Senza `from funzione import ...` la funzione non viene mai chiamata e la
-copertura e' nulla per costruzione. Non e' un modello incapace di scrivere test:
-e' un modello che non segue un'istruzione di una riga. Sul 3B e sull'8B le due
-basi coincidono, perche' l'import e' sempre corretto.
+14,8%, ma sui soli venti campioni in cui ha importato la funzione copre il
+61,2%. Sul 3B e sull'8B le due basi coincidono, perche' l'import e' sempre
+corretto.
 
-**La copertura di rami sta sistematicamente sotto quella di riga**, di circa
-dieci punti. E' la misura piu' severa, come atteso su funzioni con complessita'
-ciclomatica non inferiore a dieci.
+### 11.3 Copertura eseguita contro verificata
 
-**Nota sulla riproducibilita'.** Fra due esecuzioni successive di `misura.py`
-le medie oscillano di circa due decimi di punto (per esempio 66,4% contro 66,6%
-sui rami dell'8B). La causa e' che alcune funzioni del dataset usano `random` o
-dipendono dall'ordine di iterazione, quindi i test non sono del tutto
-deterministici. L'entita' e' trascurabile ma va dichiarata: i valori vanno
-riportati con una cifra decimale e non vanno letti come esatti al decimo.
-
-### 11.2-bis Copertura eseguita contro copertura verificata
-
-`misura.py` calcola la copertura due volte: con tutti i test, e con i soli test
-che passano, deselezionando i falliti. La prima dice quanto codice viene
-*eseguito*, la seconda quanto ne viene davvero *verificato* da un'asserzione
-corretta. Medie sui campioni con almeno un test passato (7, 45 e 56):
+Medie sui campioni con almeno un test passato (8, 45 e 57):
 
 | | 1B | 3B | 8B |
 |---|---|---|---|
-| righe eseguite | 54,7% | 73,2% | 77,1% |
-| righe verificate | 42,6% | 58,0% | 58,0% |
-| differenza | 12,1 | 15,3 | 19,1 |
-| rami eseguiti | 45,9% | 64,1% | 67,5% |
-| rami verificati | 26,1% | 45,0% | 45,8% |
-| differenza | 19,9 | 19,1 | 21,8 |
+| righe eseguite | 58,9% | 73,4% | 77,3% |
+| righe verificate | 48,3% | 57,8% | 58,2% |
+| differenza | 10,6 | 15,5 | 19,1 |
+| rami eseguiti | 46,4% | 64,1% | 67,2% |
+| rami verificati | 29,1% | 44,6% | 44,8% |
+| differenza | 17,4 | 19,5 | 22,4 |
 
-**La differenza fra le due righe e' la misura di quanto la copertura
-sopravvaluta cio' che i test garantiscono.** E' l'argomento di Inozemtseva
-\cite{inozemtseva2014coverage} reso operativo sui dati di questo lavoro: la
-copertura cresce con la taglia del modello, ma la porzione di codice davvero
-verificata cresce molto meno.
+**Il divario e' piu' ampio sui rami che sulle righe** su tutti e tre i modelli.
+I test corretti tendono a esercitare il cammino principale, mentre quelli che
+falliscono si spingono sui rami secondari e li attraversano senza verificarli.
 
-**Il divario e' piu' ampio sui rami che sulle righe**, di circa cinque punti su
-tutti e tre i modelli. I test corretti tendono a esercitare il cammino
-principale, mentre quelli che falliscono si spingono sui rami secondari e li
-"coprono" senza verificarli.
-
-**Confronto a parita' di campioni.** Le medie sopra poggiano su insiemi diversi,
-quindi 3B e 8B non sono direttamente confrontabili. Sui **30 campioni in cui
-entrambi hanno almeno un test passato**:
+**Confronto a parita' di campioni.** Sui **31 campioni in cui sia 3B sia 8B
+hanno almeno un test passato**:
 
 | | 3B | 8B |
 |---|---|---|
-| righe eseguite | 72,4% | 75,5% |
-| righe verificate | 57,4% | 58,2% |
-| rami eseguiti | 62,1% | 67,9% |
-| rami verificati | 44,5% | 48,1% |
-| test passati / generati | 86/212 | 85/210 |
+| righe eseguite | 73,3% | 75,9% |
+| righe verificate | 58,4% | 58,2% |
+| rami eseguiti | 63,3% | 67,3% |
+| rami verificati | 45,7% | 46,0% |
+| test passati / generati | 91/219 | 88/217 |
 
-Il vantaggio dell'8B sulla copertura eseguita e' di 3,1 punti, ma su quella
-verificata si riduce a 0,8. Sugli stessi campioni i due modelli fanno passare
-praticamente lo stesso numero di test. **Il codice in piu' che l'8B raggiunge
-lo raggiunge con test che falliscono.** E' l'esempio piu' netto del perche' la
-copertura da sola non ordini i modelli.
+**E' il risultato piu' netto del lavoro.** L'8B copre 2,6 punti in piu' del 3B
+sulle righe eseguite e 4,0 sui rami, ma sulla copertura verificata i due modelli
+sono indistinguibili (58,4% contro 58,2% sulle righe, 45,7% contro 46,0% sui
+rami), e il 3B fa passare persino qualche test in piu'. Il codice in piu' che
+l'8B raggiunge lo raggiunge con test che falliscono.
 
-### 11.3 Duplicazione
+Le differenze residue sono dell'ordine di due decimi di punto, cioe' entro
+l'oscillazione fra esecuzioni successive: la lettura corretta e' che i due
+modelli verificano la stessa quantita' di codice, non che uno superi l'altro.
+
+### 11.4 Duplicazione
 
 | base | 1B | 3B | 8B |
 |---|---|---|---|
 | tutte le righe di test, campioni eseguibili | 13,6% | 3,7% | 25,3% |
-| soli test passati, campioni con test passati | 10,7% | 0,7% | 8,9% |
-| per confronto, tutte le righe sugli stessi campioni | 7,5% | 2,7% | 17,2% |
+| soli test passati, campioni con test passati | 9,4% | 0,2% | 9,4% |
+| per confronto, tutte le righe sugli stessi campioni | 6,6% | 2,7% | 17,5% |
 
 Definizione: quota di righe ripetute sul totale delle righe di test, ignorando
 righe vuote e commenti; una riga presente n volte contribuisce n-1 ripetizioni.
 
-**L'8B e' il piu' ridondante di tutti**, con 54 file su 93 sopra il 20% contro
-5 su 98 del 3B. Il meccanismo e' la ripetizione della preparazione in ogni test:
-nel campione 27 le righe `match = [0, 1, 2]`, `i = 1`, `m = 10` compaiono otto
-volte identiche, una per funzione di test. E' il *Test Code Duplication* del
-catalogo di van Deursen, quello che una fixture eliminerebbe.
+**L'8B e' il piu' ridondante**, con 54 file su 93 sopra il 20% contro 5 su 98
+del 3B. Ripete la preparazione in ogni test: nel campione 27 le righe
+`match = [0, 1, 2]`, `i = 1`, `m = 10` compaiono otto volte identiche.
 
-**Cautela nell'interpretazione.** Il 3,7% del 3B non e' necessariamente un
-merito: duplica poco perche' scrive test piu' scarni, spesso un solo assert
-senza preparazione. La duplicazione non ordina i modelli da sola e va letta
-insieme a quanto lavoro fa ciascun test.
+**Cautela.** Il 3,7% del 3B non e' un merito: duplica poco perche' scrive test
+piu' scarni, spesso un solo assert senza preparazione.
 
-**Attenzione al denominatore**, per lo stesso motivo visto con la copertura. La
-duplicazione sui soli test passati va mediata sui soli campioni che ne hanno
-almeno uno: includendo gli altri si sommano zeri strutturali e la media perde
-significato (sul 1B si passa da 0,9% a 10,7%).
+### 11.5 Categorizzazione dei fallimenti
 
-### 11.4 Categorizzazione dei fallimenti
-
-Prodotta da `locale/fallimenti.py`, che legge i blocchi FAILURES dei report,
-estrae il tipo di eccezione e il file in cui e' stata sollevata, e scrive
-`fallimenti.csv` con una riga per test fallito (1788 in tutto).
+Prodotta da `locale/fallimenti.py`, che scrive `fallimenti.csv` con una riga per
+test fallito (1778 in tutto).
 
 | | 1B | 3B | 8B |
 |---|---|---|---|
-| test falliti analizzati | 684 | 581 | 523 |
-| `AssertionError` | 21,5% | 71,1% | 81,8% |
-| `NameError` | 72,2% | 9,0% | 4,4% |
-| `TypeError` | 5,1% | 10,0% | 3,8% |
-| **la funzione viene eseguita** (errore di oracolo) | **25,7%** | **88,6%** | **93,9%** |
-| **la funzione non si raggiunge** (errore d'uso) | **74,3%** | **11,4%** | **6,1%** |
-
-Criterio delle due famiglie: il test ha esercitato la funzione se l'assert e'
-fallito, se attendeva un'eccezione che non e' arrivata, oppure se l'eccezione e'
-nata dentro `funzione.py` — cioe' la funzione e' stata chiamata ed e' stata lei
-a rifiutare l'input. Negli altri casi il test non e' arrivato a chiamarla.
+| test falliti analizzati | 679 | 579 | 520 |
+| `AssertionError` | 21,9% | 71,0% | 83,1% |
+| `NameError` | 72,2% | 8,6% | 4,0% |
+| `TypeError` | 4,7% | 9,7% | 2,9% |
+| **la funzione viene eseguita** (errore di oracolo) | **25,2%** | **88,4%** | **94,2%** |
+| **la funzione non si raggiunge** (errore d'uso) | **74,8%** | **11,6%** | **5,8%** |
 
 **Crescendo, il modello non fallisce di meno: fallisce in modo diverso.** Il 1B
 sbaglia a livello meccanico e non tocca la funzione in tre casi su quattro. Il
 3B e l'8B seguono le istruzioni e vanno a sbattere contro l'ostacolo successivo,
 che e' l'oracolo. E' la verifica empirica della distinzione fra raggiungere il
-codice e sapere cosa deve restituire, introdotta nella sezione 2.2 della tesi.
+codice e sapere cosa debba restituire.
 
 Spiega anche perche' la copertura resta alta mentre la correttezza crolla: nel
-93,9% dei fallimenti dell'8B la funzione viene comunque eseguita, e le sue righe
-risultano quindi coperte.
+94,2% dei fallimenti dell'8B la funzione viene comunque eseguita.
 
-### 11.5 Cosa manca
+### 11.6 Cosa manca
 
-**Da correggere prima di consolidare i risultati: il preambolo e' incompleto.**
-`misura.py` antepone alla funzione gli import di `re, math, os, sys, json,
-string, itertools, collections, functools, datetime, random, copy`, ma **manca
-`logging`**. Il campione 20 (`lflverify`) lo usa, e nei report dei tre modelli
-compaiono 26 occorrenze di `NameError: name 'logging' is not defined`: quei
-fallimenti sono attribuiti ai modelli senza dipendere da loro.
-
-Verifica sull'intero dataset: 11 campioni su 100 usano nomi non definiti nel
-proprio codice, e i moduli coinvolti sono `re`, `math`, `random`, `os`, `sys` e
-`logging`. Di questi solo `logging` non e' coperto dal preambolo, quindi
-aggiungerlo chiude tutti i casi noti. Dopo la modifica va rilanciato
-`misura.py` sui tre modelli e rigenerate le tabelle.
-
-
-Il mutation score e' l'unica metrica non ancora calcolata. Richiede suite che
-passino sul codice sano, quindi va calcolato restringendo ogni file ai soli test
-che passano: la base utile e' di 45 campioni sul 3B e 56 sull'8B, mentre sul 1B
-si ferma a 7 — troppo pochi, ed e' esso stesso un risultato da riportare.
+Il mutation score non viene calcolato: richiede di rieseguire l'intera suite su
+ogni mutante, presuppone suite che passino sul codice sano, e la base utile
+sarebbe di 45 campioni sul 3B, 57 sull'8B ma appena 8 sul 1B — troppo
+disomogenea per un confronto fra le tre taglie. Va dichiarato negli sviluppi
+futuri con questa motivazione.

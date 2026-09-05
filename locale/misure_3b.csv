@@ -10,7 +10,7 @@ modello,indice,func_name,esito,n_test,passati,falliti,errori,cov_righe,cov_rami,
 3b,8,get_allen_relation,fallito,7,2,5,0,44.8,34.6,41.4,30.8,0.0,0.0
 3b,9,point_box_relation,fallito,7,3,4,0,47.8,33.3,26.1,5.6,0.0,0.0
 3b,10,uoc_railfence_encrypt,fallito,7,0,7,0,19.2,0.0,0.0,0.0,30.6,0.0
-3b,11,create_three_random_v_indices,fallito,7,3,4,0,100.0,83.3,100.0,66.7,0.0,0.0
+3b,11,create_three_random_v_indices,fallito,7,4,3,0,100.0,83.3,100.0,100.0,0.0,0.0
 3b,12,diffsents,fallito,7,1,6,0,100.0,100.0,63.0,50.0,0.0,0.0
 3b,13,replacement_template,fallito,7,2,5,0,65.8,60.0,60.5,55.0,0.0,0.0
 3b,14,needleman_wunsch0,fallito,7,0,7,0,100.0,100.0,0.0,0.0,16.1,0.0
@@ -19,7 +19,7 @@ modello,indice,func_name,esito,n_test,passati,falliti,errori,cov_righe,cov_rami,
 3b,17,calc_query_pos_from_cigar,fallito,7,1,6,0,100.0,90.0,76.2,60.0,0.0,0.0
 3b,18,get_processor_types_from_config_class,fallito,7,2,5,0,83.3,58.3,66.7,41.7,0.0,0.0
 3b,19,maximal_matching_pairs,fallito,7,0,7,0,66.7,41.7,0.0,0.0,0.0,0.0
-3b,20,lflverify,fallito,7,3,4,0,94.1,100.0,94.1,100.0,10.5,22.2
+3b,20,lflverify,fallito,7,4,3,0,100.0,100.0,88.2,50.0,10.5,0.0
 3b,21,longestNonWildcardSubsequence,fallito,7,0,7,0,95.7,90.0,0.0,0.0,27.6,0.0
 3b,22,windows_k_distinct,fallito,7,3,4,0,100.0,100.0,68.8,66.7,0.0,0.0
 3b,23,string_contrast,fallito,7,0,7,0,100.0,100.0,0.0,0.0,0.0,0.0

@@ -51,7 +51,7 @@ LIMITE_SECONDI = int(sys.argv[2]) if len(sys.argv) > 2 else 60
 # NameError e i test risultano falliti per un motivo che non riguarda il
 # modello. "pragma: no cover" tiene queste righe fuori dal calcolo di coverage.
 PREAMBOLO = ("import re, math, os, sys, json, string, itertools, collections, "
-             "functools, datetime, random, copy  # pragma: no cover\n\n")
+             "functools, datetime, random, copy, logging  # pragma: no cover\n\n")
 
 campioni = [json.loads(r) for r in
             DATASET.read_text(encoding="utf-8").splitlines()]
